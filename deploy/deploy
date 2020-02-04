@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+HELPSTRING="--help"
+if [[ "$1" == "$HELPSTRING" ]]
+then
+      echo "To deploy the project to a new public name, run the following command (in a bash environment), replacing \$PUBLIC_NAME with your desired public name:"
+      echo ""
+      echo "    ./deploy ../www.phantom/public/ \$PUBLIC_NAME --create"
+      echo ""
+      echo "If you are deploying to an existing public name, use the following:"
+      echo ""
+      echo "    ./deploy ../www.phantom/public/ \$PUBLIC_NAME";
+      exit 0
+fi
+
+if [ -z "$1" ]
+then
+      echo "Error: a valid local directory path must be passed as the first parameter, try ./deploy --help if you are stuck"
+      exit 1
+fi
+
+if [ -z "$2" ]
+then
+      echo "Error: a valid safenet NRS public name must be passed as the second parameter"
+      exit 2
+fi
+
+if [[ ! -d "$1" ]]
+then
+      echo "$1 does not exist on your filesystem."
+fi
+
+CREATESTRING="--create"
+if [[ "$3" == "$CREATESTRING" ]]
+then
+      PUTRESULT=`safe files put "$1" "safe://$2"`
+      SAFEPATH="$(echo "$PUTRESULT" | grep -oE "at: \"safe:\/\/[a-zA-Z0-9]+" | grep -oE "safe:\/\/.*")"
+      safe nrs create "$2" -l "$SAFEPATH?v=0" && echo "Deployment complete" || echo "Unable to create NRS, NRS may already exist, try re-running this without the --create argument" && exit 1
+else
+      safe files sync "$1" "safe://$2" --update-nrs
+fi

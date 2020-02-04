@@ -1,0 +1,5 @@
+www.phantom/node_modules/
+www.phantom/public/build/
+
+.DS_Store
+.idea
