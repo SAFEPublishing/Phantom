@@ -5,8 +5,15 @@
 </template>
 
 <script>
+	import api from '@/service/safe/api';
+
 	export default {
-		name: 'Sidebar'
+		name: 'Sidebar',
+		mounted: function () {
+			api.authenticate().then(response => {
+				this.$root.$data.authenticated = response;
+			});
+		},
 	}
 </script>
 
