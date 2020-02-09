@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DEPLOYDIR="../www.phantom/public/"
+DEPLOYDIR="../www.phantom/dist/"
 HELPSTRING="--help"
 if [[ "$1" == "$HELPSTRING" ]]
 then
@@ -20,9 +20,11 @@ then
       exit 2
 fi
 
+(cd ../www.phantom; npm run build)
+
 if [[ ! -d "$DEPLOYDIR" ]]
 then
-      echo "$1 does not exist on your filesystem."
+      echo "$DEPLOYDIR does not exist on your filesystem."
 fi
 
 CREATESTRING="--create"

@@ -1,5 +1,5 @@
 www.phantom/node_modules/
-www.phantom/public/build/
+www.phantom/dist/
 
 # local env files
 www.phantom/.env.local
