@@ -1,23 +1,16 @@
 <template>
 	<div>
-		<h1>Hello world!</h1>
+		<h1>Hello world 2!</h1>
 	</div>
 </template>
 
 <script>
-	import api from '@/service/safe/api';
-
 	export default {
-		name: 'Sidebar',
-		mounted: function () {
-			api.authenticate().then(response => {
-				this.$root.$data.authenticated = response;
-			});
-		},
+		name: 'home'
 	}
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 	h1 {
 		color: #ff3e00;
 		text-transform: uppercase;

@@ -3,32 +3,35 @@
         <div class="logo">Phantom</div>
         <div class="links">
             <div class="title">Manage</div>
-            <router-link to="/app">Dashboard</router-link>
-            <router-link to="/domains">Domains</router-link>
-            <router-link to="/theme">Themes</router-link>
+            <router-link class="dashboard-link" to="/app">Dashboard</router-link>
+            <router-link to="/app/domains">Domains</router-link>
+            <router-link to="/app/themes">Themes</router-link>
             <div class="title">Write</div>
-            <router-link to="/posts">Posts</router-link>
-            <router-link to="/pages">Pages</router-link>
+            <router-link to="/app/posts">Posts</router-link>
+            <router-link to="/app/pages">Pages</router-link>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'Sidebar'
+        name: 'sidebar'
     }
 </script>
 
 <style lang="scss">
     .sidebar {
+        position: fixed;
         display: inline-block;
+        top: 0;
+        left: 0;
         width: 240px;
         color: #fff;
         background-color: #361f57;
         min-height: 100vh;
 
         .logo, .links {
-            padding: 20px 10px 0;
+            padding: 20px 20px 0;
         }
 
         .logo {
@@ -50,7 +53,7 @@
             text-decoration: none;
         }
 
-        .links a.router-link-active {
+        .links a.router-link-active:not(.dashboard-link), .links a.router-link-exact-active {
             background-color: #2a1646;
             border-radius: 5px;
         }

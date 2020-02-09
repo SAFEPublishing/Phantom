@@ -21,15 +21,27 @@
 
 <script>
     import Sidebar from '@/component/Sidebar.vue';
+    import api from '@/service/safe/api';
 
     export default {
         name: 'app',
         components: {
             Sidebar,
         },
+        mounted: function () {
+            api.authenticate().then(response => {
+                this.$root.$data.authenticated = response;
+
+                if (response) {
+
+                }
+            });
+        },
     }
 </script>
 
 <style lang="scss">
-
+    .app .content {
+        padding: 40px 40px 40px 280px;
+    }
 </style>

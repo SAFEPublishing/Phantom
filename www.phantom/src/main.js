@@ -8,6 +8,18 @@ const data = {
 	domain: false,
 };
 
+router.beforeEach((to, from, next) => {
+	if (to.meta.hasOwnProperty('authenticated') && data.authenticated !== to.meta.authenticated) {
+		return next(data.authenticated ? '/app' : '/');
+	}
+
+	if (to.meta.hasOwnProperty('domain') && to.meta.domain === true && data.domain === false) {
+		return next('/app/domains');
+	}
+
+	next();
+});
+
 Vue.config.productionTip = false;
 
 new Vue({

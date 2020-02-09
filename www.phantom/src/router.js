@@ -1,8 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './view/Home.vue'
+import Dashboard from './view/Dashboard.vue'
+import Domains from './view/Domains.vue'
 
 Vue.use(Router);
+
+let loggedIn = { authenticated: true },
+    loggedOut = { authenticated: false },
+    hasDomain = { authenticated: true, domain: true };
 
 export default new Router({
     mode: 'hash',
@@ -12,6 +18,22 @@ export default new Router({
             path: '/',
             name: 'home',
             component: Home,
+            meta: loggedOut
+        },
+        {
+            path: '/app/domains',
+            name: 'domains',
+            component: Domains,
+            meta: loggedIn
+        },
+        {
+            path: '/app',
+            name: 'dashboard',
+            component: Dashboard,
+            meta: hasDomain,
+            children: [
+
+            ]
         }
     ],
     scrollBehavior (to, from, savedPosition) {
