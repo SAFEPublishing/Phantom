@@ -1,5 +1,22 @@
 www.phantom/node_modules/
 www.phantom/public/build/
 
-.DS_Store
+# local env files
+www.phantom/.env.local
+
+# Log files
+www.phantom/npm-debug.log*
+www.phantom/yarn-debug.log*
+www.phantom/yarn-error.log*
+
+# Editor directories and files
 .idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# MAC OS directory information
+.DS_Store

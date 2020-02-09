@@ -1,18 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset='utf-8'>
-	<meta name='viewport' content='width=device-width,initial-scale=1'>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<link rel="icon" href="<%= BASE_URL %>favicon.ico">
+	<title></title>
+	<style type="text/css">
+		* {
+			box-sizing: border-box;
+		}
 
-	<title>Svelte app</title>
-
-	<link rel='icon' type='image/png' href='/favicon.png'>
-	<link rel='stylesheet' href='/global.css'>
-	<link rel='stylesheet' href='/build/bundle.css'>
-
-	<script defer src='/build/bundle.js'></script>
+		html, body {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			background-color: #f0f0f0;
+			padding: 0;
+			margin: 0;
+			color: #333;
+			box-sizing: border-box;
+			font-family: Arial, sans-serif;
+			font-size: 14px;
+		}
+	</style>
 </head>
-
 <body>
+<noscript>
+	<strong>You must have Javascript enabled to use this webpage</strong>
+</noscript>
+<div id="app"></div>
+<!-- built files will be auto injected -->
 </body>
 </html>

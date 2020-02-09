@@ -15,8 +15,8 @@ All dependencies must be in the system $PATH, such that the binaries are directl
 
 To deploy the project to a new public name, run the following command (in a bash environment), replacing `$PUBLIC_NAME` with your desired public name:
 
-`./deploy ../www.phantom/public/ $PUBLIC_NAME --create`
+`./deploy  $PUBLIC_NAME --create`
 
 If you are deploying to an existing public name, use the following:
 
-`./deploy ../www.phantom/public/ $PUBLIC_NAME`
+`./deploy $PUBLIC_NAME`

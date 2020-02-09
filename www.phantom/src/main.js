@@ -1,10 +1,16 @@
-import App from './App.svelte';
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
 
-const app = new App({
-	target: document.body,
-	props: {
-		name: 'world'
-	}
-});
+const data = {
+	// Once @joshuef fixes the SAFE browser authentication bugs, this should default to false
+	authenticated: true,
+};
 
-export default app;
+Vue.config.productionTip = false;
+
+new Vue({
+	router,
+	data: data,
+	render: h => h(App)
+}).$mount('#app')
