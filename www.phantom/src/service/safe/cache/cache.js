@@ -3,7 +3,7 @@ let getTimestamp = function() {
     return (new Date()).getTime()/1000|0;
 };
 
-const cache = function (callback) {
+const cache = {
     /**
      * Usage:
      *      cache.get("example-key", safe.auth_app, [appInfo.id, appInfo.name, appInfo.vendor], ?300)
@@ -16,7 +16,7 @@ const cache = function (callback) {
      * @param expires {number}                Default expiry time for a GET is 1 year, expiry time is refreshed on a successful GET
      * @returns {Promise<unknown>}
      */
-    function get(key, callback, callbackData, expires) {
+    get: function(key, callback, callbackData, expires) {
         return new Promise(function (resolve, reject) {
             let data = localStorage.getItem(key);
 
@@ -49,7 +49,7 @@ const cache = function (callback) {
                 return resolve(response);
             });
         })
-    }
+    },
 
     /**
      * Usage:
@@ -61,10 +61,12 @@ const cache = function (callback) {
      * @param key {string}
      * @returns {Promise<unknown>}
      */
-    function expire(key) {
+    expire: function(key) {
         return new Promise(function (resolve, reject) {
             let data = localStorage.removeItem(key);
             return resolve(true);
         });
     }
 };
+
+export default cache;

@@ -41,7 +41,17 @@
 </script>
 
 <style lang="scss">
+    // The styles contained here are unscoped and will apply globally to components
+
     .app .content {
         padding: 40px 40px 40px 280px;
+    }
+
+    table {
+        margin: 20px 0;
+
+        th, td {
+            text-align: left;
+        }
     }
 </style>

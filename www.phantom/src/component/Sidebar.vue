@@ -5,6 +5,7 @@
             <div class="title">Manage</div>
             <router-link class="dashboard-link" to="/app">Dashboard</router-link>
             <router-link to="/app/domains">Domains</router-link>
+            <router-link to="/app/file-systems">File Systems</router-link>
             <router-link to="/app/themes">Themes</router-link>
             <div class="title">Write</div>
             <router-link to="/app/posts">Posts</router-link>
