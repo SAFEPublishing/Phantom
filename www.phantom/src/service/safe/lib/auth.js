@@ -8,10 +8,10 @@ const appInfo = {
 
 const auth = function (callback) {
     this.authenticate = function() {
-        return promise(async function(safe) {
-            return safe.auth_app(appInfo.id, appInfo.name, appInfo.vendor)
-        }).then(response => promise(async function(safe) {
-            return safe.connect(appInfo.id, auth)
+        return promise(async function(ctx) {
+            return ctx.safe.auth_app(appInfo.id, appInfo.name, appInfo.vendor)
+        }).then(response => promise(async function(ctx) {
+            return ctx.safe.connect(appInfo.id, auth)
         }));
     }
 };
