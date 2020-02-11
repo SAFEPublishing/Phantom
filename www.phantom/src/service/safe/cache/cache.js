@@ -41,7 +41,7 @@ const cache = {
 
                 let data = {
                     data: response,
-                    expires: getTimestamp() + (typeof expires === "number" ? expires : 300),
+                    expires: getTimestamp() + expiryLength,
                     expiryLength: expiryLength
                 };
 
@@ -49,6 +49,18 @@ const cache = {
                 return resolve(response);
             });
         })
+    },
+
+    set(key, value, expires) {
+        let expiryLength = (typeof expires === "number" ? expires : 31536000);
+
+        let data = {
+            data: value,
+            expires: getTimestamp() + expiryLength,
+            expiryLength: expiryLength
+        };
+
+        localStorage.setItem(key, JSON.stringify(data));
     },
 
     /**

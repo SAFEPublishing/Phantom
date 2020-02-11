@@ -21,6 +21,14 @@ function throwErrorRandomly() {
     }
 }
 
+function getRandomMockXorURL() {
+    let generation = function() {
+        return Math.random().toString(36).substr(2, 10);
+    };
+
+    return btoa(generation() + generation() + generation());
+}
+
 export default {
     // This generates an auth string which can be passed to `connect(app_id, credentials)` as the second parameter
     auth_app : function(id, name, vendor) {
@@ -31,5 +39,32 @@ export default {
     connect(app_id, credentials) {
         throwErrorRandomly();
         return true;
+    },
+
+    files_container_create_empty() {
+        throwErrorRandomly();
+        return getRandomMockXorURL();
+    },
+
+    nrs_map_container_create(publicName, filesContainerXorURL, defaultContainer, hardLink, dryRun) {
+        throwErrorRandomly();
+
+        let current = (new Date()).toISOString(),
+            nameDefinition = {};
+        nameDefinition[publicName] = ["+", filesContainerXorURL];
+
+        return [
+            filesContainerXorURL.split("?")[0],
+            nameDefinition,
+            {
+                default: {
+                    OtherRdf: {
+                        created: current,
+                        link: filesContainerXorURL,
+                        modified: current
+                    }
+                }
+            }
+        ];
     }
 }

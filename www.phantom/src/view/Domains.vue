@@ -9,11 +9,22 @@
                     <th>Files Container</th>
                     <th>Updated At</th>
                     <th>Created At</th>
+                    <th>Use</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-if="domains && !domains.length">
-                    <td colspan="4">You currently have no domains registered to this machine, please click "create domain" to get started</td>
+                    <td colspan="5">You currently have no domains registered to this machine, please click "create domain" to get started</td>
+                </tr>
+                <tr v-for="domain in domains">
+                    <td>{{ domain.publicName | safeURL }}</td>
+                    <td>{{ domain.filesContainer | safeURL }}</td>
+                    <td>{{ domain.modified }}</td>
+                    <td>{{ domain.modified }}</td>
+                    <td><div class="button" @click="useDomain(domain.publicName)">Use</div></td>
+                </tr>
+                <tr v-if="domains && domains.length && !$root.$data.domain">
+                    <td colspan="5">Please select a domain from the list above to begin editing your website</td>
                 </tr>
             </tbody>
         </table>
@@ -34,19 +45,41 @@
         data: function() {
             return {
                 domains: false,
+                showModal: false,
                 actions: [
-                    { text: "Create domain", callback: this.openCreateDomainModal }
+                    { text: "Create domain", callback: this.createDomain }
                 ]
             }
         },
         methods: {
-            openCreateDomainModal: function() {
-                console.log('hi')
+            createDomain: function() {
+                this.$router.push("/app/domains/create");
+            },
+            useDomain: function(publicName) {
+                this.$root.$data.domain = publicName;
+                this.$router.push("/app/posts");
             }
         },
         mounted() {
             api.getDomains().then(domains => {
-                this.domains = domains;
+                let domainData = [];
+
+                for (let i = 0; i < domains.length; i ++) {
+                    let domain = {};
+
+                    for (let key in domains[i][1]) {
+                        if (domains[i][1].hasOwnProperty(key) && domains[i][1][key][1].startsWith(domains[i][0])) {
+                            domain.filesContainer = domains[i][1][key][1];
+                            domain.publicName = key;
+                        }
+                    }
+
+                    domain.created = domains[i][2].default.OtherRdf.created;
+                    domain.modified = domains[i][2].default.OtherRdf.modified;
+                    domainData.push(domain);
+                }
+
+                this.domains = domainData;
             });
         }
     }

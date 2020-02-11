@@ -20,6 +20,10 @@ router.beforeEach((to, from, next) => {
 	next();
 });
 
+Vue.filter('safeURL', function (value) {
+	return value.startsWith('safe://') ? value : "safe://" + value;
+});
+
 Vue.config.productionTip = false;
 
 new Vue({
