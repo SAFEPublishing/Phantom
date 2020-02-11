@@ -48,10 +48,38 @@
     }
 
     table {
-        margin: 20px 0;
+        width: 100%;
+        margin: 30px 0;
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-radius: 5px;
+        box-shadow: 0 0 5px #ddd;
+        overflow: hidden;
+
+        thead {
+            color: #e9e3ef;
+            background-color: #361f57;
+        }
+
+        tbody {
+            background-color: #fff;
+        }
 
         th, td {
             text-align: left;
+            border-spacing: 0;
+        }
+
+        th {
+            padding: 10px 20px;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 15px 20px;
+            border-top: 1px solid #e6e6e6;
         }
     }
 </style>

@@ -29,6 +29,10 @@
         font-weight: bold;
     }
 
+    .title {
+        min-height: 35px;
+    }
+
     .actions {
         float: right;
         font-size: 13px;

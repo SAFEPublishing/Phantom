@@ -6,14 +6,14 @@
             <thead>
                 <tr>
                     <th>Domain</th>
-                    <th>FilesContainer</th>
+                    <th>Files Container</th>
                     <th>Updated At</th>
                     <th>Created At</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-if="domains && !domains.length">
-                    <td>You currently have no domains registered to this machine, please click "create domain" to get started</td>
+                    <td colspan="4">You currently have no domains registered to this machine, please click "create domain" to get started</td>
                 </tr>
             </tbody>
         </table>

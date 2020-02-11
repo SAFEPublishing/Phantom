@@ -6,6 +6,21 @@
 	<link rel="icon" href="<%= BASE_URL %>favicon.ico">
 	<title></title>
 	<style type="text/css">
+		@font-face {
+			font-family: 'OpenSans';
+			src: url('/font/opensans-regular.woff2') format('woff2');
+			font-style: normal;
+			font-display: swap;
+		}
+
+		@font-face {
+			font-family: 'OpenSans';
+			src: url('/font/opensans-bold.woff2') format('woff2');
+			font-style: normal;
+			font-weight: bold;
+			font-display: swap;
+		}
+
 		* {
 			box-sizing: border-box;
 		}
@@ -14,12 +29,12 @@
 			position: relative;
 			width: 100%;
 			height: 100%;
-			background-color: #eaeaea;
+			background-color: #f2f5f6;
 			padding: 0;
 			margin: 0;
 			color: #333;
 			box-sizing: border-box;
-			font-family: Arial, sans-serif;
+			font-family: 'OpenSans', Arial, sans-serif;
 			font-size: 14px;
 		}
 	</style>
