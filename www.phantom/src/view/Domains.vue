@@ -7,9 +7,9 @@
                 <tr>
                     <th>Domain</th>
                     <th>Files Container</th>
-                    <th>Updated At</th>
-                    <th>Created At</th>
-                    <th>Use</th>
+                    <th>Updated</th>
+                    <th>Created</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -17,10 +17,10 @@
                     <td colspan="5">You currently have no domains registered to this machine, please click "create domain" to get started</td>
                 </tr>
                 <tr v-for="domain in domains">
-                    <td>{{ domain.publicName | safeURL }}</td>
+                    <td><a :href="domain.publicName | safeURL" target="_blank">{{ domain.publicName | safeURL }}</a></td>
                     <td>{{ domain.filesContainer | safeURL }}</td>
-                    <td>{{ domain.modified }}</td>
-                    <td>{{ domain.modified }}</td>
+                    <td>{{ domain.modified | timeAgo }}</td>
+                    <td>{{ domain.modified | timeAgo }}</td>
                     <td><div class="button" @click="useDomain(domain.publicName)">Use</div></td>
                 </tr>
                 <tr v-if="domains && domains.length && !$root.$data.domain">
@@ -56,8 +56,10 @@
                 this.$router.push("/app/domains/create");
             },
             useDomain: function(publicName) {
-                this.$root.$data.domain = publicName;
-                this.$router.push("/app/posts");
+                api.setCurrentDomain(publicName).then(response => {
+                    this.$root.$data.domain = publicName;
+                    this.$router.push("/app/posts");
+                });
             }
         },
         mounted() {

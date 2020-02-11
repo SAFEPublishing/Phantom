@@ -32,9 +32,9 @@
             api.authenticate().then(response => {
                 this.$root.$data.authenticated = response;
 
-                if (response) {
-
-                }
+                api.getCurrentDomain().then(domain => {
+                    this.$root.$data.domain = domain;
+                });
             });
         },
     }
@@ -79,7 +79,7 @@
 
         thead {
             color: #e9e3ef;
-            background-color: #361f57;
+            background: linear-gradient(0deg, #432370 0%, #4b2b7a 100%);
         }
 
         tbody {
@@ -89,6 +89,11 @@
         th, td {
             text-align: left;
             border-spacing: 0;
+            word-break: break-all;
+
+            .button {
+                word-break: keep-all;
+            }
         }
 
         th {
@@ -101,6 +106,11 @@
         td {
             padding: 15px 20px;
             border-top: 1px solid #e6e6e6;
+        }
+
+        a {
+            color: #54308a;
+            font-weight: bold;
         }
     }
 

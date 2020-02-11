@@ -36,7 +36,7 @@ const cache = {
             }
 
             // On cache MISS or expiry
-            return callback(...callbackData).then(response => {
+            return callback().then(response => {
                 let expiryLength = (typeof expires === "number" ? expires : 31536000);
 
                 let data = {

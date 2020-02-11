@@ -31,9 +31,9 @@ function getRandomMockXorURL() {
 
 export default {
     // This generates an auth string which can be passed to `connect(app_id, credentials)` as the second parameter
-    auth_app : function(id, name, vendor) {
+    auth_app(id, name, vendor) {
         throwErrorRandomly();
-        return id + '/' + name + '/' + vendor;
+        return btoa(id + '/' + name + '/' + vendor);
     },
 
     connect(app_id, credentials) {
