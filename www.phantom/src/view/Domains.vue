@@ -5,7 +5,7 @@
         <table v-if="domains">
             <thead>
                 <tr>
-                    <th>Domain</th>
+                    <th>NRS Name</th>
                     <th>Files Container</th>
                     <th>Updated</th>
                     <th>Created</th>
@@ -45,7 +45,6 @@
         data: function() {
             return {
                 domains: false,
-                showModal: false,
                 actions: [
                     { text: "Create domain", callback: this.createDomain }
                 ]

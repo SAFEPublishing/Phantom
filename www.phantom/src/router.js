@@ -4,6 +4,7 @@ import Home from './view/Home.vue'
 import Dashboard from './view/Dashboard.vue'
 import Domains from './view/Domains.vue'
 import DomainCreate from './view/DomainCreate.vue'
+import Posts from './view/Posts.vue'
 
 Vue.use(Router);
 
@@ -38,9 +39,12 @@ export default new Router({
             name: 'dashboard',
             component: Dashboard,
             meta: hasDomain,
-            children: [
-
-            ]
+        },
+        {
+            path: '/app/posts',
+            name: 'posts',
+            component: Posts,
+            meta: hasDomain,
         }
     ],
     scrollBehavior (to, from, savedPosition) {
