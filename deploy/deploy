@@ -28,7 +28,7 @@ then
 fi
 
 CREATESTRING="--create"
-if [[ "$1" == "$CREATESTRING" ]]
+if [[ "$2" == "$CREATESTRING" ]]
 then
       PUTRESULT=`safe files put "$DEPLOYDIR" "safe://$1" --recursive`
       SAFEPATH="$(echo "$PUTRESULT" | grep -oE "at: \"safe:\/\/[a-zA-Z0-9]+" | grep -oE "safe:\/\/.*")"
