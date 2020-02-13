@@ -7,6 +7,7 @@
  * @licence MIT
  * @package Phantom
  */
+import files from "../lib/files";
 
 // To disable the injection of random network errors, set this to false
 const throwErrors = true;
@@ -44,6 +45,28 @@ export default {
     files_container_create_empty() {
         throwErrorRandomly();
         return getRandomMockXorURL();
+    },
+
+    files_container_add_from_raw(buffer, path, force, updateNRS, dryRun) {
+        throwErrorRandomly();
+
+        let current = (new Date()).toISOString(),
+            resource = getRandomMockXorURL(),
+            nameDefinition = {},
+            filesDefinition = {},
+            relativePath = path.split("/");
+        relativePath.shift();
+        relativePath = relativePath.join("/");
+
+        // This empty string is on purpose, this is how the SAFE browser currently returns the URIs when you're updating an NRS URL file
+        nameDefinition[""] = ["*", resource];
+        filesDefinition[relativePath] = {created: current, link: "safe://" + resource, modified: current, size: buffer.length, type: "Raw"};
+
+        return [
+            1, //version
+            nameDefinition,
+            filesDefinition
+        ];
     },
 
     nrs_map_container_create(publicName, filesContainerXorURL, defaultContainer, hardLink, dryRun) {

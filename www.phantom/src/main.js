@@ -45,6 +45,16 @@ Vue.filter('timeAgo', function(value) {
 	return a[0] + ' ' + a[1] + (a[0] === 1 ? '' : 's') + " ago";
 });
 
+ArrayBuffer.prototype.toString = function() {
+	let decoder = new TextDecoder();
+	return decoder.decode(this);
+};
+
+String.prototype.toBuffer = function()  {
+	let encoder = new TextEncoder();
+	return encoder.encode(this.valueOf());
+};
+
 Vue.config.productionTip = false;
 
 new Vue({
