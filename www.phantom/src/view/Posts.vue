@@ -21,7 +21,7 @@
                     <td>Draft</td>
                     <td>{{ post.modified | timeAgo }}</td>
                     <td>{{ post.created | timeAgo }}</td>
-                    <td><div class="button" @click="editPost(post.file)">Edit</div></td>
+                    <td><router-link :to="'/app/post/' + post.file" class="button">Edit</router-link></td>
                 </tr>
             </tbody>
         </table>

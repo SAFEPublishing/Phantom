@@ -21,7 +21,9 @@
                     <td>{{ domain.filesContainer | safeURL }}</td>
                     <td>{{ domain.modified | timeAgo }}</td>
                     <td>{{ domain.created | timeAgo }}</td>
-                    <td><div class="button" @click="useDomain(domain.publicName)">Use</div></td>
+                    <td>
+                        <div class="button" @click="useDomain(domain.publicName)" v-if="domain.publicName !== $root.$data.domain">Use</div>
+                    </td>
                 </tr>
                 <tr v-if="domains && domains.length && !$root.$data.domain">
                     <td colspan="5">Please select a domain from the list above to begin editing your website</td>
@@ -52,7 +54,7 @@
         },
         methods: {
             createDomain: function() {
-                this.$router.push("/app/domains/create");
+                this.$router.push("#/app/domains/create");
             },
             useDomain: function(publicName) {
                 api.setCurrentDomain(publicName).then(response => {

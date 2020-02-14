@@ -33,7 +33,10 @@
             createDomain: function() {
                 api.createContainer().then(containerXorURL => {
                     api.createDomain(this.formData.publicName, containerXorURL + "?v=1", true, true, false).then(container => {
-                        this.$router.push("/app/domains");
+                        api.setCurrentDomain(this.formData.publicName).then(response => {
+                            this.$root.$data.domain = this.formData.publicName;
+                            this.$router.push("/app/domains");
+                        });
                     })
                 });
             }

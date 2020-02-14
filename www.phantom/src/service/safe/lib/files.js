@@ -23,6 +23,20 @@ const nrs = function (callback) {
         })
     };
 
+    this.getPost = function(nrs, file) {
+        return promise(async function(ctx) {
+            let posts = await ctx.cache.get(nrs + "/posts", async function() { return []; });
+
+            for (let i = 0; i < posts.length; i++) {
+                if (posts[i].file === file) {
+                    return posts[i]
+                }
+            }
+
+            return false;
+        })
+    };
+
     this.addPost = function(nrs, data) {
         return promise(async function(ctx) {
             let posts = await ctx.cache.get(nrs + "/posts", async function() { return []; });

@@ -5,6 +5,7 @@ import Dashboard from './view/Dashboard.vue'
 import Domains from './view/Domains.vue'
 import DomainCreate from './view/DomainCreate.vue'
 import Posts from './view/Posts.vue'
+import PostEdit from './view/PostEdit.vue'
 
 Vue.use(Router);
 
@@ -44,6 +45,12 @@ export default new Router({
             path: '/app/posts',
             name: 'posts',
             component: Posts,
+            meta: hasDomain,
+        },
+        {
+            path: '/app/post/:file',
+            name: 'post-edit',
+            component: PostEdit,
             meta: hasDomain,
         }
     ],

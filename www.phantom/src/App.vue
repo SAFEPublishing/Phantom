@@ -42,6 +42,7 @@
         background: linear-gradient(0deg, #2a1646 0%, #44276e 100%);
         box-shadow: inset 0 0 5px #2a1646;
         text-shadow: 0 1px 3px #2a1646;
+        text-decoration: none;
         border: none;
         border-radius: 5px;
 
