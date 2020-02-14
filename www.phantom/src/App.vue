@@ -21,22 +21,12 @@
 
 <script>
     import Sidebar from '@/component/Sidebar.vue';
-    import api from '@/service/safe/api';
 
     export default {
         name: 'app',
         components: {
             Sidebar,
-        },
-        mounted: function () {
-            api.authenticate().then(response => {
-                this.$root.$data.authenticated = response;
-
-                api.getCurrentDomain().then(domain => {
-                    this.$root.$data.domain = domain;
-                });
-            });
-        },
+        }
     }
 </script>
 

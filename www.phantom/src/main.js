@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import api from '@/service/safe/api';
 
 const data = {
+	initialized: false,
 	// Once @joshuef fixes the SAFE browser authentication bugs, this should default to false
 	authenticated: true,
 	domain: false,
@@ -60,5 +62,14 @@ Vue.config.productionTip = false;
 new Vue({
 	router,
 	data: data,
-	render: h => h(App)
+	render: h => h(App),
+	created: function() {
+		api.authenticate().then(response => {
+			this.$root.$data.authenticated = response;
+
+			api.getCurrentDomain().then(domain => {
+				this.$root.$data.domain = domain;
+			});
+		});
+	}
 }).$mount('#app')

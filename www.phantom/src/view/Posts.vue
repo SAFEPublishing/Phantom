@@ -17,11 +17,11 @@
                     <td colspan="5">You currently have no posts, please click "create post" to get started</td>
                 </tr>
                 <tr v-for="post in posts">
-                    <td><a :href="domain.publicName | safeURL" target="_blank">{{ domain.publicName | safeURL }}</a></td>
-                    <td>{{ domain.filesContainer | safeURL }}</td>
-                    <td>{{ domain.modified | timeAgo }}</td>
-                    <td>{{ domain.modified | timeAgo }}</td>
-                    <td><div class="button" @click="useDomain(domain.publicName)">Use</div></td>
+                    <td><a :href="post.link | safeURL" target="_blank">{{ post.link | safeURL }}</a></td>
+                    <td>Draft</td>
+                    <td>{{ post.modified | timeAgo }}</td>
+                    <td>{{ post.created | timeAgo }}</td>
+                    <td><div class="button" @click="editPost(post.file)">Edit</div></td>
                 </tr>
             </tbody>
         </table>
@@ -51,9 +51,24 @@
             createPost: function() {
                 // Will create an empty file with a random URI
                 api.updateFile("", this.$root.$data.domain).then(response => {
-                    console.log(response);
+                    let XorURL = response[1][""][1],
+                    post = false; // This string is empty on purpose, this is how the API is currently implemented
+
+                    for (let file in response[2]) {
+                        if (response[2].hasOwnProperty(file) && response[2][file].link === XorURL) {
+                            post = response[2][file];
+                            post.file = file;
+                            break;
+                        }
+                    }
+
+                    if (!post) {
+                        // Error state must be handled here
+                    }
+
+                    api.addPost(this.$root.$data.domain, post);
+                    this.$router.push("/app/post/" + post.file);
                 })
-//                this.$router.push("/app/posts/create");
             }
         },
         mounted() {

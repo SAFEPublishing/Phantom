@@ -51,7 +51,7 @@ export default {
         throwErrorRandomly();
 
         let current = (new Date()).toISOString(),
-            resource = getRandomMockXorURL(),
+            resource = "safe://" + getRandomMockXorURL(),
             nameDefinition = {},
             filesDefinition = {},
             relativePath = path.split("/");
@@ -60,7 +60,7 @@ export default {
 
         // This empty string is on purpose, this is how the SAFE browser currently returns the URIs when you're updating an NRS URL file
         nameDefinition[""] = ["*", resource];
-        filesDefinition[relativePath] = {created: current, link: "safe://" + resource, modified: current, size: buffer.length, type: "Raw"};
+        filesDefinition[relativePath] = {created: current, link: resource, modified: current, size: buffer.length, type: "Raw"};
 
         return [
             1, //version

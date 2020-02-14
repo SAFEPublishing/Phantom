@@ -10,6 +10,7 @@ const api = function() {
     this.createDomain = nrs.createContainer;
     this.createContainer = files.createContainer;
     this.updateFile = files.updateFile;
+    this.addPost = files.addPost;
     this.getPosts = files.getPosts;
 };
 

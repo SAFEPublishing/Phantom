@@ -20,7 +20,7 @@
                     <td><a :href="domain.publicName | safeURL" target="_blank">{{ domain.publicName | safeURL }}</a></td>
                     <td>{{ domain.filesContainer | safeURL }}</td>
                     <td>{{ domain.modified | timeAgo }}</td>
-                    <td>{{ domain.modified | timeAgo }}</td>
+                    <td>{{ domain.created | timeAgo }}</td>
                     <td><div class="button" @click="useDomain(domain.publicName)">Use</div></td>
                 </tr>
                 <tr v-if="domains && domains.length && !$root.$data.domain">

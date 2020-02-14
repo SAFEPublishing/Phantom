@@ -21,7 +21,16 @@ const nrs = function (callback) {
         return promise(async function(ctx) {
             return ctx.cache.get(nrs + "/posts", async function() { return []; });
         })
-    }
+    };
+
+    this.addPost = function(nrs, data) {
+        return promise(async function(ctx) {
+            let posts = await ctx.cache.get(nrs + "/posts", async function() { return []; });
+            posts.push(data);
+            ctx.cache.set(nrs + '/posts', posts);
+            return posts;
+        });
+    };
 };
 
 export default new nrs();
