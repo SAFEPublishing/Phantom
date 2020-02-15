@@ -3,15 +3,11 @@ String.prototype.removeFirstTitle = function() {
 };
 
 String.prototype.replaceSingleTag = function(match, tag) {
-    let regex = new RegExp(match + "(.*)" + match, "gm");
-    return this.replace(regex, "<" + tag + ">" + "$1" + "</" + tag + ">");
+    return this.replace(new RegExp(match + "(.*)" + match, "gm"), "<" + tag + ">" + "$1" + "</" + tag + ">");
 };
 
 String.prototype.replaceTagToEndOfLine = function(match, tag) {
-    let genericMatch = match + "(.*)",
-        regex = new RegExp("^" + genericMatch, "gm");
-
-    return this.replace(regex, "<" + tag + ">" + "$1" + "</" + tag + ">\n");
+    return this.replace(new RegExp("^" +  match + "(.*)", "gm"), "<" + tag + ">" + "$1" + "</" + tag + ">\n");
 };
 
 String.prototype.getSanitizedMarkdown = function() {
