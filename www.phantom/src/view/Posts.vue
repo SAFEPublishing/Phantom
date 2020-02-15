@@ -17,7 +17,7 @@
                     <td colspan="5">You currently have no posts, please click "create post" to get started</td>
                 </tr>
                 <tr v-for="post in posts">
-                    <td><a :href="post.link | safeURL" target="_blank">{{ post.link | safeURL }}</a></td>
+                    <td><a :href="post.link | safeURL" target="_blank">{{ post.title }}</a></td>
                     <td>Draft</td>
                     <td>{{ post.modified | timeAgo }}</td>
                     <td>{{ post.created | timeAgo }}</td>
@@ -32,6 +32,7 @@
     import PageTitleWithActions from "@/component/PageTitleWithActions";
     import Loader from "@/component/Loader";
     import api from "@/service/safe/api";
+    import formatter from "@/service/markdown/formatter";
 
     export default {
         name: 'posts',
@@ -73,6 +74,10 @@
         },
         mounted() {
             api.getPosts(this.$root.$data.domain).then(posts => {
+                for (let i = 0; i < posts.length; i++) {
+                    posts[i].title = formatter.getTitle((!posts[i].data || posts[i].data === "") ? formatter.getDefaultMarkdown() : posts[i].data);
+                }
+
                 this.posts = posts;
             });
         }
