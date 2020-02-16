@@ -2,6 +2,10 @@
     <div>
         <PageTitleWithActions title="Posts" :actions="actions" />
         <Loader v-if="!posts" text="Loading posts from cache" />
+        <div v-if="hasDrafts" class="urgent">
+            <div class="urgent-title">Unpublished drafts</div>
+            <div>To release a new version of safe://{{ $root.$data.domain }} including all unpublished drafts click "Publish drafts" at the top right.</div>
+        </div>
         <table v-if="posts">
             <thead>
                 <tr>
@@ -17,8 +21,11 @@
                     <td colspan="5">You currently have no posts, please click "create post" to get started</td>
                 </tr>
                 <tr v-for="post in posts">
-                    <td><a :href="post.link | safeURL" target="_blank">{{ post.title }}</a></td>
-                    <td>Draft</td>
+                    <td>
+                        <a v-if="post.state === 'published'" :href="($root.$data.domain + '/' + post.file) | safeURL" target="_blank">{{ post.title }}</a>
+                        <span v-if="post.state !== 'published'">{{ post.title }}</span>
+                    </td>
+                    <td><div class="post-state" :class="post.state">{{ post.state }}</div></td>
                     <td>{{ post.modified | timeAgo }}</td>
                     <td>{{ post.created | timeAgo }}</td>
                     <td><router-link :to="'/app/post/' + post.file" class="button">Edit</router-link></td>
@@ -43,6 +50,7 @@
         data: function() {
             return {
                 posts: false,
+                hasDrafts: false,
                 actions: [
                     { text: "Create post", callback: this.createPost }
                 ]
@@ -50,32 +58,35 @@
         },
         methods: {
             createPost: function() {
-                // Will create an empty file with a random URI
-                api.updateFile("", this.$root.$data.domain).then(response => {
-                    let XorURL = response[1][""][1],
-                    post = false; // This string is empty on purpose, this is how the API is currently implemented
+                let post = {
+                    file: Math.random().toString(36).substr(2, 10),
+                    state: "local-draft",
+                    data: false,
+                    map: false,
+                    created: (new Date).toISOString(),
+                    modified: (new Date).toISOString()
+                };
 
-                    for (let file in response[2]) {
-                        if (response[2].hasOwnProperty(file) && response[2][file].link === XorURL) {
-                            post = response[2][file];
-                            post.file = file;
-                            break;
-                        }
-                    }
+                api.addPost(this.$root.$data.domain, post);
+                this.$router.push("/app/post/" + post.file);
+            },
 
-                    if (!post) {
-                        // Error state must be handled here
-                    }
+            publishDrafts: function() {
 
-                    api.addPost(this.$root.$data.domain, post);
-                    this.$router.push("/app/post/" + post.file);
-                })
             }
         },
         mounted() {
             api.getPosts(this.$root.$data.domain).then(posts => {
                 for (let i = 0; i < posts.length; i++) {
+                    this.hasDrafts = this.hasDrafts || posts[i].state === "draft";
                     posts[i].title = formatter.getTitle((!posts[i].data || posts[i].data === "") ? formatter.getDefaultMarkdown() : posts[i].data);
+                }
+
+                if (this.hasDrafts) {
+                    this.actions.push({
+                        text: 'Publish drafts',
+                        callback: this.publishDrafts
+                    });
                 }
 
                 this.posts = posts;
@@ -86,4 +97,39 @@
 
 <style scoped lang="scss">
 
+    .urgent {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #264c74;
+        color: #fff;
+        border-radius: 5px;
+
+        .urgent-title {
+            padding-bottom: 5px;
+            font-weight: bold;
+        }
+    }
+
+    .post-state {
+        display: inline-block;
+        vertical-align: top;
+        padding: 2px 8px;
+        color: #fff;
+        font-weight: bold;
+        font-size: 11px;
+        text-transform: uppercase;
+        border-radius: 4px;
+
+        &.local-draft {
+            background-color: #b35230;
+        }
+
+        &.draft {
+            background-color: #b3a01d;
+        }
+
+        &.published {
+            background-color: #50b31d;
+        }
+    }
 </style>

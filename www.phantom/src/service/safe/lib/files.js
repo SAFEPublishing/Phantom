@@ -8,9 +8,6 @@ const nrs = function (callback) {
     };
 
     this.updateFile = function(content, filesContainerXorURL, path) {
-        // If no path is passed, this will generate a random path
-        path = typeof path !== "string" ? Math.random().toString(36).substr(2, 10) : path;
-
         return promise(async function(ctx) {
             let buffer = content.toBuffer();
             return ctx.safe.files_container_add_from_raw(buffer, filesContainerXorURL + '/' + path, true, true, false);
@@ -20,6 +17,25 @@ const nrs = function (callback) {
     this.getPosts = function(nrs) {
         return promise(async function(ctx) {
             return ctx.cache.get(nrs + "/posts", async function() { return []; });
+        })
+    };
+
+    /**
+     * The file isn't extracted from the post because it allows us to update posts when their file has been updated
+     */
+    this.updatePost = function(nrs, file, post) {
+        return promise(async function(ctx) {
+            let posts = await ctx.cache.get(nrs + "/posts", async function() { return []; });
+
+            for (let i = 0; i < posts.length; i++) {
+                if (posts[i].file === file) {
+                    posts[i] = post;
+                    ctx.cache.set(nrs + "/posts", posts);
+                    return true;
+                }
+            }
+
+            return false;
         })
     };
 

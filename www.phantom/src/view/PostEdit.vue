@@ -3,10 +3,10 @@
         <PageTitleWithActions title="Edit post" :actions="actions" />
         <Loader v-if="!loaded" text="Loading post from cache" />
         <div class="editor-container">
-            <h1 class="title" contenteditable="true" v-html="titleContent"></h1>
+            <h1 class="title" contenteditable="true" ref="title">{{ titleContent }}</h1>
             <div class="editor" v-if="post">
                 <form @submit="updatePost">
-                    <div class="postContent" contenteditable="true" v-html="markdownContent" @input="handlePostInput"></div>
+                    <div class="postContent" contenteditable="true" v-html="markdownContent" @input="handlePostInput" ref="content"></div>
                 </form>
             </div>
             <div class="preview" v-html="htmlContent"></div>
@@ -35,17 +35,32 @@
                 htmlContent: "",
                 markdownContent: "",
                 actions: [
-                    { text: "Save post", callback: this.updatePost },
-                    { text: "Publish post", callback: this.publishPost }
+                    { text: "Save post", callback: this.updatePost }
                 ]
             }
         },
         methods: {
             updatePost: function() {
-                console.log(this.rawContent)
+                this.titleContent = this.$refs.title.innerText;
+                this.rawContent = ("#" + this.titleContent + "\n"+ this.$refs.content.innerHTML).getSanitizedMarkdown();
+
+                let post = this.post,
+                    oldFile = post.file;
+                post.file = formatter.getSanitizedURI(this.titleContent);
+                post.state = (post.state === "local-draft") ? "draft" : post.state;
+                post.data = this.rawContent;
+                post.modified = (new Date).toISOString();
+
+                api.updateFile(post.data, this.$root.$data.domain, post.file).then(response => {
+                    post.map = response[1];
+
+                    api.updatePost(this.$root.$data.domain, oldFile, post).then(response => {
+                        this.$router.push("/app/posts");
+                    });
+                });
             },
-            handlePostInput: function(e) {
-                this.rawContent = ("#" + this.titleContent + "\n"+ e.target.innerHTML).getSanitizedMarkdown();
+            handlePostInput: function() {
+                this.rawContent = ("#" + this.titleContent + "\n"+ this.$refs.content.innerHTML).getSanitizedMarkdown();
                 this.htmlContent = formatter.getParsedHTML(this.rawContent);
             }
         },

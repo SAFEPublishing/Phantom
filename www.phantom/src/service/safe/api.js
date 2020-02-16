@@ -11,6 +11,7 @@ const api = function() {
     this.createContainer = files.createContainer;
     this.updateFile = files.updateFile;
     this.addPost = files.addPost;
+    this.updatePost = files.updatePost;
     this.getPosts = files.getPosts;
     this.getPost = files.getPost;
 };

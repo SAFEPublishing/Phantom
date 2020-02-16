@@ -72,6 +72,10 @@ const formatter = {
     getEditableMarkdown: function(markdown) {
         return markdown.removeFirstTitle()
             .replace(/\n/g, "<br><br>");
+    },
+
+    getSanitizedURI: function(title) {
+        return title.replace(/[^a-zA-Z0-9 \-\_]/g, "").toLocaleLowerCase().replace(/ /g, "-");
     }
 };
 
