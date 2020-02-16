@@ -10,6 +10,14 @@ String.prototype.replaceTagToEndOfLine = function(match, tag) {
     return this.replace(new RegExp("^" +  match + "(.*)", "gm"), "<" + tag + ">" + "$1" + "</" + tag + ">\n");
 };
 
+String.prototype.replaceImages = function() {
+    return this.replace(/\!\[([^\]]+)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" />');
+};
+
+String.prototype.replaceAnchors = function() {
+    return this.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+};
+
 String.prototype.getSanitizedMarkdown = function() {
     return this
         // Replace multiple newlines with a single new line
@@ -49,8 +57,12 @@ const formatter = {
             .replaceTagToEndOfLine("#", "h1")
             // Now that the bold tags are dealt with, we can format lists safely
             .replaceTagToEndOfLine("\\*", "li")
+            // Images must be injected before anchors due to the similar syntax
+            .replaceImages()
+            // Now we can inject anchors
+            .replaceAnchors()
             // Now we've dealt with every other special case we can insert paragraphs to the left overs
-            .replace(/^([^<].+)/gm, "<p>$1</p>")
+            .replace(/^((?!<h|<li).+)/gm, "<p>$1</p>")
             // Purge all the remaining new lines so we can inject logical new lines
             .replace(/\n/g, "")
             // Now we can add new lines where they _should_ be
