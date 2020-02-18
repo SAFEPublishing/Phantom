@@ -19,6 +19,7 @@
     import Loader from "@/component/Loader";
     import api from "@/service/safe/api";
     import formatter from "@/service/markdown/formatter";
+    import canonical from '@/service/markdown/canonical';
 
     export default {
         name: 'posts',
@@ -48,10 +49,10 @@
                     oldFile = post.file;
                 post.file = formatter.getSanitizedURI(this.titleContent);
                 post.state = (post.state === "local-draft") ? "draft" : post.state;
-                post.data = this.rawContent;
+                post.data = canonical.getHTMLWrappedMarkdown(this.rawContent);
                 post.modified = (new Date).toISOString();
 
-                api.updateFile(post.data, this.$root.$data.domain, post.file).then(response => {
+                api.updateFile(post.data, this.$root.$data.domain, post.file, false).then(response => {
                     post.map = response[1];
 
                     api.updatePost(this.$root.$data.domain, oldFile, post).then(response => {
@@ -71,7 +72,7 @@
                     this.post = post;
 
                     let newPost = !post.data || post.data === "";
-                    this.rawContent = newPost ? formatter.getDefaultMarkdown() : post.data;
+                    this.rawContent = newPost ? formatter.getDefaultMarkdown() : canonical.getMarkdownFromHTML(post.data);
                     this.titleContent = formatter.getTitle(this.rawContent);
                     this.htmlContent = formatter.getParsedHTML(this.rawContent);
                     this.markdownContent = formatter.getEditableMarkdown(this.rawContent);
@@ -107,5 +108,9 @@
     .preview {
         padding-top: 0;
         background-color: #fff;
+
+        /deep/ img {
+            max-width: 100%;
+        }
     }
 </style>

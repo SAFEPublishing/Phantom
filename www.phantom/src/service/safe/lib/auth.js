@@ -6,12 +6,12 @@ const appInfo = {
     vendor: "SAFE Publishing"
 };
 
-const auth = function (callback) {
+const auth = function () {
     this.authenticate = function() {
         return promise(async function(ctx) {
             return ctx.cache.get("auth", async function() { return ctx.safe.auth_app(appInfo.id, appInfo.name, appInfo.vendor) });
         }).then(response => promise(async function(ctx) {
-            return ctx.safe.connect(appInfo.id, auth)
+            return ctx.safe.connect(appInfo.id, response)
         }));
     }
 };

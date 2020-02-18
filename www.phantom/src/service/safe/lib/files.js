@@ -7,10 +7,10 @@ const nrs = function (callback) {
         });
     };
 
-    this.updateFile = function(content, filesContainerXorURL, path) {
+    this.updateFile = function(content, filesContainerXorURL, path, updateNRS) {
         return promise(async function(ctx) {
             let buffer = content.toBuffer();
-            return ctx.safe.files_container_add_from_raw(buffer, filesContainerXorURL + '/' + path, true, true, false);
+            return ctx.safe.files_container_add_from_raw(buffer, filesContainerXorURL + '/' + path, true, updateNRS, false);
         });
     };
 

@@ -40,6 +40,7 @@
     import Loader from "@/component/Loader";
     import api from "@/service/safe/api";
     import formatter from "@/service/markdown/formatter";
+    import canonical from "@/service/markdown/canonical";
 
     export default {
         name: 'posts',
@@ -79,7 +80,7 @@
             api.getPosts(this.$root.$data.domain).then(posts => {
                 for (let i = 0; i < posts.length; i++) {
                     this.hasDrafts = this.hasDrafts || posts[i].state === "draft";
-                    posts[i].title = formatter.getTitle((!posts[i].data || posts[i].data === "") ? formatter.getDefaultMarkdown() : posts[i].data);
+                    posts[i].title = formatter.getTitle((!posts[i].data || posts[i].data === "") ? formatter.getDefaultMarkdown() : canonical.getMarkdownFromHTML(posts[i].data));
                 }
 
                 if (this.hasDrafts) {
