@@ -114,6 +114,12 @@
                 max-width: 100%;
             }
 
+            blockquote {
+                margin: 0;
+                padding: 10px;
+                border-left: 2px solid #bbb;
+            }
+
             .codeblock {
                 padding: 20px;
                 margin-bottom: 1em;

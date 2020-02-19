@@ -18,8 +18,12 @@ String.prototype.replaceAnchors = function() {
     return this.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 };
 
+String.prototype.replaceBlockQuotes = function() {
+    return this.replace(/^(>|&gt;)[ \t]?(.+)/gm, '<blockquote>$2</blockquote>');
+};
+
 String.prototype.replaceCodeSpans = function() {
-    return this.replace(/```([a-zA-Z0-9]*)\n([\s\S]*?)```/gm, function(match, lang, code) {
+    return this.replace(/^```([a-zA-Z0-9]*)\n([\s\S]*?)```/gm, function(match, lang, code) {
         return '<div class="lang-' + lang + ' codeblock">' + code.replace(/\n/g, "{CODEBLOCK_NEWLINE}") + '</div>';
     });
 };
@@ -69,14 +73,14 @@ const formatter = {
             .replaceTagToEndOfLine("\\*", "li")
             // Images must be injected before anchors due to the similar syntax
             .replaceImages()
-            // Now we can inject anchors
             .replaceAnchors()
-            // Now we can inject multiline codeblocks
             .replaceCodeSpans()
+            .replaceBlockQuotes()
             // Now we've dealt with every other special case we can insert paragraphs to the left overs
-            .replace(/^((?!<h|<li|<div).+)/gm, "<p>$1</p>")
+            .replace(/^((?!<h|<li|<div|block).+)/gm, "<p>$1</p>")
             // Purge all the remaining new lines so we can inject logical new lines
             .replace(/\n/g, "")
+            // Re-inject newlines in code spans
             .replaceCodeSpanNewLines()
             // Now we can add new lines where they _should_ be
             .replace(/<\/(p|li|h[1-5])>/gm, "</$1>\n");
