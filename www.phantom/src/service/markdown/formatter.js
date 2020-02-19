@@ -36,6 +36,10 @@ String.prototype.replaceCodeSpanNewLines = function() {
     return this.replace(/\{CODEBLOCK_NEWLINE\}/gm, "\n");
 };
 
+String.prototype.replaceHorizontalRules = function() {
+    return this.replace(/^(\_{3,}|\-{3,}|\*{3,})$/gm, "<hr />");
+};
+
 String.prototype.getSanitizedMarkdown = function() {
     return this
         // Replace multiple newlines with a single new line
@@ -65,6 +69,7 @@ const formatter = {
         return markdown
             // Remove the first title tag - that's the top level post title
             .removeFirstTitle()
+            .replaceHorizontalRules()
             .replaceSingleTag("\\*\\*", "b")
             .replaceSingleTag("\\_", "i")
             .replaceSingleTag("\\~", "s")
@@ -82,7 +87,7 @@ const formatter = {
             .replaceCodeInline()
             .replaceBlockQuotes()
             // Now we've dealt with every other special case we can insert paragraphs to the left overs
-            .replace(/^((?!<h|<li|<div|block).+)/gm, "<p>$1</p>")
+            .replace(/^((?!<h|<li|<div|<block|<hr).+)/gm, "<p>$1</p>")
             // Purge all the remaining new lines so we can inject logical new lines
             .replace(/\n/g, "")
             // Re-inject newlines in code spans
