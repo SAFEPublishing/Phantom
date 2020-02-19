@@ -22,6 +22,10 @@ String.prototype.replaceBlockQuotes = function() {
     return this.replace(/^(>|&gt;)[ \t]?(.+)/gm, '<blockquote>$2</blockquote>');
 };
 
+String.prototype.replaceCodeInline = function() {
+    return this.replace(/`(.+)`/gm, '<code>$1</code>');
+};
+
 String.prototype.replaceCodeSpans = function() {
     return this.replace(/^```([a-zA-Z0-9]*)\n([\s\S]*?)```/gm, function(match, lang, code) {
         return '<div class="lang-' + lang + ' codeblock">' + code.replace(/\n/g, "{CODEBLOCK_NEWLINE}") + '</div>';
@@ -75,6 +79,7 @@ const formatter = {
             .replaceImages()
             .replaceAnchors()
             .replaceCodeSpans()
+            .replaceCodeInline()
             .replaceBlockQuotes()
             // Now we've dealt with every other special case we can insert paragraphs to the left overs
             .replace(/^((?!<h|<li|<div|block).+)/gm, "<p>$1</p>")

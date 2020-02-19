@@ -129,6 +129,13 @@
                 white-space: pre;
                 overflow-x: auto;
             }
+
+            code {
+                padding: 0 4px;
+                background-color: #252526;
+                color: #f8ffff;
+                font-family: monospace;
+            }
         }
     }
 </style>
