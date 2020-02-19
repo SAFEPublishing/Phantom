@@ -93,7 +93,7 @@
 
         .title, .postContent {
             outline: none;
-            white-space: pre-wrap
+            white-space: pre-wrap;
         }
     }
 
@@ -109,8 +109,20 @@
         padding-top: 0;
         background-color: #fff;
 
-        /deep/ img {
-            max-width: 100%;
+        /deep/ {
+            img {
+                max-width: 100%;
+            }
+
+            .codeblock {
+                padding: 20px;
+                margin-bottom: 1em;
+                background-color: #252526;
+                color: #f8ffff;
+                font-family: monospace;
+                white-space: pre;
+                overflow-x: auto;
+            }
         }
     }
 </style>

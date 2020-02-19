@@ -18,6 +18,16 @@ String.prototype.replaceAnchors = function() {
     return this.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 };
 
+String.prototype.replaceCodeSpans = function() {
+    return this.replace(/```([a-zA-Z0-9]*)\n([\s\S]*?)```/gm, function(match, lang, code) {
+        return '<div class="lang-' + lang + ' codeblock">' + code.replace(/\n/g, "{CODEBLOCK_NEWLINE}") + '</div>';
+    });
+};
+
+String.prototype.replaceCodeSpanNewLines = function() {
+    return this.replace(/\{CODEBLOCK_NEWLINE\}/gm, "\n");
+};
+
 String.prototype.getSanitizedMarkdown = function() {
     return this
         // Replace multiple newlines with a single new line
@@ -61,10 +71,13 @@ const formatter = {
             .replaceImages()
             // Now we can inject anchors
             .replaceAnchors()
+            // Now we can inject multiline codeblocks
+            .replaceCodeSpans()
             // Now we've dealt with every other special case we can insert paragraphs to the left overs
-            .replace(/^((?!<h|<li).+)/gm, "<p>$1</p>")
+            .replace(/^((?!<h|<li|<div).+)/gm, "<p>$1</p>")
             // Purge all the remaining new lines so we can inject logical new lines
             .replace(/\n/g, "")
+            .replaceCodeSpanNewLines()
             // Now we can add new lines where they _should_ be
             .replace(/<\/(p|li|h[1-5])>/gm, "</$1>\n");
     },
