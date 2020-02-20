@@ -41,6 +41,8 @@
     import api from "@/service/safe/api";
     import formatter from "@/service/markdown/formatter";
     import canonical from "@/service/markdown/canonical";
+    import Light from '@/service/theme/light.json';
+    import Theme from '@/service/theme/theme';
 
     export default {
         name: 'posts',
@@ -52,9 +54,8 @@
             return {
                 posts: false,
                 hasDrafts: false,
-                actions: [
-                    { text: "Create post", callback: this.createPost }
-                ]
+                actions: [],
+                themes: [new Theme(Light)],
             }
         },
         methods: {
@@ -73,25 +74,38 @@
             },
 
             publishDrafts: function() {
+                this.themes[0].getComputedTemplate(this.$root.$data.domain).then(template => {
+                    api.updateFile(template, this.$root.$data.domain, "index.html", true).then(response => {
+                        this.resetActions();
+                        this.loadPosts();
+                    });
+                });
+            },
+            loadPosts: function() {
+                api.getPosts(this.$root.$data.domain).then(posts => {
+                    for (let i = 0; i < posts.length; i++) {
+                        this.hasDrafts = this.hasDrafts || posts[i].state === "draft";
+                        posts[i].title = formatter.getTitle((!posts[i].data || posts[i].data === "") ? formatter.getDefaultMarkdown() : canonical.getMarkdownFromHTML(posts[i].data));
+                    }
 
+                    if (this.hasDrafts) {
+                        this.actions.push({
+                            text: 'Publish drafts',
+                            callback: this.publishDrafts
+                        });
+                    }
+
+                    this.posts = posts;
+                });
+            },
+            resetActions: function() {
+                this.hasDrafts = false;
+                this.actions = [{ text: "Create post", callback: this.createPost }];
             }
         },
         mounted() {
-            api.getPosts(this.$root.$data.domain).then(posts => {
-                for (let i = 0; i < posts.length; i++) {
-                    this.hasDrafts = this.hasDrafts || posts[i].state === "draft";
-                    posts[i].title = formatter.getTitle((!posts[i].data || posts[i].data === "") ? formatter.getDefaultMarkdown() : canonical.getMarkdownFromHTML(posts[i].data));
-                }
-
-                if (this.hasDrafts) {
-                    this.actions.push({
-                        text: 'Publish drafts',
-                        callback: this.publishDrafts
-                    });
-                }
-
-                this.posts = posts;
-            });
+            this.resetActions()
+            this.loadPosts()
         }
     }
 </script>

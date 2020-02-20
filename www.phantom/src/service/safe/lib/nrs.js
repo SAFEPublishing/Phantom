@@ -32,6 +32,18 @@ const nrs = function (callback) {
             ctx.cache.set("nrs", existingData);
             return data;
         })
+    };
+
+    this.setTheme = function(publicName, theme) {
+        return promise(async function(ctx) {
+            return ctx.cache.set(publicName + '/theme', theme);
+        })
+    };
+
+    this.getTheme = function(publicName) {
+        return promise(async function(ctx) {
+            return ctx.cache.get(publicName + '/theme', async function() { return "Light"; });
+        })
     }
 };
 

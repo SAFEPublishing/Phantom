@@ -63,12 +63,13 @@ const formatter = {
      * Takes markdown as an input and spits out formatted HTML
      *
      * @param markdown string
+     * @param keepTitle bool
      * @returns string
      */
-    getParsedHTML: function(markdown) {
+    getParsedHTML: function(markdown, keepTitle) {
+        markdown = keepTitle === true ? markdown : markdown.removeFirstTitle();
+
         return markdown
-            // Remove the first title tag - that's the top level post title
-            .removeFirstTitle()
             .replaceHorizontalRules()
             .replaceSingleTag("\\*\\*", "b")
             .replaceSingleTag("\\_", "i")

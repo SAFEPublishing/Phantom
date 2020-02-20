@@ -1,5 +1,16 @@
 Vue.use(VueRouter);
 
+window.routes = [];
+
+for (var i = 0; i < window.posts.length; i++) {
+    window.routes.push({
+        path: window.posts[i].path,
+        component: Vue.component(window.posts[i].path, {
+            template: '<div class="post">' + window.posts[i].template + '</div>'
+        })
+    });
+}
+
 var router = new VueRouter({
     mode: 'hash',
     routes: window.routes

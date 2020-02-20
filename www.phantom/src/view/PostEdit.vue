@@ -48,7 +48,7 @@
                 let post = this.post,
                     oldFile = post.file;
                 post.file = formatter.getSanitizedURI(this.titleContent);
-                post.state = (post.state === "local-draft") ? "draft" : post.state;
+                post.state = "draft";
                 post.data = canonical.getHTMLWrappedMarkdown(this.rawContent);
                 post.modified = (new Date).toISOString();
 
@@ -62,7 +62,7 @@
             },
             handlePostInput: function() {
                 this.rawContent = ("#" + this.titleContent + "\n"+ this.$refs.content.innerHTML).getSanitizedMarkdown();
-                this.htmlContent = formatter.getParsedHTML(this.rawContent);
+                this.htmlContent = formatter.getParsedHTML(this.rawContent, false);
             }
         },
         mounted() {
@@ -74,7 +74,7 @@
                     let newPost = !post.data || post.data === "";
                     this.rawContent = newPost ? formatter.getDefaultMarkdown() : canonical.getMarkdownFromHTML(post.data);
                     this.titleContent = formatter.getTitle(this.rawContent);
-                    this.htmlContent = formatter.getParsedHTML(this.rawContent);
+                    this.htmlContent = formatter.getParsedHTML(this.rawContent, false);
                     this.markdownContent = formatter.getEditableMarkdown(this.rawContent);
                 }
             });

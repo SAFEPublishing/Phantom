@@ -1,16 +1,20 @@
 import api from '@/service/safe/api';
+import canonical from '@/service/markdown/canonical';
+import formatter from '@/service/markdown/formatter';
 
 const Theme = function(config) {
     this.config = config;
 
-    this.getComputedTemplate = function() {
+    this.getComputedTemplate = function (domain) {
         let parent = this;
 
         return api.fetch(this.config.template).then(response => {
             return response.text();
-        }).then(async function(template) {
+        }).then(async function (template) {
             let scriptData = "",
-                styleData = "";
+                styleData = "",
+                postData = await parent.getPostsBundle(domain);
+
 
             for (let i = 0; i < parent.config.scripts.length; i++) {
                 scriptData += await (await api.fetch(parent.config.scripts[i])).text();
@@ -20,12 +24,32 @@ const Theme = function(config) {
                 styleData += await (await api.fetch(parent.config.styles[i])).text();
             }
 
-            console.log(styleData)
-
             return template
-                .replace(/<!-- PhantomTemplate:Style -->/g, '<style type="text/css">' + styleData + '</style>')
-                .replace(/<!-- PhantomTemplate:Script -->/g, '<script type="text/javascript">' + scriptData + '</script>');
+                .replace(/<\/head>/g, '<style type="text/css">' + styleData + '</style></head>')
+                .replace(/<\/body>/g, '<script type="text/javascript">window.posts = ' + JSON.stringify(postData) + ';</script></body>')
+                .replace(/<\/body>/g, '<script type="text/javascript">' + scriptData + '</script></body>');
         })
+    };
+
+    this.getPostsBundle = async function (domain) {
+        let posts = await api.getPosts(domain),
+            response = [];
+
+        for (let i = 0; i < posts.length; i++) {
+            if (posts[i].state === "draft") {
+                posts[i].state = "published";
+                await api.updatePost(domain, posts[i].file, posts[i]);
+            }
+
+            if (posts[i].state === "published") {
+                response.push({
+                    path: '/post/' + posts[i].file,
+                    template: formatter.getParsedHTML(canonical.getMarkdownFromHTML(posts[i].data), true)
+                });
+            }
+        }
+
+        return response;
     };
 };
 

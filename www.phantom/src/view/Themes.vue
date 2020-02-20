@@ -2,7 +2,17 @@
     <div>
         <PageTitleWithActions title="Themes" :actions="actions" />
         <Loader v-if="!themes" text="Loading themes from cache" />
-        <div @click="compileTheme">This page is a work in progress</div>
+        <div class="themes">
+            <div v-for="theme in themes" class="theme">
+                <img :src="theme.config.banner" />
+                <div class="name">{{ theme.config.name }}</div>
+                <div class="description">{{ theme.config.description }}</div>
+                <div class="button-container">
+                    <div v-if="theme.config.name !== activeTheme" class="button">Install</div>
+                </div>
+                <div v-if="theme.config.name === activeTheme" class="active">This theme is currently installed</div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -22,22 +32,58 @@
         data: function() {
             return {
                 themes: [new Theme(Light)],
+                activeTheme: false,
                 actions: []
             }
         },
         methods: {
             compileTheme: function() {
-                this.themes[0].getComputedTemplate().then(template => {
-                    console.log(template);
-                });
+
             }
         },
         mounted() {
-
+            api.getTheme(this.$root.$data.domain).then(theme => {
+                this.activeTheme = theme;
+            })
         }
     }
 </script>
 
 <style scoped lang="scss">
+    .themes {
+        padding-top: 20px;
 
+        .theme {
+            width: 250px;
+            padding: 20px;
+            margin: 0 20px 20px 0;
+            background-color: #fff;
+
+            .name {
+                padding-top: 5px;
+                font-weight: bold;
+            }
+
+            .description {
+                padding: 5px 0 10px 0;
+                font-size: 13px;
+                opacity: .8;
+            }
+
+            .button-container {
+                text-align: right;
+            }
+
+            .active {
+                padding: 10px;
+                background-color: #264c74;
+                color: #fff;
+                font-weight: bold;
+            }
+
+            img {
+                width: 100%;
+            }
+        }
+    }
 </style>
