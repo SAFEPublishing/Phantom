@@ -2,10 +2,10 @@
   "name": "Light",
   "description": "A simple, white theme. Enough to get you started with a SAFE blog of your own!",
   "banner": "/theme/light/banner.png",
-  "template": "/theme/light/template.html",
+  "template": "/theme/shared/template.html",
   "scripts": [
-    "/theme/light/vue.js",
-    "/theme/light/main.js"
+    "/theme/shared/vue.js",
+    "/theme/shared/main.js"
   ],
   "styles": [
     "/theme/light/style.css"

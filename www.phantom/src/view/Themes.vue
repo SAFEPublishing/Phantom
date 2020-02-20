@@ -8,7 +8,7 @@
                 <div class="name">{{ theme.config.name }}</div>
                 <div class="description">{{ theme.config.description }}</div>
                 <div class="button-container">
-                    <div v-if="theme.config.name !== activeTheme" class="button">Install</div>
+                    <div v-if="theme.config.name !== activeTheme" class="button" @click="installTheme(theme.config.name)">Install</div>
                 </div>
                 <div v-if="theme.config.name === activeTheme" class="active">This theme is currently installed</div>
             </div>
@@ -20,6 +20,7 @@
     import PageTitleWithActions from "@/component/PageTitleWithActions";
     import Loader from "@/component/Loader";
     import Light from '@/service/theme/light.json';
+    import Dark from '@/service/theme/dark.json';
     import Theme from '@/service/theme/theme';
     import api from "@/service/safe/api";
 
@@ -31,20 +32,30 @@
         },
         data: function() {
             return {
-                themes: [new Theme(Light)],
+                themes: [new Theme(Light), new Theme(Dark)],
                 activeTheme: false,
-                actions: []
+                actions: [
+                    { text: "Import theme", callback: this.showImportThemeModal }
+                ]
             }
         },
         methods: {
-            compileTheme: function() {
-
+            installTheme: function(name) {
+                api.setTheme(this.$root.$data.domain, name).then(response => {
+                    this.loadThemes()
+                });
+            },
+            loadThemes: function() {
+                api.getTheme(this.$root.$data.domain).then(theme => {
+                    this.activeTheme = theme;
+                })
+            },
+            showImportThemeModal: function() {
+                
             }
         },
         mounted() {
-            api.getTheme(this.$root.$data.domain).then(theme => {
-                this.activeTheme = theme;
-            })
+            this.loadThemes()
         }
     }
 </script>
@@ -54,6 +65,8 @@
         padding-top: 20px;
 
         .theme {
+            display: inline-block;
+            vertical-align: top;
             width: 250px;
             padding: 20px;
             margin: 0 20px 20px 0;
