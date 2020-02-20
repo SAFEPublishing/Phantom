@@ -1,0 +1,12 @@
+{
+  "name": "Light",
+  "banner": "/theme/light/banner.png",
+  "template": "/theme/light/template.html",
+  "scripts": [
+    "/theme/light/vue.js",
+    "/theme/light/main.js"
+  ],
+  "styles": [
+    "/theme/light/style.css"
+  ]
+}

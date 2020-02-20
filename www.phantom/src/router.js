@@ -6,6 +6,7 @@ import Domains from './view/Domains.vue'
 import DomainCreate from './view/DomainCreate.vue'
 import Posts from './view/Posts.vue'
 import PostEdit from './view/PostEdit.vue'
+import Themes from './view/Themes.vue'
 
 Vue.use(Router);
 
@@ -40,6 +41,12 @@ export default new Router({
             name: 'dashboard',
             component: Dashboard,
             meta: hasDomain,
+        },
+        {
+            path: '/app/themes',
+            name: 'themes',
+            component: Themes,
+            meta: hasDomain
         },
         {
             path: '/app/posts',

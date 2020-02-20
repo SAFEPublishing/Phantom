@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!-- PhantomTemplate:Style -->
+</head>
+<body>
+<div id="app"></div>
+
+<script type="text/x-template" id="menu">
+    <div class="menu">
+        <router-link v-for="item in menuItems" :to="item.link">{{ item.text }}</router-link>
+    </div>
+</script>
+
+<script type="text/x-template" id="content">
+    <div class="content">
+        <router-view />
+    </div>
+</script>
+
+<!-- PhantomTemplate:Script -->
+</body>
+</html>

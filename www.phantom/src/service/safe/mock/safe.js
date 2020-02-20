@@ -89,5 +89,9 @@ export default {
                 }
             }
         ];
+    },
+
+    fetch(url) {
+        return window.fetch(url);
     }
 }

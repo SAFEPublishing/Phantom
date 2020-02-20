@@ -61,6 +61,12 @@ const nrs = function (callback) {
             return posts;
         });
     };
+
+    this.fetch = function(url) {
+        return promise(async function(ctx) {
+            return ctx.safe.fetch(url);
+        });
+    }
 };
 
 export default new nrs();

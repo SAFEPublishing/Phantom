@@ -14,6 +14,7 @@ const api = function() {
     this.updatePost = files.updatePost;
     this.getPosts = files.getPosts;
     this.getPost = files.getPost;
+    this.fetch = files.fetch;
 };
 
 export default new api();
