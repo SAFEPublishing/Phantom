@@ -41,8 +41,6 @@
     import api from "@/service/safe/api";
     import formatter from "@/service/markdown/formatter";
     import canonical from "@/service/markdown/canonical";
-    import Light from '@/service/theme/light.json';
-    import Theme from '@/service/theme/theme';
 
     export default {
         name: 'posts',
@@ -55,7 +53,8 @@
                 posts: false,
                 hasDrafts: false,
                 actions: [],
-                themes: [new Theme(Light)],
+                themes: [],
+                activeTheme: false
             }
         },
         methods: {
@@ -74,11 +73,34 @@
             },
 
             publishDrafts: function() {
-                this.themes[0].getComputedTemplate(this.$root.$data.domain).then(template => {
+                let theme = false;
+
+                for (let i = 0; i < this.themes.length; i++) {
+                    if (this.themes[i].config.name === this.activeTheme) {
+                        theme = this.themes[i];
+                    }
+                }
+
+                console.log(theme);
+
+                if (!theme) {
+                    throw new Error("No theme is currently installed");
+                }
+
+                theme.getComputedTemplate(this.$root.$data.domain).then(template => {
                     api.updateFile(template, this.$root.$data.domain, "index.html", true).then(response => {
                         this.resetActions();
                         this.loadPosts();
                     });
+                });
+            },
+            loadThemes: function() {
+                api.getInstalledThemes().then(themes => {
+                    this.themes = themes;
+
+                    api.getTheme(this.$root.$data.domain).then(theme => {
+                        this.activeTheme = theme;
+                    })
                 });
             },
             loadPosts: function() {
@@ -104,8 +126,9 @@
             }
         },
         mounted() {
-            this.resetActions()
-            this.loadPosts()
+            this.resetActions();
+            this.loadThemes()
+            this.loadPosts();
         }
     }
 </script>

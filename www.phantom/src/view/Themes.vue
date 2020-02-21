@@ -26,9 +26,6 @@
 <script>
     import PageTitleWithActions from "@/component/PageTitleWithActions";
     import Loader from "@/component/Loader";
-    import Light from '@/service/theme/light.json';
-    import Dark from '@/service/theme/dark.json';
-    import Theme from '@/service/theme/theme';
     import Modal from '@/component/Modal';
     import api from "@/service/safe/api";
 
@@ -41,7 +38,7 @@
         },
         data: function() {
             return {
-                themes: [new Theme(Light), new Theme(Dark)],
+                themes: [],
                 activeTheme: false,
                 showModal: false,
                 actions: [
@@ -63,16 +60,27 @@
                 });
             },
             loadThemes: function() {
-                api.getTheme(this.$root.$data.domain).then(theme => {
-                    this.activeTheme = theme;
-                })
+                api.getInstalledThemes().then(themes => {
+                    this.themes = themes;
+
+                    api.getTheme(this.$root.$data.domain).then(theme => {
+                        this.activeTheme = theme;
+                    })
+                });
             },
             showImportThemeModal: function() {
                 this.showModal = !this.showModal;
             },
             importTheme: function() {
-                api.fetch(this.formData.url).then(response => {
-                    console.log(response);
+                api.fetch(this.formData.url).then(config => {
+                    return config.text();
+                }).then(config => {
+                    config = JSON.parse(config);
+
+                    api.addInstalledTheme(config).then(themes => {
+                        this.showModal = false;
+                        this.themes = themes;
+                    });
                 });
             }
         },

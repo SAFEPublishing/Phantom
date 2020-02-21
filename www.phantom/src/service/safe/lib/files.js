@@ -1,4 +1,7 @@
 import promise from "../promise";
+import Theme from '@/service/theme/theme';
+import Light from '@/service/theme/light.json';
+import Dark from '@/service/theme/dark.json';
 
 const nrs = function (callback) {
     this.createContainer = function() {
@@ -66,7 +69,38 @@ const nrs = function (callback) {
         return promise(async function(ctx) {
             return ctx.safe.fetch(url);
         });
-    }
+    };
+
+    this.getInstalledThemes = function() {
+        return promise(async function(ctx) {
+            let themes = await ctx.cache.get("themes", async function() { return [new Theme(Light), new Theme(Dark)]; });
+
+            for (let i = 0; i < themes.length; i++) {
+                themes[i] = new Theme(themes[i].config);
+            }
+
+            return themes;
+        })
+    };
+
+    this.addInstalledTheme = function(config) {
+        let parent = this,
+            theme = new Theme(config);
+
+        return promise(async function(ctx) {
+            let themes = await parent.getInstalledThemes();
+
+            for (let i = 0; i < themes.length; i++) {
+                if (themes[i].config.name === theme.name) {
+                    throw new Error("Theme is already installed");
+                }
+            }
+
+            themes.push(theme);
+            ctx.cache.set("themes", themes);
+            return themes;
+        });
+    };
 };
 
 export default new nrs();

@@ -54,7 +54,7 @@
         },
         methods: {
             createDomain: function() {
-                this.$router.push("#/app/domains/create");
+                this.$router.push("/app/domains/create");
             },
             useDomain: function(publicName) {
                 api.setCurrentDomain(publicName).then(response => {
