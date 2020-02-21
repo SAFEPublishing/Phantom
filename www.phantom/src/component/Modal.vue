@@ -41,6 +41,12 @@
             padding: 20px;
             background-color: #fff;
             border-radius: 5px;
+
+            form {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
         }
     }
 </style>

@@ -13,6 +13,13 @@
                 <div v-if="theme.config.name === activeTheme" class="active">This theme is currently installed</div>
             </div>
         </div>
+        <Modal v-if="showModal" :actions="modalActions">
+            <form class="default">
+                <label for="theme-url">Theme URL</label>
+                <div class="description">The SAFE network URL of the theme's manifest, this URL will end in ".json"</div>
+                <input type="text" id="theme-url" placeholder="Theme URL" v-model.lazy="formData.url" />
+            </form>
+        </Modal>
     </div>
 </template>
 
@@ -22,21 +29,31 @@
     import Light from '@/service/theme/light.json';
     import Dark from '@/service/theme/dark.json';
     import Theme from '@/service/theme/theme';
+    import Modal from '@/component/Modal';
     import api from "@/service/safe/api";
 
     export default {
         name: 'themes',
         components: {
             PageTitleWithActions,
-            Loader
+            Loader,
+            Modal
         },
         data: function() {
             return {
                 themes: [new Theme(Light), new Theme(Dark)],
                 activeTheme: false,
+                showModal: false,
                 actions: [
                     { text: "Import theme", callback: this.showImportThemeModal }
-                ]
+                ],
+                modalActions: [
+                    { text: "Cancel", callback: this.showImportThemeModal },
+                    { text: "Import theme", callback: this.importTheme }
+                ],
+                formData: {
+                    url: ""
+                }
             }
         },
         methods: {
@@ -51,7 +68,12 @@
                 })
             },
             showImportThemeModal: function() {
-                
+                this.showModal = !this.showModal;
+            },
+            importTheme: function() {
+                api.fetch(this.formData.url).then(response => {
+                    console.log(response);
+                });
             }
         },
         mounted() {
