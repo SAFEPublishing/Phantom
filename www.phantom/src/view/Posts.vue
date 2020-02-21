@@ -81,8 +81,6 @@
                     }
                 }
 
-                console.log(theme);
-
                 if (!theme) {
                     throw new Error("No theme is currently installed");
                 }
