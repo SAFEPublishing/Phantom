@@ -20,43 +20,36 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'home',
             component: Home,
             meta: loggedOut
         },
         {
             path: '/app/domains',
-            name: 'domains',
             component: Domains,
             meta: loggedIn
         },
         {
             path: '/app/domains/create',
-            name: 'domains-create',
             component: DomainCreate,
             meta: loggedIn
         },
         {
             path: '/app',
-            name: 'dashboard',
             component: Dashboard,
             meta: hasDomain,
         },
         {
             path: '/app/themes',
-            name: 'themes',
             component: Themes,
             meta: hasDomain
         },
         {
             path: '/app/posts',
-            name: 'posts',
             component: Posts,
             meta: hasDomain,
         },
         {
             path: '/app/post/:file',
-            name: 'post-edit',
             component: PostEdit,
             meta: hasDomain,
         }

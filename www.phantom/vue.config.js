@@ -26,7 +26,7 @@ module.exports = {
                         comments: false
                     }
                 },
-                sourceMap: false
+                sourceMap: true
             })],
         },
     },
@@ -35,5 +35,5 @@ module.exports = {
     },
     lintOnSave: false,
     runtimeCompiler: true,
-    productionSourceMap: false
+    productionSourceMap: true
 };

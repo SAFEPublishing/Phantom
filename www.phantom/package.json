@@ -9,16 +9,16 @@
   "dependencies": {
     "core-js": "^3.6.4",
     "vue": "^2.6.11",
-    "vue-router": "^3.1.4"
+    "vue-router": "^3.1.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.2",
     "@vue/cli-service": "^4.1.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "node-sass": "^4.13.0",
     "sass-loader": "^8.0.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
-    "vue-loader": "^15.8.3",
-    "vue-template-compiler": "^2.6.11",
-    "babel-plugin-syntax-dynamic-import": "^6.18.0"
+    "vue-loader": "^15.9.0",
+    "vue-template-compiler": "^2.6.11"
   }
 }

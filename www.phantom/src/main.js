@@ -65,7 +65,7 @@ new Vue({
 	render: h => h(App),
 	created: function() {
 		api.authenticate().then(response => {
-			this.$root.$data.authenticated = response;
+			this.$root.$data.authenticated = true;
 
 			api.getCurrentDomain().then(domain => {
 				this.$root.$data.domain = domain;

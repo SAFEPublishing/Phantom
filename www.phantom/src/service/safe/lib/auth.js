@@ -11,8 +11,10 @@ const auth = function () {
         return promise(async function(ctx) {
             return ctx.cache.get("auth", async function() { return ctx.safe.auth_app(appInfo.id, appInfo.name, appInfo.vendor) });
         }).then(response => promise(async function(ctx) {
-            return ctx.safe.connect(appInfo.id, response)
-        }));
+            // In the SAFE browser, this returns "undefined" on success
+            await ctx.safe.connect(appInfo.id, response);
+            return true;
+        }))
     }
 };
 

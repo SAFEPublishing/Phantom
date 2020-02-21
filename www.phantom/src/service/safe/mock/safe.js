@@ -37,9 +37,10 @@ export default {
         return btoa(id + '/' + name + '/' + vendor);
     },
 
+    // In the SAFE network, this returns Promise{undefined} on success and throws a catchable error on failure
     connect(app_id, credentials) {
         throwErrorRandomly();
-        return true;
+        return undefined;
     },
 
     files_container_create_empty() {
