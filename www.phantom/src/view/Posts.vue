@@ -22,7 +22,7 @@
                 </tr>
                 <tr v-for="post in posts">
                     <td>
-                        <a v-if="post.state === 'published'" :href="($root.$data.domain + '/' + post.file) | safeURL" target="_blank">{{ post.title }}</a>
+                        <a v-if="post.state === 'published'" :href="($root.$data.domain + '/#/post/' + post.file) | safeURL" target="_blank">{{ post.title }}</a>
                         <span v-if="post.state !== 'published'">{{ post.title }}</span>
                     </td>
                     <td><div class="post-state" :class="post.state">{{ post.state }}</div></td>
