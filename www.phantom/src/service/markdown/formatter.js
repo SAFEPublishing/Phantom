@@ -59,6 +59,16 @@ const formatter = {
         return markdown.split(/#(.+)/)[1];
     },
 
+    // Extracts the first 35 words from the post content, not including the title
+    getExcerpt: function(markdown) {
+        return markdown
+            .removeFirstTitle()
+            .replace(/[^a-zA-Z0-9 ,.&\-_:;@~()!\"£$%^=+{}\[\]\/\\*']+/gm, "")
+            .split(" ")
+            .slice(0, 35)
+            .join(" ") + "&hellip;"
+    },
+
     /**
      * Takes markdown as an input and spits out formatted HTML
      *

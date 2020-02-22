@@ -1,6 +1,9 @@
 Vue.use(VueRouter);
 
-window.routes = [];
+window.routes = [{
+    path: "/",
+    component: Vue.component("home", { template: "#postList" })
+}];
 
 for (var i = 0; i < window.posts.length; i++) {
     window.routes.push({
@@ -25,7 +28,8 @@ window.menuItems = [
 
 Vue.component('Menu', {
     data: {
-        menuItems: window.menuItems
+        menuItems: window.menuItems,
+        blogName: window.blogName
     },
     template: '#menu'
 });

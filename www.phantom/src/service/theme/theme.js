@@ -26,7 +26,7 @@ const Theme = function(config) {
 
             return template
                 .replace(/<\/head>/g, '<style type="text/css">' + styleData + '</style></head>')
-                .replace(/<\/body>/g, '<script type="text/javascript">window.posts = ' + JSON.stringify(postData) + ';</script></body>')
+                .replace(/<\/body>/g, '<script type="text/javascript">window.blogName = "' + domain + '"; window.posts = ' + JSON.stringify(postData) + ';</script></body>')
                 .replace(/<\/body>/g, '<script type="text/javascript">' + scriptData + '</script></body>');
         })
     };
@@ -42,9 +42,13 @@ const Theme = function(config) {
             }
 
             if (posts[i].state === "published") {
+                let markdown = canonical.getMarkdownFromHTML(posts[i].data);
+
                 response.push({
                     path: '/post/' + posts[i].file,
-                    template: formatter.getParsedHTML(canonical.getMarkdownFromHTML(posts[i].data), true)
+                    title: formatter.getTitle(markdown),
+                    excerpt: formatter.getParsedHTML(formatter.getExcerpt(markdown), true), // The title has already been stripped out
+                    template: formatter.getParsedHTML(markdown, true),
                 });
             }
         }

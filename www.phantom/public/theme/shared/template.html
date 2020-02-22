@@ -9,6 +9,7 @@
 
 <script type="text/x-template" id="menu">
     <div class="menu">
+        <div class="logo">{{ blogName }}</div>
         <router-link v-for="item in menuItems" :to="item.link">{{ item.text }}</router-link>
     </div>
 </script>
@@ -16,6 +17,15 @@
 <script type="text/x-template" id="content">
     <div class="content">
         <router-view />
+    </div>
+</script>
+
+<script type="text/x-template" id="postList">
+    <div class="posts">
+        <router-link v-for="post in posts" :to="post.path">
+            <div class="title">{{ post.title }}</div>
+            <div class="excerpt" v-html="post.excerpt"></div>
+        </router-link>
     </div>
 </script>
 
