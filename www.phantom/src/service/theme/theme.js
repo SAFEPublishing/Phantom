@@ -65,8 +65,6 @@ const Theme = function(config) {
     this.lintThemeConfig = function() {
         let c = this.config;
 
-        console.log(c.name);
-
         this.assert(typeof c.name === "string" && c.name.length, "The theme name must be a string with at least one character");
         this.assert(typeof c.description === "string" && c.description.length, "The theme description must be a string with at least one character");
         this.assert(typeof c.banner === "string" && c.banner.match(/\.(png|jpeg|jpg|gif)$/), "The theme banner must point to a file ending in .png|.jpeg|.jpg|.gif");
