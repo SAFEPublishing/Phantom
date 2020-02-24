@@ -22,7 +22,7 @@
           "description": "A relative or absolute SAFE network URL"
         },
         {
-          "name": "Text",
+          "name": "Menu text",
           "type": "text",
           "description": "The text to display within the link"
         }

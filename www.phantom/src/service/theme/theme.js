@@ -63,19 +63,17 @@ const Theme = function(config) {
      * @throws Error
      */
     this.lintThemeConfig = function() {
-        let c = this.config;
+        this.assert(typeof this.config.name === "string" && this.config.name.length, "The theme name must be a string with at least one character");
+        this.assert(typeof this.config.description === "string" && this.config.description.length, "The theme description must be a string with at least one character");
+        this.assert(typeof this.config.banner === "string" && this.config.banner.match(/\.(png|jpeg|jpg|gif)$/), "The theme banner must point to a file ending in .png|.jpeg|.jpg|.gif");
+        this.assert(typeof this.config.template === "string" && this.config.template.match(/\.(html)$/), "The theme template must point to a file ending in .html");
+        this.assert(Array.isArray(this.config.scripts) && this.config.scripts.length, "The theme must import at least one script file");
+        this.assert(Array.isArray(this.config.styles) && this.config.styles.length, "The theme must import at least one css file");
 
-        this.assert(typeof c.name === "string" && c.name.length, "The theme name must be a string with at least one character");
-        this.assert(typeof c.description === "string" && c.description.length, "The theme description must be a string with at least one character");
-        this.assert(typeof c.banner === "string" && c.banner.match(/\.(png|jpeg|jpg|gif)$/), "The theme banner must point to a file ending in .png|.jpeg|.jpg|.gif");
-        this.assert(typeof c.template === "string" && c.template.match(/\.(html)$/), "The theme template must point to a file ending in .html");
-        this.assert(Array.isArray(c.scripts) && c.scripts.length, "The theme must import at least one script file");
-        this.assert(Array.isArray(c.styles) && c.styles.length, "The theme must import at least one css file");
+        if (typeof this.config.config !== "undefined") {
+            this.assert(Array.isArray(this.config.config) && this.config.config.length, "The theme config (if included) must be an array containing at least one object");
 
-        if (typeof c.config !== "undefined") {
-            this.assert(Array.isArray(c.config) && c.config.length, "The theme config (if included) must be an array containing at least one object");
-
-            c.config.forEach((item, i) => {
+            this.config.config.forEach((item, i) => {
                 this.assert(typeof item.name === "string" && item.name.length, "The theme config (index: " + i + ") name must be a string with at least one character");
                 this.assert(typeof item.description === "string" && item.description.length, "The theme config (index: " + i + ", name: " + item.name + ") description must be a string with at least one character");
                 this.assert((["single", "multi"].includes(item.count)), "The theme config (index: " + i + ", name: " + item.name + ") count must be a string with the value single|multi");
