@@ -126,14 +126,13 @@
         },
         mounted() {
             this.resetActions();
-            this.loadThemes()
+            this.loadThemes();
             this.loadPosts();
         }
     }
 </script>
 
 <style scoped lang="scss">
-
     .urgent {
         margin-top: 30px;
         padding: 20px;

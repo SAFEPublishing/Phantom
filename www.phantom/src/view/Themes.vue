@@ -80,7 +80,11 @@
                     api.addInstalledTheme(config).then(themes => {
                         this.showModal = false;
                         this.themes = themes;
+                    }).catch(err => {
+                        alert("Unable to install theme file, with error: " + err.message);
                     });
+                }).catch(err => {
+                   alert("Unable to load theme file, with error: " + err.message);
                 });
             }
         },
