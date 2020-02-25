@@ -3,6 +3,7 @@ import nrs from './lib/nrs';
 import files from './lib/files';
 
 const api = function() {
+    this.getAuthToken = auth.getAuthToken;
     this.authenticate = auth.authenticate;
     this.getCurrentDomain = nrs.getCurrentLocalContainer;
     this.setCurrentDomain = nrs.setCurrentLocalContainer;

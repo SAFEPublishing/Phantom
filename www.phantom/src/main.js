@@ -5,10 +5,16 @@ import api from '@/service/safe/api';
 
 const data = {
 	initialized: false,
-	// Once @joshuef fixes the SAFE browser authentication bugs, this should default to false
-	authenticated: true,
+	authenticated: false,
 	domain: false,
 };
+
+// This is the only place we don't use the async safe libs, because without this data initial routing (with guards) is impossible
+// So we hack in this data... then we verify
+let tempAuth = localStorage.getItem("auth");
+let tempNRS = localStorage.getItem("current-nrs");
+data.authenticated = tempAuth ? !!JSON.parse(tempAuth).data : false;
+data.domain = tempNRS ? JSON.parse(tempNRS).data : false;
 
 router.beforeEach((to, from, next) => {
 	if (to.meta.hasOwnProperty('authenticated') && data.authenticated !== to.meta.authenticated) {
@@ -64,11 +70,13 @@ new Vue({
 	data: data,
 	render: h => h(App),
 	created: function() {
-		api.authenticate().then(response => {
-			this.$root.$data.authenticated = true;
+		api.getAuthToken().then(token => {
+			return token ? false : api.authenticate(token).then(response => {
+				this.$root.$data.authenticated = true;
 
-			api.getCurrentDomain().then(domain => {
-				this.$root.$data.domain = domain;
+				api.getCurrentDomain().then(domain => {
+					this.$root.$data.domain = domain;
+				});
 			});
 		});
 	}

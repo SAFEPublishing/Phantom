@@ -7,9 +7,17 @@ const appInfo = {
 };
 
 const auth = function () {
-    this.authenticate = function() {
+    this.getAuthToken = function() {
         return promise(async function(ctx) {
-            return ctx.cache.get("auth", async function() { return ctx.safe.auth_app(appInfo.id, appInfo.name, appInfo.vendor) });
+            return ctx.cache.get("auth", async function () {
+                return false
+            });
+        });
+    };
+
+    this.authenticate = function(token) {
+        return promise(async function(ctx) {
+            return token ? token : ctx.safe.auth_app(appInfo.id, appInfo.name, appInfo.vendor);
         }).then(response => promise(async function(ctx) {
             // In the SAFE browser, this returns "undefined" on success
             await ctx.safe.connect(appInfo.id, response);

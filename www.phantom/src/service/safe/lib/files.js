@@ -19,7 +19,11 @@ const nrs = function (callback) {
 
     this.getPosts = function(nrs) {
         return promise(async function(ctx) {
-            return ctx.cache.get(nrs + "/posts", async function() { return []; });
+            let posts = await ctx.cache.get(nrs + "/posts", async function() { return []; });
+
+            return posts.sort((a, b) => {
+                return new Date(b.modified) - new Date(a.modified);
+            });
         })
     };
 
