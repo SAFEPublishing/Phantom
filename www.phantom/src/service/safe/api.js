@@ -5,6 +5,7 @@ import files from './lib/files';
 const api = function() {
     this.getAuthToken = auth.getAuthToken;
     this.authenticate = auth.authenticate;
+    this.logout = auth.logout;
     this.getCurrentDomain = nrs.getCurrentLocalContainer;
     this.setCurrentDomain = nrs.setCurrentLocalContainer;
     this.getDomains = nrs.getLocalContainers;

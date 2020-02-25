@@ -7,25 +7,26 @@
             </div>
         </div>
         <div class="home" v-if="!$root.$data.authenticated">
-            <div class="menu">
-                <router-link to="/">Home</router-link>
-                <router-link to="/about">About</router-link>
-                <router-link href="/login">Login</router-link>
-            </div>
+            <HomeMenu />
             <div class="content">
                 <router-view/>
             </div>
+            <Footer />
         </div>
     </div>
 </template>
 
 <script>
-    import Sidebar from '@/component/Sidebar.vue';
+    import Sidebar from '@/component/Sidebar';
+    import HomeMenu from "@/component/HomeMenu";
+    import Footer from "@/component/Footer";
 
     export default {
         name: 'app',
         components: {
             Sidebar,
+            HomeMenu,
+            Footer
         }
     }
 </script>
@@ -150,5 +151,14 @@
         input[type="submit"] {
             @include button;
         }
+    }
+
+    // Controls the width of content when not logged in
+    .home-wrapper {
+        width: 100%;
+        max-width: 1040px;
+        padding: 0 20px;
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>

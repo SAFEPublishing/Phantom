@@ -71,7 +71,7 @@ new Vue({
 	render: h => h(App),
 	created: function() {
 		api.getAuthToken().then(token => {
-			return token ? false : api.authenticate(token).then(response => {
+			return !token ? false : api.authenticate(token).then(response => {
 				this.$root.$data.authenticated = true;
 
 				api.getCurrentDomain().then(domain => {

@@ -1,12 +1,18 @@
 <template>
     <div>
-        <h1>Dashboard!</h1>
+        <PageTitleWithActions title="Dashboard" />
+        <p>The dashboard is coming soon, for now click on domains on the left to get started.</p>
     </div>
 </template>
 
 <script>
+    import PageTitleWithActions from "@/component/PageTitleWithActions";
+
     export default {
-        name: 'dashboard'
+        name: 'dashboard',
+        components: {
+            PageTitleWithActions
+        }
     }
 </script>
 

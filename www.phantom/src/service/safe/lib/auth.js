@@ -21,9 +21,16 @@ const auth = function () {
         }).then(response => promise(async function(ctx) {
             // In the SAFE browser, this returns "undefined" on success
             await ctx.safe.connect(appInfo.id, response);
+            ctx.cache.set("auth", response);
             return true;
         }))
-    }
+    };
+
+    this.logout = function() {
+        return promise(async function(ctx) {
+            return ctx.cache.set("auth", false);
+        });
+    };
 };
 
 export default new auth();

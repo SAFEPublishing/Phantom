@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './view/Home.vue'
+import About from './view/About.vue'
 import Dashboard from './view/Dashboard.vue'
 import Domains from './view/Domains.vue'
 import DomainCreate from './view/DomainCreate.vue'
@@ -21,6 +22,11 @@ export default new Router({
         {
             path: '/',
             component: Home,
+            meta: loggedOut
+        },
+        {
+            path: '/about',
+            component: About,
             meta: loggedOut
         },
         {

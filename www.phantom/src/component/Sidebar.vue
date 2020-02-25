@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <div class="logo">Phantom</div>
+        <Logo />
         <div class="links">
             <div v-if="$root.$data.domain">
                 <div class="title">Currently editing:</div>
@@ -13,17 +13,34 @@
             <div class="title">Write</div>
             <router-link to="/app/posts">Posts</router-link>
             <router-link to="/app/pages">Pages</router-link>
+            <div class="logout" @click="logout">Logout</div>
         </div>
     </div>
 </template>
 
 <script>
+    import Logo from '@/component/Logo';
+    import api from '@/service/safe/api';
+
     export default {
-        name: 'sidebar'
+        name: 'sidebar',
+        components: {
+            Logo
+        },
+        methods: {
+            logout: function() {
+                let parent = this;
+
+                api.logout().then(function() {
+                    parent.$root.$data.authenticated = false;
+                    parent.$router.push("/");
+                });
+            }
+        }
     }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
     .sidebar {
         position: fixed;
         display: inline-block;
@@ -36,35 +53,7 @@
         min-height: 100vh;
 
         .logo {
-            position: relative;
-            display: inline-block;
             margin: 20px 20px 0;
-            font-size: 20px;
-            font-weight: bold;
-
-            &:before {
-                position: absolute;
-                display: inline-block;
-                content: "Phantom";
-                top: 3px;
-                left: 3px;
-                padding: 1px 9px;
-                color: #fff;
-                z-index: 2;
-            }
-
-            &:after {
-                position: absolute;
-                display: block;
-                content: "";
-                top: 0;
-                left: 0;
-                height: 35px;
-                width: calc(100% + 24px);
-                background: linear-gradient(145deg, #3ca6ce, #7a36c8, #c836a9);
-                background-size: 400% 400%;
-                animation: logoAnimation 4s ease-in-out infinite;
-            }
         }
 
         .title {
@@ -78,7 +67,7 @@
         .links {
             padding: 20px 20px 0;
 
-            a {
+            a, .logout {
                 display: block;
                 margin: 2px 0;
                 padding: 5px 0 5px 10px;
@@ -89,6 +78,7 @@
                 word-break: break-all;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                cursor: pointer;
 
                 &.router-link-active:not(.dashboard-link), &.router-link-exact-active, &:hover {
                     color: #54308a;
@@ -103,11 +93,5 @@
             font-weight: bold;
             text-decoration: underline;
         }
-    }
-
-    @keyframes logoAnimation {
-        0%{background-position:0% 50%}
-        50%{background-position:100% 50%}
-        100%{background-position:0% 50%}
     }
 </style>
