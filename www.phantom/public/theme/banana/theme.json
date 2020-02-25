@@ -4,6 +4,6 @@
   "description": "A theme the developers are using to test the theme import linter",
   "banner": "/theme/banana/banner.png",
   "styles": [
-    "/theme/banner/style.css"
+    "/theme/banana/style.css"
   ]
 }
