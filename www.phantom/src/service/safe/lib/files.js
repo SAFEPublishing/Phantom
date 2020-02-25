@@ -83,18 +83,14 @@ const nrs = function (callback) {
         })
     };
 
-    this.addInstalledTheme = function(config) {
+    this.addInstalledTheme = function(theme) {
         let parent = this;
 
         return promise(async function(ctx) {
-            let theme = new Theme(config),
-                themes = await parent.getInstalledThemes();
-
-            // This will throw a `.error()` if the theme config does not lint correctly
-            theme.lintThemeConfig();
+            let themes = await parent.getInstalledThemes();
 
             for (let i = 0; i < themes.length; i++) {
-                if (themes[i].config.name === theme.name) {
+                if (themes[i].config.name === theme.config.name) {
                     throw new Error("Theme is already installed");
                 }
             }

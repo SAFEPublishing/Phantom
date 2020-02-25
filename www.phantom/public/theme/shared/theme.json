@@ -1,14 +1,11 @@
 {
-  "name": "Dark",
-  "description": "A simple, dark theme. For those of us who prefer the lights dimmed.",
-  "banner": "/theme/dark/banner.png",
+  "template": "/theme/shared/template.html",
   "scripts": [
     "/theme/shared/vue.js",
     "/theme/shared/main.js"
   ],
   "styles": [
-    "/theme/shared/default.css",
-    "/theme/dark/style.css"
+    "/theme/shared/default.css"
   ],
   "config": [
     {

@@ -28,6 +28,7 @@
     import Loader from "@/component/Loader";
     import Modal from '@/component/Modal';
     import api from "@/service/safe/api";
+    import Theme from "@/service/theme/theme";
 
     export default {
         name: 'themes',
@@ -72,14 +73,23 @@
                 this.showModal = !this.showModal;
             },
             importTheme: function() {
+                let parent = this;
+
                 api.fetch(this.formData.url).then(config => {
                     return config.text();
-                }).then(config => {
-                    config = JSON.parse(config);
+                }).then(async function(config) {
+                    let theme = new Theme(JSON.parse(config));
 
-                    api.addInstalledTheme(config).then(themes => {
-                        this.showModal = false;
-                        this.themes = themes;
+                    while (typeof theme.config.parent === "string") {
+                        let parentTheme = new Theme(JSON.parse(await (await api.fetch(theme.config.parent)).text()));
+                        theme.mergeConfig(parentTheme);
+                    }
+
+                    theme.lintThemeConfig();
+
+                    api.addInstalledTheme(theme).then(themes => {
+                        parent.showModal = false;
+                        parent.themes = themes;
                     }).catch(err => {
                         alert("Unable to install theme file, with error: " + err.message);
                     });

@@ -57,6 +57,33 @@ const Theme = function(config) {
     };
 
     /**
+     * This gives themes a concept of inheritance, merging applicable configuration fields to build up a final super-theme!
+     *
+     * @param theme Theme
+     */
+    this.mergeConfig = function(theme) {
+        let a = this.config,
+            b = theme.config;
+
+        // Only in the case of the parent field do we prioritise the parent theme, this allows us to do fancy inheritance stuff
+        a.parent = typeof b.parent === "string" ? b.parent : false;
+
+        // For everything else, prioritise the child theme
+        a.name = typeof a.name === "string" ? a.name : b.name;
+        a.description = typeof a.description === "string" ? a.description : b.description;
+        a.banner = typeof a.banner === "string" ? a.banner : b.banner;
+        a.template = typeof a.template === "string" ? a.template : b.template;
+        this.mergeConfigArrays(b, "scripts");
+        this.mergeConfigArrays(b, "styles");
+        this.mergeConfigArrays(b, "config");
+    };
+
+    this.mergeConfigArrays = function(parentTheme, index) {
+        parentTheme[index] = Array.isArray(parentTheme[index]) ? parentTheme[index] : [];
+        this.config[index] = Array.isArray(this.config[index]) ? parentTheme[index].concat(this.config[index]) : parentTheme[index];
+    };
+
+    /**
      * Tests the config for any errors or missing fields
      *
      * @return boolean
