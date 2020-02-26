@@ -33,7 +33,10 @@ router.beforeEach((to, from, next) => {
 router.beforeResolve((to, from, next) => {
 	if (data.domain) {
 		api.getTheme(data.domain).then(theme => {
-			data.themeHasConfig = typeof theme.config.config !== "undefined" && Array.isArray(theme.config.config);
+			data.themeHasConfig =
+				typeof theme.config.config !== "undefined"
+				&& Array.isArray(theme.config.config)
+				&& theme.config.config.length;
 		});
 	}
 
