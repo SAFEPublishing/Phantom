@@ -8,6 +8,7 @@ import DomainCreate from './view/DomainCreate.vue'
 import Posts from './view/Posts.vue'
 import PostEdit from './view/PostEdit.vue'
 import Themes from './view/Themes.vue'
+import Theme from './view/Theme.vue'
 
 Vue.use(Router);
 
@@ -47,6 +48,11 @@ export default new Router({
         {
             path: '/app/themes',
             component: Themes,
+            meta: hasDomain
+        },
+        {
+            path: '/app/theme',
+            component: Theme,
             meta: hasDomain
         },
         {

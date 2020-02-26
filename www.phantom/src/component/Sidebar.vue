@@ -10,6 +10,7 @@
             <router-link class="dashboard-link" to="/app">Dashboard</router-link>
             <router-link to="/app/domains">Domains</router-link>
             <router-link to="/app/themes">Themes</router-link>
+            <router-link to="/app/theme" v-if="$root.$data.themeHasConfig">Theme Config</router-link>
             <div class="title">Write</div>
             <router-link to="/app/posts">Posts</router-link>
             <router-link to="/app/pages">Pages</router-link>

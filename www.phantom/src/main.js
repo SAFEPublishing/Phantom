@@ -7,6 +7,7 @@ const data = {
 	initialized: false,
 	authenticated: false,
 	domain: false,
+	themeHasConfig: false
 };
 
 // This is the only place we don't use the async safe libs, because without this data initial routing (with guards) is impossible
@@ -17,12 +18,23 @@ data.authenticated = tempAuth ? !!JSON.parse(tempAuth).data : false;
 data.domain = tempNRS ? JSON.parse(tempNRS).data : false;
 
 router.beforeEach((to, from, next) => {
+	// Should we show
 	if (to.meta.hasOwnProperty('authenticated') && data.authenticated !== to.meta.authenticated) {
 		return next(data.authenticated ? '/app' : '/');
 	}
 
 	if (to.meta.hasOwnProperty('domain') && to.meta.domain === true && data.domain === false) {
 		return next('/app/domains');
+	}
+
+	next();
+});
+
+router.beforeResolve((to, from, next) => {
+	if (data.domain) {
+		api.getTheme(data.domain).then(theme => {
+			data.themeHasConfig = typeof theme.config.config !== "undefined" && Array.isArray(theme.config.config);
+		});
 	}
 
 	next();
