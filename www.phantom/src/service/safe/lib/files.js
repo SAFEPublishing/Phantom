@@ -104,6 +104,18 @@ const nrs = function (callback) {
             return themes;
         });
     };
+
+    this.getThemeConfig = function(nrs, theme) {
+        return promise(async function(ctx) {
+            return ctx.cache.get(nrs + "/theme/" + theme + "/config", async function() { return []; });
+        })
+    };
+
+    this.setThemeConfig = function(nrs, theme, value) {
+        return promise(async function(ctx) {
+            ctx.cache.set (nrs + "/theme/" + theme + "/config", value);
+        });
+    }
 };
 
 export default new nrs();
