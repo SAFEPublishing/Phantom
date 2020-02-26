@@ -19,17 +19,17 @@
 				<div class="cards">
 					<div class="card">
 						<img src="/img/card-temporary.png" />
-						<div class="title">A wonderful card highlighting your Phanton-built blog</div>
+						<div class="title">A wonderful card highlighting your Phantom-built blog</div>
 						<div class="more">Learn more</div>
 					</div>
 					<div class="card">
 						<img src="/img/card-temporary.png" />
-						<div class="title">A wonderful card highlighting your Phanton-built blog</div>
+						<div class="title">A wonderful card highlighting your Phantom-built blog</div>
 						<div class="more">Check it out</div>
 					</div>
 					<div class="card">
 						<img src="/img/card-temporary.png" />
-						<div class="title">A wonderful card highlighting your Phanton-built blog</div>
+						<div class="title">A wonderful card highlighting your Phantom-built blog</div>
 						<div class="more">Read case study</div>
 					</div>
 				</div>
