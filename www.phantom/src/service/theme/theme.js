@@ -7,14 +7,13 @@ const Theme = function(config) {
 
     this.getComputedTemplate = function (domain) {
         let parent = this;
-
+        
         return api.fetch(this.config.template).then(response => {
             return response.text();
         }).then(async function (template) {
             let scriptData = "",
                 styleData = "",
                 postData = await parent.getPostsBundle(domain);
-
 
             for (let i = 0; i < parent.config.scripts.length; i++) {
                 scriptData += await (await api.fetch(parent.config.scripts[i])).text();

@@ -53,8 +53,7 @@
                 posts: false,
                 hasDrafts: false,
                 actions: [],
-                themes: [],
-                activeTheme: false
+                theme: false
             }
         },
         methods: {
@@ -73,33 +72,13 @@
             },
 
             publishDrafts: function() {
-                let theme = false;
-
-                for (let i = 0; i < this.themes.length; i++) {
-                    if (this.themes[i].config.name === this.activeTheme) {
-                        theme = this.themes[i];
-                    }
-                }
-
-                if (!theme) {
-                    throw new Error("No theme is currently installed");
-                }
-
-                theme.getComputedTemplate(this.$root.$data.domain).then(template => {
-                    console.log(template)
-                    api.updateFile(template, this.$root.$data.domain, "index.html", true).then(response => {
-                        this.resetActions();
-                        this.loadPosts();
+                api.getTheme(this.$root.$data.domain).then(theme => {
+                    theme.getComputedTemplate(this.$root.$data.domain).then(template => {
+                        api.updateFile(template, this.$root.$data.domain, "index.html", true).then(response => {
+                            this.resetActions();
+                            this.loadPosts();
+                        });
                     });
-                });
-            },
-            loadThemes: function() {
-                api.getInstalledThemes().then(themes => {
-                    this.themes = themes;
-
-                    api.getTheme(this.$root.$data.domain).then(theme => {
-                        this.activeTheme = theme;
-                    })
                 });
             },
             loadPosts: function() {
@@ -126,7 +105,6 @@
         },
         mounted() {
             this.resetActions();
-            this.loadThemes();
             this.loadPosts();
         }
     }

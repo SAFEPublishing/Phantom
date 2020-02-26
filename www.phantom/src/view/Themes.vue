@@ -8,9 +8,9 @@
                 <div class="name">{{ theme.config.name }}</div>
                 <div class="description">{{ theme.config.description }}</div>
                 <div class="button-container">
-                    <div v-if="theme.config.name !== activeTheme" class="button" @click="installTheme(theme.config.name)">Install</div>
+                    <div v-if="activeTheme && theme.config.name !== activeTheme.config.name" class="button" @click="installTheme(theme.config.name)">Install</div>
                 </div>
-                <div v-if="theme.config.name === activeTheme" class="active">This theme is currently installed</div>
+                <div v-if="activeTheme && theme.config.name === activeTheme.config.name" class="active">This theme is currently installed</div>
             </div>
         </div>
         <Modal v-if="showModal" :actions="modalActions">
@@ -57,15 +57,23 @@
         methods: {
             installTheme: function(name) {
                 api.setTheme(this.$root.$data.domain, name).then(response => {
-                    this.loadThemes()
+                    this.loadThemes(true)
                 });
             },
-            loadThemes: function() {
+            loadThemes: function(deploy) {
                 api.getInstalledThemes().then(themes => {
                     this.themes = themes;
 
                     api.getTheme(this.$root.$data.domain).then(theme => {
-                        this.activeTheme = theme;
+                        if (deploy === true) {
+                            theme.getComputedTemplate(this.$root.$data.domain).then(template => {
+                                api.updateFile(template, this.$root.$data.domain, "index.html", true).then(response => {
+                                    this.activeTheme = theme;
+                                });
+                            });
+                        } else {
+                            this.activeTheme = theme;
+                        }
                     })
                 });
             },
@@ -99,7 +107,7 @@
             }
         },
         mounted() {
-            this.loadThemes()
+            this.loadThemes(false)
         }
     }
 </script>

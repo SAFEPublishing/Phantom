@@ -1,4 +1,5 @@
 import promise from "../promise";
+import files from "./files";
 
 async function returnEmptyArray() {
     return [];
@@ -42,7 +43,16 @@ const nrs = function (callback) {
 
     this.getTheme = function(publicName) {
         return promise(async function(ctx) {
-            return ctx.cache.get(publicName + '/theme', async function() { return "Light"; });
+            let themes = await files.getInstalledThemes(),
+                activeTheme = await ctx.cache.get(publicName + '/theme', async function() { return "Light"; });
+
+            for (let i = 0; i < themes.length; i++) {
+                if (themes[i].config.name === activeTheme) {
+                    return themes[i];
+                }
+            }
+
+            throw new Error("No theme is currently installed");
         })
     }
 };
