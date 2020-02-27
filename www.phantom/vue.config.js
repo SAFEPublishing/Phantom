@@ -34,6 +34,6 @@ module.exports = {
         config.plugins.delete('prefetch')
     },
     lintOnSave: false,
-    runtimeCompiler: true,
+    runtimeCompiler: false,
     productionSourceMap: true
 };

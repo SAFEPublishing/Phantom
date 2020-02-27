@@ -47,6 +47,10 @@ Vue.filter('safeURL', function (value) {
 	return value.startsWith('safe://') ? value : "safe://" + value;
 });
 
+Vue.filter('idToReadableString', function (value) {
+	return value.replace(/[\-_]+/, " ");
+});
+
 Vue.filter('timeAgo', function(value) {
 	let minute = 60,
 		hour = 3600,

@@ -114,7 +114,7 @@
 
 <style scoped lang="scss">
     .themes {
-        padding-top: 20px;
+        margin-top: 30px;
 
         .theme {
             display: inline-block;

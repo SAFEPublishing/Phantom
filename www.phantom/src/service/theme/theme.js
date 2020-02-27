@@ -7,7 +7,7 @@ const Theme = function(config) {
 
     this.getComputedTemplate = function (domain) {
         let parent = this;
-        
+
         return api.fetch(this.config.template).then(response => {
             return response.text();
         }).then(async function (template) {

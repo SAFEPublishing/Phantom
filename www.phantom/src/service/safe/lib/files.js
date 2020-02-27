@@ -107,13 +107,14 @@ const nrs = function (callback) {
 
     this.getThemeConfig = function(nrs, theme) {
         return promise(async function(ctx) {
-            return ctx.cache.get(nrs + "/theme/" + theme + "/config", async function() { return []; });
+            return ctx.cache.get(nrs + "/theme/" + theme + "/config", async function() { return {}; });
         })
     };
 
     this.setThemeConfig = function(nrs, theme, value) {
+        console.log(value)
         return promise(async function(ctx) {
-            ctx.cache.set (nrs + "/theme/" + theme + "/config", value);
+            ctx.cache.set(nrs + "/theme/" + theme + "/config", value);
         });
     }
 };
