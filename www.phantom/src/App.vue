@@ -11,7 +11,7 @@
             <div class="content">
                 <router-view/>
             </div>
-            <Footer />
+            <Foot />
         </div>
     </div>
 </template>
@@ -19,14 +19,14 @@
 <script>
     import Sidebar from '@/component/Sidebar';
     import HomeMenu from "@/component/HomeMenu";
-    import Footer from "@/component/Footer";
+    import Foot from "@/component/Foot";
 
     export default {
         name: 'app',
         components: {
             Sidebar,
             HomeMenu,
-            Footer
+            Foot
         }
     }
 </script>

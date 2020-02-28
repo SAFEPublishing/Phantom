@@ -1,0 +1,9 @@
+{
+  "parent": "/theme/shared/theme.json",
+  "name": "Light",
+  "description": "A simple, white theme. Enough to get you started with a SAFE blog of your own!",
+  "banner": "/theme/light/banner.png",
+  "styles": [
+    "/theme/dark/style.css"
+  ]
+}

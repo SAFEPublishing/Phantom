@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import api from '@/service/safe/api';
+import importer from '@/service/theme/importer';
 
 const data = {
 	initialized: false,
@@ -31,12 +32,27 @@ router.beforeEach((to, from, next) => {
 });
 
 router.beforeResolve((to, from, next) => {
-	if (data.domain) {
-		api.getTheme(data.domain).then(theme => {
-			data.themeHasConfig =
-				typeof theme.config.config !== "undefined"
-				&& Array.isArray(theme.config.config)
-				&& theme.config.config.length;
+	if (data.authenticated) {
+		// Preload our themes
+		api.getInstalledThemes().then(async function(themes) {
+			if (!themes.length) {
+				let urls = ["/theme/light/theme.json", "/theme/dark/theme.json"];
+
+				for (let i = 0; i < urls.length; i++) {
+					await importer.import(urls[i]);
+				}
+
+				if (data.domain) {
+					await api.setTheme(data.domain, "Light");
+
+					api.getTheme(data.domain).then(theme => {
+						data.themeHasConfig =
+							typeof theme.config.config !== "undefined"
+							&& Array.isArray(theme.config.config)
+							&& theme.config.config.length;
+					});
+				}
+			}
 		});
 	}
 

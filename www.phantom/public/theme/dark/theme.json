@@ -1,0 +1,9 @@
+{
+  "parent": "/theme/shared/theme.json",
+  "name": "Dark",
+  "description": "A simple, dark theme. For those of us who prefer the lights dimmed.",
+  "banner": "/theme/dark/banner.png",
+  "styles": [
+    "/theme/dark/style.css"
+  ]
+}

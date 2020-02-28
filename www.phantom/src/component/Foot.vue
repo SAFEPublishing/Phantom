@@ -20,7 +20,7 @@
     import Logo from '@/component/Logo';
 
     export default {
-        name: 'footer',
+        name: 'foot',
         components: {
             Logo
         }

@@ -11,6 +11,7 @@
                     <div v-if="activeTheme && theme.config.name !== activeTheme.config.name" class="button" @click="installTheme(theme.config.name)">Install</div>
                 </div>
                 <div v-if="activeTheme && theme.config.name === activeTheme.config.name" class="active">This theme is currently installed</div>
+                <div v-if="activeTheme && theme.config.name === activeTheme.config.name" class="upgrade" @click="upgradeTheme(theme.config.origin)">Would you like to check for updates?</div>
             </div>
         </div>
         <Modal v-if="showModal" :actions="modalActions">
@@ -28,7 +29,7 @@
     import Loader from "@/component/Loader";
     import Modal from '@/component/Modal';
     import api from "@/service/safe/api";
-    import Theme from "@/service/theme/theme";
+    import importer from '@/service/theme/importer';
 
     export default {
         name: 'themes',
@@ -57,7 +58,12 @@
         methods: {
             installTheme: function(name) {
                 api.setTheme(this.$root.$data.domain, name).then(response => {
-                    this.loadThemes(true)
+                    return api.getTheme(this.$root.$data.domain);
+                }).then(theme => {
+                    // Update the theme
+                    return importer.import(theme.config.origin);
+                }).then(_ => {
+                    this.loadThemes(true);
                 });
             },
             loadThemes: function(deploy) {
@@ -69,12 +75,18 @@
                             theme.getComputedTemplate(this.$root.$data.domain).then(template => {
                                 api.updateFile(template, this.$root.$data.domain, "index.html", true).then(response => {
                                     this.activeTheme = theme;
+                                    alert("Theme files deployed");
                                 });
                             });
                         } else {
                             this.activeTheme = theme;
                         }
-                    })
+                    });
+                });
+            },
+            upgradeTheme: function(origin) {
+                importer.import(origin).then(_ => {
+                    this.loadThemes(true);
                 });
             },
             showImportThemeModal: function() {
@@ -83,26 +95,11 @@
             importTheme: function() {
                 let parent = this;
 
-                api.fetch(this.formData.url).then(config => {
-                    return config.text();
-                }).then(async function(config) {
-                    let theme = new Theme(JSON.parse(config));
-
-                    while (typeof theme.config.parent === "string") {
-                        let parentTheme = new Theme(JSON.parse(await (await api.fetch(theme.config.parent)).text()));
-                        theme.mergeConfig(parentTheme);
-                    }
-
-                    theme.lintThemeConfig();
-
-                    api.addInstalledTheme(theme).then(themes => {
-                        parent.showModal = false;
-                        parent.themes = themes;
-                    }).catch(err => {
-                        alert("Unable to install theme file, with error: " + err.message);
-                    });
+                importer.import(this.formData.url).then(themes => {
+                    parent.showModal = false;
+                    parent.themes = themes;
                 }).catch(err => {
-                   alert("Unable to load theme file, with error: " + err.message);
+                    alert("Unable to install theme file, with error: " + err.message);
                 });
             }
         },
@@ -148,6 +145,13 @@
 
             img {
                 width: 100%;
+            }
+
+            .upgrade {
+                padding-top: 5px;
+                color: #2d6cad;
+                font-size: 13px;
+                cursor: pointer;
             }
         }
     }
