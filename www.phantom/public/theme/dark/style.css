@@ -1,3 +1,19 @@
 body {
     background-color: #2a3b5d;
 }
+
+.menu a {
+    color: #fff;
+}
+
+.posts a {
+    color: #fff;
+}
+
+.posts .title {
+    color: #5392d4;
+}
+
+.post {
+    color: #fff;
+}

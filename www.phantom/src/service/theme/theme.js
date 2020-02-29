@@ -13,7 +13,8 @@ const Theme = function(config) {
         }).then(async function (template) {
             let scriptData = "",
                 styleData = "",
-                postData = await parent.getPostsBundle(domain);
+                postData = await parent.getPostsBundle(domain),
+                config = await api.getThemeConfig(domain, parent.config.name);
 
             for (let i = 0; i < parent.config.scripts.length; i++) {
                 scriptData += await (await api.fetch(parent.config.scripts[i])).text();
@@ -25,7 +26,7 @@ const Theme = function(config) {
 
             return template
                 .replace(/<\/head>/g, '<style type="text/css">' + styleData + '</style></head>')
-                .replace(/<\/body>/g, '<script type="text/javascript">window.blogName = "' + domain + '"; window.posts = ' + JSON.stringify(postData) + ';</script></body>')
+                .replace(/<\/body>/g, '<script type="text/javascript">window.themeConfig = ' + JSON.stringify(config) + '; window.blogName = "' + domain + '"; window.posts = ' + JSON.stringify(postData) + ';</script></body>')
                 .replace(/<\/body>/g, '<script type="text/javascript">' + scriptData + '</script></body>');
         })
     };

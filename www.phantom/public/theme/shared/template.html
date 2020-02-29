@@ -9,7 +9,9 @@
 
 <script type="text/x-template" id="menu">
     <div class="menu">
-        <div class="logo">{{ blogName }}</div>
+        <div class="logo">
+            <img v-if="logo" :src="logo" />
+        </div>
         <router-link v-for="item in menuItems" :to="item.link">{{ item.text }}</router-link>
     </div>
 </script>

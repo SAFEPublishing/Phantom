@@ -44,8 +44,6 @@ router.beforeResolve((to, from, next) => {
 			}
 
 			if (data.domain) {
-				await api.setTheme(data.domain, "Light");
-
 				api.getTheme(data.domain).then(theme => {
 					data.themeHasConfig =
 						typeof theme.config.config !== "undefined"

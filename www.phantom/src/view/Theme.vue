@@ -64,8 +64,14 @@
         },
         methods: {
             save: function() {
+                let parent = this;
+
                 api.setThemeConfig(this.$root.$data.domain, this.theme.config.name, this.currentConfig).then(function() {
-                    alert("updated")
+                    parent.theme.getComputedTemplate(parent.$root.$data.domain).then(template => {
+                        api.updateFile(template, parent.$root.$data.domain, "index.html", true).then(response => {
+                            alert("Theme files deployed");
+                        });
+                    });
                 });
             },
             addEmptyGroupEntry: function(group) {
@@ -83,7 +89,6 @@
                 configGroups.splice(index, 1);
             },
             processFileInput: function(event, group) {
-                console.log(group)
                 let parent = this,
                     reader = new FileReader();
                 reader.readAsArrayBuffer(event.target.files[0]);

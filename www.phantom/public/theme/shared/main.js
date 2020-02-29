@@ -19,17 +19,24 @@ var router = new VueRouter({
     routes: window.routes
 });
 
-window.menuItems = [
-    {
-        link: '/',
-        text: 'Home'
+window.menuItems = [];
+
+if (typeof window.themeConfig['menu-items'] !== "undefined") {
+    for (i = 0; i < window.themeConfig["menu-items"].length; i++) {
+        window.menuItems.push({
+            link: window.themeConfig['menu-items'][i].URL,
+            text: window.themeConfig['menu-items'][i].Text
+        });
     }
-];
+}
 
 Vue.component('Menu', {
-    data: {
-        menuItems: window.menuItems,
-        blogName: window.blogName
+    data() {
+        return {
+            menuItems: window.menuItems,
+            logo: typeof window.themeConfig.logo !== "undefined" ? window.themeConfig.logo.Image.xorurl : false,
+            blogName: window.blogName
+        }
     },
     template: '#menu'
 });
