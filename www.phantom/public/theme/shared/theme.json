@@ -9,6 +9,18 @@
   ],
   "config": [
     {
+      "name": "logo",
+      "description": "This logo will be displayed in the header of every page",
+      "count": "single",
+      "fields": [
+        {
+          "name": "Image",
+          "type": "file",
+          "description": "Upload an image file (.png, .jpeg)"
+        }
+      ]
+    },
+    {
       "name": "menu-items",
       "description": "Each URL you add will be displayed in the menu on every page",
       "count": "multi",

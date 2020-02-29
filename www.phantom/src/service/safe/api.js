@@ -18,6 +18,7 @@ const api = function() {
     this.setThemeConfig = files.setThemeConfig;
     this.createContainer = files.createContainer;
     this.updateFile = files.updateFile;
+    this.updateRawFile = files.updateRawFile;
     this.addPost = files.addPost;
     this.updatePost = files.updatePost;
     this.getPosts = files.getPosts;

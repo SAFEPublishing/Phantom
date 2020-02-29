@@ -8,9 +8,21 @@ const nrs = function (callback) {
         });
     };
 
+    /**
+     * This is to be used when we're dealing with text content
+     */
     this.updateFile = function(content, filesContainerXorURL, path, updateNRS) {
         return promise(async function(ctx) {
             let buffer = content.toBuffer();
+            return ctx.safe.files_container_add_from_raw(buffer, filesContainerXorURL + '/' + path, true, updateNRS, false);
+        });
+    };
+
+    /**
+     * This is to be used when we are dealing exclusively with ArrayBuffer / UInt8Array
+     */
+    this.updateRawFile = function(buffer, filesContainerXorURL, path, updateNRS) {
+        return promise(async function(ctx) {
             return ctx.safe.files_container_add_from_raw(buffer, filesContainerXorURL + '/' + path, true, updateNRS, false);
         });
     };

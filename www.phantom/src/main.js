@@ -41,17 +41,17 @@ router.beforeResolve((to, from, next) => {
 				for (let i = 0; i < urls.length; i++) {
 					await importer.import(urls[i]);
 				}
+			}
 
-				if (data.domain) {
-					await api.setTheme(data.domain, "Light");
+			if (data.domain) {
+				await api.setTheme(data.domain, "Light");
 
-					api.getTheme(data.domain).then(theme => {
-						data.themeHasConfig =
-							typeof theme.config.config !== "undefined"
-							&& Array.isArray(theme.config.config)
-							&& theme.config.config.length;
-					});
-				}
+				api.getTheme(data.domain).then(theme => {
+					data.themeHasConfig =
+						typeof theme.config.config !== "undefined"
+						&& Array.isArray(theme.config.config)
+						&& theme.config.config.length;
+				});
 			}
 		});
 	}
