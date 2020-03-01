@@ -7,6 +7,8 @@ import Domains from './view/Domains.vue'
 import DomainCreate from './view/DomainCreate.vue'
 import Posts from './view/Posts.vue'
 import PostEdit from './view/PostEdit.vue'
+import Pages from './view/Pages.vue'
+import PageEdit from './view/PageEdit.vue'
 import Themes from './view/Themes.vue'
 import Theme from './view/Theme.vue'
 
@@ -63,6 +65,16 @@ export default new Router({
         {
             path: '/app/post/:file',
             component: PostEdit,
+            meta: hasDomain,
+        },
+        {
+            path: '/app/pages',
+            component: Pages,
+            meta: hasDomain,
+        },
+        {
+            path: '/app/page/:file',
+            component: PageEdit,
             meta: hasDomain,
         }
     ],

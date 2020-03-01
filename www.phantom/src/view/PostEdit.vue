@@ -1,141 +1,14 @@
 <template>
-    <div>
-        <PageTitleWithActions title="Edit post" :actions="actions" />
-        <Loader v-if="!loaded" text="Loading post from cache" />
-        <div class="editor-container">
-            <h1 class="title" contenteditable="true" ref="title">{{ titleContent }}</h1>
-            <div class="editor" v-if="post">
-                <form @submit="updatePost">
-                    <div class="postContent" contenteditable="true" v-html="markdownContent" @input="handlePostInput" ref="content"></div>
-                </form>
-            </div>
-            <div class="preview" v-html="htmlContent"></div>
-        </div>
-    </div>
+    <DocumentEdit single="Post" plural="Posts" urlPrefix="/post" />
 </template>
 
 <script>
-    import PageTitleWithActions from "@/component/PageTitleWithActions";
-    import Loader from "@/component/Loader";
-    import api from "@/service/safe/api";
-    import formatter from "@/service/markdown/formatter";
-    import canonical from '@/service/markdown/canonical';
+    import DocumentEdit from "@/component/DocumentEdit";
 
     export default {
-        name: 'posts',
+        name: 'post-edit',
         components: {
-            PageTitleWithActions,
-            Loader
-        },
-        data: function() {
-            return {
-                loaded: false,
-                post: false,
-                rawContent: "",
-                titleContent: "",
-                htmlContent: "",
-                markdownContent: "",
-                actions: [
-                    { text: "Save post", callback: this.updatePost }
-                ]
-            }
-        },
-        methods: {
-            updatePost: function() {
-                this.titleContent = this.$refs.title.innerText;
-                this.rawContent = ("#" + this.titleContent + "\n"+ this.$refs.content.innerHTML).getSanitizedMarkdown();
-
-                let post = this.post,
-                    oldFile = post.file;
-                post.file = formatter.getSanitizedURI(this.titleContent);
-                post.state = "draft";
-                post.data = canonical.getHTMLWrappedMarkdown(this.rawContent);
-                post.modified = (new Date).toISOString();
-
-                api.updateFile(post.data, this.$root.$data.domain, post.file, false).then(response => {
-                    post.map = response[1];
-
-                    api.updatePost(this.$root.$data.domain, oldFile, post).then(response => {
-                        this.$router.push("/app/posts");
-                    });
-                });
-            },
-            handlePostInput: function() {
-                this.rawContent = ("#" + this.titleContent + "\n"+ this.$refs.content.innerHTML).getSanitizedMarkdown();
-                this.htmlContent = formatter.getParsedHTML(this.rawContent, false);
-            }
-        },
-        mounted() {
-            api.getPost(this.$root.$data.domain, this.$router.currentRoute.params.file).then(post => {
-                if (post) {
-                    this.loaded = true;
-                    this.post = post;
-
-                    let newPost = !post.data || post.data === "";
-                    this.rawContent = newPost ? formatter.getDefaultMarkdown() : canonical.getMarkdownFromHTML(post.data);
-                    this.titleContent = formatter.getTitle(this.rawContent);
-                    this.htmlContent = formatter.getParsedHTML(this.rawContent, false);
-                    this.markdownContent = formatter.getEditableMarkdown(this.rawContent);
-                }
-            });
+            DocumentEdit
         }
     }
 </script>
-
-<style scoped lang="scss">
-    .editor-container {
-        font-size: 0;
-
-        h1 {
-            margin: 20px;
-            font-size: 30px;
-        }
-
-        .title, .postContent {
-            outline: none;
-            white-space: pre-wrap;
-        }
-    }
-
-    .editor, .preview {
-        display: inline-block;
-        vertical-align: top;
-        width: 50%;
-        padding: 20px;
-        font-size: 17px;
-    }
-
-    .preview {
-        padding-top: 0;
-        background-color: #fff;
-
-        /deep/ {
-            img {
-                max-width: 100%;
-            }
-
-            blockquote {
-                margin: 0;
-                padding: 10px;
-                border-left: 2px solid #bbb;
-            }
-
-            .codeblock {
-                padding: 20px;
-                margin-bottom: 1em;
-                background-color: #252526;
-                color: #f8ffff;
-                font-family: monospace;
-                white-space: pre;
-                overflow-x: auto;
-            }
-
-            code {
-                padding: 0 4px;
-                background-color: #252526;
-                color: #f8ffff;
-                font-family: monospace;
-            }
-        }
-    }
-</style>

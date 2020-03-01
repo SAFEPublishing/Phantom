@@ -13,7 +13,8 @@ const Theme = function(config) {
         }).then(async function (template) {
             let scriptData = "",
                 styleData = "",
-                postData = await parent.getPostsBundle(domain),
+                postData = await parent.getGenericBundle(domain, "posts", "/post"),
+                pageData = await parent.getGenericBundle(domain, "pages", "")
                 config = await api.getThemeConfig(domain, parent.config.name);
 
             for (let i = 0; i < parent.config.scripts.length; i++) {
@@ -26,26 +27,26 @@ const Theme = function(config) {
 
             return template
                 .replace(/<\/head>/g, '<style type="text/css">' + styleData + '</style></head>')
-                .replace(/<\/body>/g, '<script type="text/javascript">window.themeConfig = ' + JSON.stringify(config) + '; window.blogName = "' + domain + '"; window.posts = ' + JSON.stringify(postData) + ';</script></body>')
+                .replace(/<\/body>/g, '<script type="text/javascript">window.themeConfig = ' + JSON.stringify(config) + '; window.blogName = "' + domain + '"; window.posts = ' + JSON.stringify(postData) + '; window.pages = ' + JSON.stringify(pageData) + '</script></body>')
                 .replace(/<\/body>/g, '<script type="text/javascript">' + scriptData + '</script></body>');
         })
     };
 
-    this.getPostsBundle = async function (domain) {
-        let posts = await api.getPosts(domain),
+    this.getGenericBundle = async function (domain, type, prefix) {
+        let documents = await api.getGenericDocuments(domain, type),
             response = [];
 
-        for (let i = 0; i < posts.length; i++) {
-            if (posts[i].state === "draft") {
-                posts[i].state = "published";
-                await api.updatePost(domain, posts[i].file, posts[i]);
+        for (let i = 0; i < documents.length; i++) {
+            if (documents[i].state === "draft") {
+                documents[i].state = "published";
+                await api.updateGenericDocument(domain, documents[i].file, documents[i], type);
             }
 
-            if (posts[i].state === "published") {
-                let markdown = canonical.getMarkdownFromHTML(posts[i].data);
+            if (documents[i].state === "published") {
+                let markdown = canonical.getMarkdownFromHTML(documents[i].data);
 
                 response.push({
-                    path: '/post/' + posts[i].file,
+                    path: prefix + '/' + documents[i].file,
                     title: formatter.getTitle(markdown),
                     excerpt: formatter.getParsedHTML(formatter.getExcerpt(markdown), true), // The title has already been stripped out
                     template: formatter.getParsedHTML(markdown, true),

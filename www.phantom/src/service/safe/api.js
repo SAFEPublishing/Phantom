@@ -19,10 +19,10 @@ const api = function() {
     this.createContainer = files.createContainer;
     this.updateFile = files.updateFile;
     this.updateRawFile = files.updateRawFile;
-    this.addPost = files.addPost;
-    this.updatePost = files.updatePost;
-    this.getPosts = files.getPosts;
-    this.getPost = files.getPost;
+    this.addGenericDocument = files.addGenericDocument;
+    this.updateGenericDocument = files.updateGenericDocument;
+    this.getGenericDocuments = files.getGenericDocuments;
+    this.getGenericDocument = files.getGenericDocument;
     this.fetch = files.fetch;
 };
 

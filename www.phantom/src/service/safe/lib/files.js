@@ -27,27 +27,27 @@ const nrs = function (callback) {
         });
     };
 
-    this.getPosts = function(nrs) {
+    this.getGenericDocuments = function(nrs, type) {
         return promise(async function(ctx) {
-            let posts = await ctx.cache.get(nrs + "/posts", async function() { return []; });
+            let documents = await ctx.cache.get(nrs + "/" + type, async function() { return []; });
 
-            return posts.sort((a, b) => {
+            return documents.sort((a, b) => {
                 return new Date(b.modified) - new Date(a.modified);
             });
         })
     };
 
     /**
-     * The file isn't extracted from the post because it allows us to update posts when their file has been updated
+     * The file isn't extracted from the document because it allows us to update posts when their file has been updated
      */
-    this.updatePost = function(nrs, file, post) {
+    this.updateGenericDocument = function(nrs, file, document, type) {
         return promise(async function(ctx) {
-            let posts = await ctx.cache.get(nrs + "/posts", async function() { return []; });
+            let documents = await ctx.cache.get(nrs + "/" + type, async function() { return []; });
 
-            for (let i = 0; i < posts.length; i++) {
-                if (posts[i].file === file) {
-                    posts[i] = post;
-                    ctx.cache.set(nrs + "/posts", posts);
+            for (let i = 0; i < documents.length; i++) {
+                if (documents[i].file === file) {
+                    documents[i] = document;
+                    ctx.cache.set(nrs + "/" + type, documents);
                     return true;
                 }
             }
@@ -56,13 +56,13 @@ const nrs = function (callback) {
         })
     };
 
-    this.getPost = function(nrs, file) {
+    this.getGenericDocument = function(nrs, file, type) {
         return promise(async function(ctx) {
-            let posts = await ctx.cache.get(nrs + "/posts", async function() { return []; });
+            let documents = await ctx.cache.get(nrs + "/" + type, async function() { return []; });
 
-            for (let i = 0; i < posts.length; i++) {
-                if (posts[i].file === file) {
-                    return posts[i]
+            for (let i = 0; i < documents.length; i++) {
+                if (documents[i].file === file) {
+                    return documents[i]
                 }
             }
 
@@ -70,12 +70,12 @@ const nrs = function (callback) {
         })
     };
 
-    this.addPost = function(nrs, data) {
+    this.addGenericDocument = function(nrs, data, type) {
         return promise(async function(ctx) {
-            let posts = await ctx.cache.get(nrs + "/posts", async function() { return []; });
-            posts.push(data);
-            ctx.cache.set(nrs + '/posts', posts);
-            return posts;
+            let documents = await ctx.cache.get(nrs + "/" + type, async function() { return []; });
+            documents.push(data);
+            ctx.cache.set(nrs + '/' + type, documents);
+            return documents;
         });
     };
 

@@ -5,13 +5,18 @@ window.routes = [{
     component: Vue.component("home", { template: "#postList" })
 }];
 
-for (var i = 0; i < window.posts.length; i++) {
-    window.routes.push({
-        path: window.posts[i].path,
-        component: Vue.component(window.posts[i].path, {
-            template: '<div class="post">' + window.posts[i].template + '</div>'
-        })
-    });
+var types = ['post', 'page'];
+for (var t = 0; t < types.length; t++) {
+    var typeData = types[t] + 's';
+
+    for (var i = 0; i < window[typeData].length; i++) {
+        window.routes.push({
+            path: window[typeData][i].path,
+            component: Vue.component(window[typeData][i].path, {
+                template: '<div class="' + types[i] + '">' + window[typeData][i].template + '</div>'
+            })
+        });
+    }
 }
 
 var router = new VueRouter({

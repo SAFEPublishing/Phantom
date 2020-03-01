@@ -50,8 +50,8 @@ String.prototype.getSanitizedMarkdown = function() {
 };
 
 const formatter = {
-    getDefaultMarkdown: function() {
-        return "#Draft post\nPhantom uses **Markdown** to edit posts.\nIt's _really_ easy to get started, just click anywhere and ~start~ begin typing. The content will automatically update as you add new Markdown tags.\n* This is pretty cool, right?\n* We thought so too!\nWhen you're done editing, click on the save button at the top of the page. When you want other people to be able to see this post, click on the publish post button instead.";
+    getDefaultMarkdown: function(type) {
+        return "#Draft " + type + "\nPhantom uses **Markdown** to edit " + type + "s.\nIt's _really_ easy to get started, just click anywhere and ~start~ begin typing. The content will automatically update as you add new Markdown tags.\n* This is pretty cool, right?\n* We thought so too!\nWhen you're done editing, click on the save button at the top of the page.";
     },
 
     getTitle: function(markdown) {
