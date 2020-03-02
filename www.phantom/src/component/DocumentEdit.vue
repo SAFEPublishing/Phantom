@@ -11,12 +11,14 @@
             </div>
             <div class="preview" v-html="htmlContent"></div>
         </div>
+        <ImageGallery v-if="showImageGallery" :close="toggleImageGallery" />
     </div>
 </template>
 
 <script>
     import PageTitleWithActions from "@/component/PageTitleWithActions";
     import Loader from "@/component/Loader";
+    import ImageGallery from "@/component/ImageGallery";
     import api from "@/service/safe/api";
     import formatter from "@/service/markdown/formatter";
     import canonical from '@/service/markdown/canonical';
@@ -25,7 +27,8 @@
         name: 'document-edit',
         components: {
             PageTitleWithActions,
-            Loader
+            Loader,
+            ImageGallery
         },
         props: {
             single: String,
@@ -40,7 +43,9 @@
                 titleContent: "",
                 htmlContent: "",
                 markdownContent: "",
+                showImageGallery: false,
                 actions: [
+                    { text: "Image Gallery", callback: this.toggleImageGallery },
                     { text: "Save " + this.single.toLowerCase(), callback: this.updateDocument }
                 ]
             }
@@ -68,6 +73,9 @@
             handleDocumentInput: function() {
                 this.rawContent = ("#" + this.titleContent + "\n"+ this.$refs.content.innerHTML).getSanitizedMarkdown();
                 this.htmlContent = formatter.getParsedHTML(this.rawContent, false);
+            },
+            toggleImageGallery: function() {
+                this.showImageGallery = !this.showImageGallery;
             }
         },
         mounted() {
