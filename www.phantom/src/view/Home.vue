@@ -177,4 +177,56 @@
 			}
 		}
 	}
+
+	@media (max-width: 767px) {
+		.gradient {
+			padding: 40px 0 60px 0;
+		}
+
+		.left, .right {
+			display: block;
+			width: 100%;
+
+			img {
+				width: 200%;
+				max-width: 600px;
+			}
+
+			.button {
+				font-size: 14px;
+			}
+		}
+
+		.left {
+			padding-bottom: 20px;
+		}
+
+		h1 {
+			font-size: 33px;
+			line-height: 40px;
+		}
+
+		h2 {
+			line-height: 25px;
+			font-size: 17px;
+		}
+
+		.built-with {
+			h3 {
+				font-size: 28px;
+			}
+
+			.cards {
+				.card {
+					width: 100%;
+					max-width: 360px;
+					margin: 0 auto 20px auto;
+
+					&:first-child, &:last-child {
+						margin: 0 auto 20px auto;
+					}
+				}
+			}
+		}
+	}
 </style>

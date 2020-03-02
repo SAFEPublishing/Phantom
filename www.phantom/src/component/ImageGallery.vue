@@ -61,7 +61,7 @@
                 reader.readAsArrayBuffer(file);
 
                 reader.onload = function (evt) {
-                    let fileName = "images/" + Math.random().toString(36).substr(2, 10) + file.name.split('.').pop();
+                    let fileName = "images/" + Math.random().toString(36).substr(2, 10) + "." + file.name.split('.').pop();
 
                     api.updateRawFile(evt.target.result, parent.$root.$data.domain, fileName, false).then(result => {
                         let image = {

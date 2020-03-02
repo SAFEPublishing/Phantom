@@ -161,4 +161,10 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    @media (max-width: 767px) {
+        .home-wrapper {
+            padding: 0 10px;
+        }
+    }
 </style>

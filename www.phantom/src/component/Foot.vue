@@ -64,4 +64,17 @@
             color: #9ec6f1;
         }
     }
+
+    @media (max-width: 767px) {
+        .footer {
+            padding-bottom: 30px;
+            
+            .left, .right {
+                display: block;
+                width: 100%;
+                padding-bottom: 20px;
+                margin-right: 0;
+            }
+        }
+    }
 </style>
