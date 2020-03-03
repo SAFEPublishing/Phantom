@@ -49,4 +49,16 @@
             }
         }
     }
+
+    @media (max-width: 767px) {
+        .modal-container {
+            .modal {
+                top: 65px;
+                left: 10px;
+                width: calc(100vw - 20px);
+                padding: 20px;
+                border-radius: 0;
+            }
+        }
+    }
 </style>

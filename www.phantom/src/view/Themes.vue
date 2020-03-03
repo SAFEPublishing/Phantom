@@ -155,4 +155,17 @@
             }
         }
     }
+
+    @media (max-width: 767px) {
+        .themes {
+            text-align: center;
+
+            .theme {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto 20px auto;
+                text-align: left;
+            }
+        }
+    }
 </style>
