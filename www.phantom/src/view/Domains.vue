@@ -17,10 +17,21 @@
                     <td colspan="5">You currently have no domains registered to this machine, please click "create domain" to get started</td>
                 </tr>
                 <tr v-for="domain in domains">
-                    <td><a :href="domain.publicName | safeURL" target="_blank">{{ domain.publicName | safeURL }}</a></td>
-                    <td>{{ domain.filesContainer | safeURL }}</td>
-                    <td>{{ domain.modified | timeAgo }}</td>
-                    <td>{{ domain.created | timeAgo }}</td>
+                    <td>
+                        <div class="column">NRS Name</div>
+                        <a :href="domain.publicName | safeURL" target="_blank">{{ domain.publicName | safeURL }}</a></td>
+                    <td>
+                        <div class="column">Files Container</div>
+                        {{ domain.filesContainer | safeURL }}
+                    </td>
+                    <td>
+                        <div class="column">Updated</div>
+                        {{ domain.modified | timeAgo }}
+                    </td>
+                    <td>
+                        <div class="column">Created</div>
+                        {{ domain.created | timeAgo }}
+                    </td>
                     <td>
                         <div class="button" @click="useDomain(domain.publicName)" v-if="domain.publicName !== $root.$data.domain">Use</div>
                     </td>

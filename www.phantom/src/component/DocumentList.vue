@@ -22,12 +22,22 @@
             </tr>
             <tr v-for="document in documents">
                 <td>
+                    <div class="column">Title</div>
                     <a v-if="document.state === 'published'" :href="($root.$data.domain + '/#' + urlPrefix + '/' + document.file) | safeURL" target="_blank">{{ document.title }}</a>
                     <span v-if="document.state !== 'published'">{{ document.title }}</span>
                 </td>
-                <td><div class="document-state" :class="document.state">{{ document.state }}</div></td>
-                <td>{{ document.modified | timeAgo }}</td>
-                <td>{{ document.created | timeAgo }}</td>
+                <td>
+                    <div class="column">Status</div>
+                    <div class="document-state" :class="document.state">{{ document.state }}</div>
+                </td>
+                <td>
+                    <div class="column">Updated</div>
+                    {{ document.modified | timeAgo }}
+                </td>
+                <td>
+                    <div class="column">Created</div>
+                    {{ document.created | timeAgo }}
+                </td>
                 <td><router-link :to="'/app/' + single.toLowerCase() + '/' + document.file" class="button">Edit</router-link></td>
             </tr>
             </tbody>

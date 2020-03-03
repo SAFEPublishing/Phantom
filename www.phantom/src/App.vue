@@ -98,6 +98,10 @@
         td {
             padding: 15px 20px;
             border-top: 1px solid #e6e6e6;
+
+            .column {
+                display: none;
+            }
         }
 
         a {
@@ -169,6 +173,32 @@
 
         .app .content {
             padding: 65px 10px 10px 10px;
+        }
+
+        table {
+            thead {
+                display: none;
+            }
+
+            tr {
+                border-top: 1px solid #e6e6e6;
+            }
+
+            td {
+                display: block;
+                padding: 10px 10px 0 10px;
+                border-top: none;
+
+                .button {
+                    margin-bottom: 10px;
+                }
+
+                .column {
+                    display: block;
+                    font-weight: bold;
+                    font-size: 13px;
+                }
+            }
         }
     }
 </style>

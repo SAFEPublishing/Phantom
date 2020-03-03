@@ -127,7 +127,7 @@
             left: -100vw;
             width: 100vw;
             height: calc(100vh - 55px);
-            z-index: 49;
+            z-index: 250;
             box-shadow: none;
             overflow: auto;
             transition: 0.2s left;
@@ -153,6 +153,7 @@
             width: 100vw;
             height: 55px;
             background-color: #fff;
+            z-index: 251;
 
             .logo {
                 margin: 10px 10px 0;
