@@ -88,7 +88,6 @@
             publishDrafts: function() {
                 api.getTheme(this.$root.$data.domain).then(theme => {
                     theme.getComputedTemplate(this.$root.$data.domain).then(template => {
-                        console.log(template)
                         api.updateFile(template, this.$root.$data.domain, "index.html", true).then(response => {
                             this.resetActions();
                             this.load();
