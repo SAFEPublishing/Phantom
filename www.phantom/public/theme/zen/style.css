@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    background-color: #fff;
+    font-family: sans-serif;
+}
+
+.root {
+    width: 100%;
+    padding: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.menu {
+    padding-bottom: 50px;
+    background-color: #fff;
+    white-space: nowrap;
+}
+
+.menu h1 {
+    margin: 0;
+}
+
+.menu p {
+    margin: 10px 0 0 0;
+}
+
+.menu a {
+    display: inline-block;
+    margin: 10px 10px 0 0;
+    color: #000;
+    font-weight: bold;
+}
+
+.posts a {
+    display: block;
+    margin-bottom: 50px;
+    color: #000;
+    text-decoration: none;
+}
+
+.posts a:hover h1 {
+    text-decoration: underline;
+}
+
+.posts .post-date {
+    font-size: 1.1em;
+    opacity: .7;
+}
+
+.posts h1 {
+    margin-top: 0;
+    font-size: 1.5em;
+}
+
+.posts p {
+    line-height: 20px;
+}
+
+.post {
+    color: #000;
+}
+
+.post p, .post li, .post blockquote {
+    line-height: 20px;
+}

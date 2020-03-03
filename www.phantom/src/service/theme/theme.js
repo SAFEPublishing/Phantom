@@ -36,6 +36,10 @@ const Theme = function(config) {
         let documents = await api.getGenericDocuments(domain, type),
             response = [];
 
+        documents = documents.sort((a, b) => {
+            return new Date(b.created) - new Date(a.created);
+        });
+
         for (let i = 0; i < documents.length; i++) {
             if (documents[i].state === "draft") {
                 documents[i].state = "published";
@@ -50,6 +54,7 @@ const Theme = function(config) {
                     title: formatter.getTitle(markdown),
                     excerpt: formatter.getParsedHTML(formatter.getExcerpt(markdown), true), // The title has already been stripped out
                     template: formatter.getParsedHTML(markdown, true),
+                    created: documents[i].created
                 });
             }
         }

@@ -36,7 +36,7 @@ router.beforeResolve((to, from, next) => {
 		// Preload our themes
 		api.getInstalledThemes().then(async function(themes) {
 			if (!themes.length) {
-				let urls = ["/theme/light/theme.json", "/theme/dark/theme.json"];
+				let urls = ["/theme/zen/theme.json", "/theme/light/theme.json", "/theme/dark/theme.json"];
 
 				for (let i = 0; i < urls.length; i++) {
 					await importer.import(urls[i]);

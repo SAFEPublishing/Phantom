@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+</head>
+<body>
+<div id="app"></div>
+
+<script type="text/x-template" id="menu">
+    <div class="menu">
+        <div class="title">
+            <h1 v-if="typeof themeConfig['blog-header'] !== 'undefined'">{{ themeConfig['blog-header'].name }}</h1>
+            <p v-if="typeof themeConfig['blog-header'] !== 'undefined'">{{ themeConfig['blog-header'].description }}</p>
+        </div>
+        <div class="links" v-if="typeof themeConfig['menu-items'] !== 'undefined'">
+            <router-link v-for="item in themeConfig['menu-items']" :to="item.URL">{{ item.Text }}</router-link>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-template" id="content">
+    <div class="content">
+        <router-view />
+    </div>
+</script>
+
+<script type="text/x-template" id="postList">
+    <div class="posts">
+        <router-link v-for="post in posts" :to="post.path">
+            <div class="post-date">{{ post.created | timeAgo }}</div>
+            <h1>{{ post.title }}</h1>
+            <div class="excerpt" v-html="post.excerpt"></div>
+        </router-link>
+    </div>
+</script>
+
+</body>
+</html>

@@ -44,7 +44,7 @@ const nrs = function (callback) {
     this.getTheme = function(publicName) {
         return promise(async function(ctx) {
             let themes = await files.getInstalledThemes(),
-                activeTheme = await ctx.cache.get(publicName + '/theme', async function() { return "Light"; });
+                activeTheme = await ctx.cache.get(publicName + '/theme', async function() { return "Zen"; });
 
             for (let i = 0; i < themes.length; i++) {
                 if (themes[i].config.name === activeTheme) {

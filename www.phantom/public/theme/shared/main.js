@@ -40,14 +40,20 @@ Vue.component('Menu', {
         return {
             menuItems: window.menuItems,
             logo: typeof window.themeConfig.logo !== "undefined" ? window.themeConfig.logo.Image.xorurl : false,
-            blogName: window.blogName
+            blogName: window.blogName,
+            themeConfig: window.themeConfig
         }
     },
     template: '#menu'
 });
 
 Vue.component('Content', {
-    template: '#content'
+    template: '#content',
+    data() {
+        return {
+            themeConfig: window.themeConfig
+        }
+    }
 });
 
 new Vue({
