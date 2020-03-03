@@ -204,4 +204,28 @@
             }
         }
     }
+
+    @media (max-width: 767px) {
+        .config {
+            .config-item {
+                .file-data {
+                    a {
+                        word-break: break-all;
+                    }
+                }
+
+                .fields {
+                    border-top: 1px solid #e6e6e6;
+
+                    &:nth-child(3) {
+                        border-top: none;
+                    }
+                }
+
+                .field {
+                    width: 100%;
+                }
+            }
+        }
+    }
 </style>

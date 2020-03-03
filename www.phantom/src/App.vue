@@ -175,6 +175,10 @@
             padding: 65px 10px 10px 10px;
         }
 
+        form.default {
+            width: 100%;
+        }
+
         table {
             thead {
                 display: none;
