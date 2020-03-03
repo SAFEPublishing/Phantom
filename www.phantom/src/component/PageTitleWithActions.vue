@@ -29,4 +29,16 @@
     .title {
         min-height: 35px;
     }
+
+    @media (max-width: 767px) {
+        .actions {
+            float: none;
+            display: block;
+
+            .action:first-child {
+                margin-top: 10px;
+                margin-left: 0;
+            }
+        }
+    }
 </style>
