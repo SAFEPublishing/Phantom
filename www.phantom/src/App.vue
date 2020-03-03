@@ -166,5 +166,9 @@
         .home-wrapper {
             padding: 0 10px;
         }
+
+        .app .content {
+            padding: 65px 10px 10px 10px;
+        }
     }
 </style>

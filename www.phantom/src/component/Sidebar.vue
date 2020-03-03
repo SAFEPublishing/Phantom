@@ -1,41 +1,58 @@
 <template>
-    <div class="sidebar">
-        <Logo />
-        <div class="links">
-            <div v-if="$root.$data.domain">
-                <div class="title">Currently editing:</div>
-                <div class="info"><a :href="$root.$data.domain | safeURL" target="_blank">{{ $root.$data.domain | safeURL }}</a></div>
+    <div>
+        <div class="mobile-menu">
+            <Logo />
+            <Hamburger :click="toggleMenu" />
+        </div>
+        <div class="sidebar" :class="menuActive ? 'active' : ''">
+            <Logo />
+            <div class="links">
+                <div v-if="$root.$data.domain">
+                    <div class="title">Currently editing:</div>
+                    <div class="info"><a :href="$root.$data.domain | safeURL" target="_blank">{{ $root.$data.domain | safeURL }}</a></div>
+                </div>
+                <div class="title">Manage</div>
+                <router-link class="dashboard-link" to="/app" @click.native="toggleMenu">Dashboard</router-link>
+                <router-link to="/app/domains" @click.native="toggleMenu">Domains</router-link>
+                <router-link to="/app/themes" @click.native="toggleMenu">Themes</router-link>
+                <router-link to="/app/theme" v-if="$root.$data.themeHasConfig" @click.native="toggleMenu">Theme Config</router-link>
+                <div class="title">Write</div>
+                <router-link to="/app/posts" @click.native="toggleMenu">Posts</router-link>
+                <router-link to="/app/pages" @click.native="toggleMenu">Pages</router-link>
+                <div class="logout" @click="logout">Logout</div>
             </div>
-            <div class="title">Manage</div>
-            <router-link class="dashboard-link" to="/app">Dashboard</router-link>
-            <router-link to="/app/domains">Domains</router-link>
-            <router-link to="/app/themes">Themes</router-link>
-            <router-link to="/app/theme" v-if="$root.$data.themeHasConfig">Theme Config</router-link>
-            <div class="title">Write</div>
-            <router-link to="/app/posts">Posts</router-link>
-            <router-link to="/app/pages">Pages</router-link>
-            <div class="logout" @click="logout">Logout</div>
         </div>
     </div>
 </template>
 
 <script>
     import Logo from '@/component/Logo';
+    import Hamburger from '@/component/Hamburger';
     import api from '@/service/safe/api';
 
     export default {
         name: 'sidebar',
         components: {
-            Logo
+            Logo,
+            Hamburger
+        },
+        data() {
+            return {
+                menuActive: false
+            }
         },
         methods: {
             logout: function() {
+                this.toggleMenu()
                 let parent = this;
 
                 api.logout().then(function() {
                     parent.$root.$data.authenticated = false;
                     parent.$router.push("/");
                 });
+            },
+            toggleMenu: function() {
+                this.menuActive = !this.menuActive;
             }
         }
     }
@@ -93,6 +110,58 @@
             color: #54308a;
             font-weight: bold;
             text-decoration: underline;
+        }
+    }
+
+    .close {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: none;
+    }
+
+    @media (max-width: 767px) {
+        .sidebar {
+            top: 55px;
+            left: -100vw;
+            width: 100vw;
+            height: calc(100vh - 55px);
+            z-index: 49;
+            box-shadow: none;
+            overflow: auto;
+            transition: 0.2s left;
+
+            &.active {
+                left: 0;
+            }
+
+            .logo {
+                display: none;
+            }
+
+            .links {
+                padding-top: 0;
+            }
+        }
+
+        .mobile-menu {
+            position: fixed;
+            display: block;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 55px;
+            background-color: #fff;
+
+            .logo {
+                margin: 10px 10px 0;
+            }
+
+            .hamburger {
+                margin: 16px 10px 0 0;
+                float: right;
+            }
         }
     }
 </style>
