@@ -151,4 +151,20 @@
             }
         }
     }
+
+    @media (max-width: 767px) {
+        .editor-container {
+            .editor, .preview {
+                width: 100%;
+            }
+
+            .editor {
+                padding: 0 0 20px 0;
+            }
+
+            h1 {
+                margin-left: 0;
+            }
+        }
+    }
 </style>

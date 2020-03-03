@@ -169,4 +169,57 @@
             }
         }
     }
+
+    @media (max-width: 767px) {
+        .gallery {
+            z-index: 254;
+
+            .images {
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 50vh;
+                padding: 10px;
+                overflow: auto;
+
+                .list {
+                    padding: 10px;
+                    text-align: center;
+
+                    .group {
+                        width: 100%;
+                        max-width: 180px;
+                        text-align: left;
+
+                        .item {
+                            width: 100%;
+                            height: auto;
+                        }
+                    }
+                }
+            }
+
+            .uploader {
+                left: 0;
+                top: 50vh;
+                width: 100vw;
+                height: 50vh;
+                padding: 10px;
+                box-shadow: 0 0 10px #ccc;
+
+                h4 {
+                    margin: 0 0 5px 0;
+                }
+
+                p {
+                    margin: 5px 0 10px 0;
+                    font-size: 13px;
+                }
+
+                input[type="text"] {
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
 </style>
