@@ -3,12 +3,14 @@ import App from './App.vue'
 import router from './router'
 import api from '@/service/safe/api';
 import importer from '@/service/theme/importer';
+import en_GB from '@/i18n/en_GB';
 
 const data = {
 	initialized: false,
 	authenticated: false,
 	domain: false,
-	themeHasConfig: false
+	themeHasConfig: false,
+	locale: "en_GB"
 };
 
 // This is the only place we don't use the async safe libs, because without this data initial routing (with guards) is impossible
@@ -84,6 +86,22 @@ Vue.filter('timeAgo', function(value) {
 		[Math.floor(elapsed / year), 'year'];
 
 	return a[0] + ' ' + a[1] + (a[0] === 1 ? '' : 's') + " ago";
+});
+
+let locales = {
+	"en_GB": en_GB
+};
+
+/**
+ * This function handles translating and outputting of text
+ * If there is a locale code entry for the current text code it will output it, else it will default to English
+ */
+Vue.filter('t', function(value) {
+	if (locales.hasOwnProperty(data.locale) && typeof locales[data.locale][value] !== "undefined") {
+		return locales[data.locale][value];
+	}
+
+	return typeof locales.en_GB[value] !== "undefined" ? locales.en_GB[value] : "[N-T]: " + value;
 });
 
 ArrayBuffer.prototype.toString = function() {

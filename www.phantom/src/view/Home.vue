@@ -3,7 +3,7 @@
 		<div class="gradient">
 			<div class="home-wrapper">
 				<div class="left">
-					<h1>Phantom makes it easy to publish</h1>
+					<h1>{{ 'home_heading' | t }}</h1>
 					<h2>Take your creativity to the next level without compromising your anonymity</h2>
 					<div class="button" @click="login">Get started - it's free</div>
 				</div>
