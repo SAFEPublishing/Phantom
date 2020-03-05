@@ -5,9 +5,9 @@
         </router-link>
         <Hamburger :click="toggleMenu" />
         <div class="menu" v-if="showMenu">
-            <router-link to="/" @click.native="hideMenuForMobile">Home</router-link>
-            <router-link to="/about" @click.native="hideMenuForMobile">About</router-link>
-            <div class="login button" @click="login">Login</div>
+            <router-link to="/" @click.native="hideMenuForMobile">{{ 'home' | t }}</router-link>
+            <router-link to="/about" @click.native="hideMenuForMobile">{{ 'about' | t }}</router-link>
+            <div class="login button" @click="login">{{ 'login' | t }}</div>
         </div>
     </div>
 </template>

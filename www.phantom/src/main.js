@@ -4,6 +4,7 @@ import router from './router'
 import api from '@/service/safe/api';
 import importer from '@/service/theme/importer';
 import en_GB from '@/i18n/en_GB';
+import es_ES from '@/i18n/es_ES';
 
 const data = {
 	initialized: false,
@@ -67,6 +68,24 @@ Vue.filter('idToReadableString', function (value) {
 	return value.replace(/[\-_]+/, " ");
 });
 
+let locales = {
+	"en_GB": en_GB,
+	"es_ES": es_ES
+};
+
+/**
+ * This function handles translating and outputting of text
+ * If there is a locale code entry for the current text code it will output it, else it will default to English
+ */
+function translate(value) {
+	if (locales.hasOwnProperty(data.locale) && typeof locales[data.locale][value] !== "undefined") {
+		return locales[data.locale][value];
+	}
+
+	return typeof locales.en_GB[value] !== "undefined" ? locales.en_GB[value] : "[N-T]: " + value;
+}
+Vue.filter('t', translate);
+
 Vue.filter('timeAgo', function(value) {
 	let minute = 60,
 		hour = 3600,
@@ -76,7 +95,7 @@ Vue.filter('timeAgo', function(value) {
 		elapsed = Math.floor((Date.now() - new Date(value)) / 1000);
 
 	if (elapsed < minute) {
-		return 'just now';
+		return translate('just_now');
 	}
 
 	let a = elapsed < hour  && [Math.floor(elapsed / minute), 'minute'] ||
@@ -85,23 +104,8 @@ Vue.filter('timeAgo', function(value) {
 		elapsed < year  && [Math.floor(elapsed / month), 'month']   ||
 		[Math.floor(elapsed / year), 'year'];
 
-	return a[0] + ' ' + a[1] + (a[0] === 1 ? '' : 's') + " ago";
-});
-
-let locales = {
-	"en_GB": en_GB
-};
-
-/**
- * This function handles translating and outputting of text
- * If there is a locale code entry for the current text code it will output it, else it will default to English
- */
-Vue.filter('t', function(value) {
-	if (locales.hasOwnProperty(data.locale) && typeof locales[data.locale][value] !== "undefined") {
-		return locales[data.locale][value];
-	}
-
-	return typeof locales.en_GB[value] !== "undefined" ? locales.en_GB[value] : "[N-T]: " + value;
+	let text = translate(a[1] + (a[0] === 1 ? '' : 's') + "_ago");
+	return text.replace("[TIME]", a[0]);
 });
 
 ArrayBuffer.prototype.toString = function() {

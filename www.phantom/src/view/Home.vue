@@ -4,8 +4,8 @@
 			<div class="home-wrapper">
 				<div class="left">
 					<h1>{{ 'home_heading' | t }}</h1>
-					<h2>Take your creativity to the next level without compromising your anonymity</h2>
-					<div class="button" @click="login">Get started - it's free</div>
+					<h2>{{ 'home_subheading' | t }}</h2>
+					<div class="button" @click="login">{{ 'home_cta' | t }}</div>
 				</div>
 				<div class="right">
 					<img src="/img/posts.png" />
@@ -14,23 +14,23 @@
 		</div>
 		<div class="home-wrapper">
 			<div class="built-with">
-				<h3>Built with Phantom</h3>
-				<h4>Our top picks from the Phantom ecosystem</h4>
+				<h3>{{ 'home_builtwith' | t }}</h3>
+				<h4>{{ 'home_builtwith_subheading' | t }}</h4>
 				<div class="cards">
 					<div class="card">
 						<img src="/img/card-temporary.png" />
 						<div class="title">A wonderful card highlighting your Phantom-built blog</div>
-						<div class="more">Learn more</div>
+						<div class="more">{{ 'home_builtwith_cta' | t }}</div>
 					</div>
 					<div class="card">
 						<img src="/img/card-temporary.png" />
 						<div class="title">A wonderful card highlighting your Phantom-built blog</div>
-						<div class="more">Check it out</div>
+						<div class="more">{{ 'home_builtwith_cta' | t }}</div>
 					</div>
 					<div class="card">
 						<img src="/img/card-temporary.png" />
 						<div class="title">A wonderful card highlighting your Phantom-built blog</div>
-						<div class="more">Read case study</div>
+						<div class="more">{{ 'home_builtwith_cta' | t }}</div>
 					</div>
 				</div>
 			</div>

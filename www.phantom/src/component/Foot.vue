@@ -2,15 +2,15 @@
     <div class="footer">
         <div class="home-wrapper">
             <div class="left">
-                This project was lovingly created by Shane Armstrong for the SAFE Network community.
+                {{ 'footer_about' | t }}
                 <div class="links">
-                    <div class="heading">Warning: The following links are on the clearnet</div>
-                    <div class="link"><a href="https://github.com/SAFEPublishing/Phantom">Phantom Github repository</a></div>
-                    <div class="link"><a href="https://safenetforum.org/t/phantom-a-publishing-tool-enabling-users-of-the-safe-network-to-easily-manage-websites/31093">Phantom SAFE forum page</a></div>
+                    <div class="heading">{{ 'footer_links' | t }}</div>
+                    <div class="link"><a href="https://github.com/SAFEPublishing/Phantom">{{ 'footer_github' | t }}</a></div>
+                    <div class="link"><a href="https://safenetforum.org/t/phantom-a-publishing-tool-enabling-users-of-the-safe-network-to-easily-manage-websites/31093">{{ 'footer_forum' | t }}</a></div>
                 </div>
             </div>
             <div class="right">
-                This project will always remain on the SAFE network address <a href="safe://phantom">safe://phantom</a>, Phantom delivered from any other SAFE network address is not endorsed or supported by us in any way.
+                {{ 'footer_liability' | t }}
             </div>
         </div>
     </div>
