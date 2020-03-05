@@ -1,43 +1,43 @@
 <template>
     <div>
-        <PageTitleWithActions title="Domains" :actions="actions" />
+        <PageTitleWithActions :title="'domains' | t" :actions="actions" />
         <Loader v-if="!domains" text="Loading domains from cache" />
         <table v-if="domains">
             <thead>
                 <tr>
-                    <th>NRS Name</th>
-                    <th>Files Container</th>
-                    <th>Updated</th>
-                    <th>Created</th>
+                    <th>{{ 'domain_name' | t }}</th>
+                    <th>{{ 'files_container' | t }}</th>
+                    <th>{{ 'updated' | t }}</th>
+                    <th>{{ 'created' | t }}</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-if="domains && !domains.length">
-                    <td colspan="5">You currently have no domains registered to this machine, please click "create domain" to get started</td>
+                    <td colspan="5">{{ 'no_domains' | t }}</td>
                 </tr>
                 <tr v-for="domain in domains">
                     <td>
-                        <div class="column">NRS Name</div>
+                        <div class="column">{{ 'domain_name' | t }}</div>
                         <a :href="domain.publicName | safeURL" target="_blank">{{ domain.publicName | safeURL }}</a></td>
                     <td>
-                        <div class="column">Files Container</div>
+                        <div class="column">{{ 'files_container' | t }}</div>
                         {{ domain.filesContainer | safeURL }}
                     </td>
                     <td>
-                        <div class="column">Updated</div>
+                        <div class="column">{{ 'updated' | t }}</div>
                         {{ domain.modified | timeAgo }}
                     </td>
                     <td>
-                        <div class="column">Created</div>
+                        <div class="column">{{ 'created' | t }}</div>
                         {{ domain.created | timeAgo }}
                     </td>
                     <td>
-                        <div class="button" @click="useDomain(domain.publicName)" v-if="domain.publicName !== $root.$data.domain">Use</div>
+                        <div class="button" @click="useDomain(domain.publicName)" v-if="domain.publicName !== $root.$data.domain">{{ 'use' | t }}</div>
                     </td>
                 </tr>
                 <tr v-if="domains && domains.length && !$root.$data.domain">
-                    <td colspan="5">Please select a domain from the list above to begin editing your website</td>
+                    <td colspan="5">{{ 'select_domain' | t }}</td>
                 </tr>
             </tbody>
         </table>
@@ -59,7 +59,7 @@
             return {
                 domains: false,
                 actions: [
-                    { text: "Create domain", callback: this.createDomain }
+                    { text: this.$options.filters.t("create_domain"), callback: this.createDomain }
                 ]
             }
         },

@@ -3,10 +3,10 @@
         <PageTitleWithActions title="Create domain" />
         <form class="default" @submit="createDomain">
             <div class="group">
-                <label for="public_name">NRS Public name</label>
-                <div class="description">This will be the URL people use to load your website. For example, if you entered "funkyduck", users would access it via safe://funkyduck</div>
+                <label for="public_name">{{ 'public_name' | t }}</label>
+                <div class="description">{{ 'public_name_label' | t }}</div>
                 <input id="public_name" type="text" placeholder="NRS Public Name" v-model.lazy="formData.publicName" />
-                <input type="submit" value="Create" />
+                <input type="submit" :value="'create_domain' | t" />
             </div>
         </form>
     </div>

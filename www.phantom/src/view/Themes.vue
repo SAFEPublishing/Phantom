@@ -1,6 +1,6 @@
 <template>
     <div>
-        <PageTitleWithActions title="Themes" :actions="actions" />
+        <PageTitleWithActions :title="'themes' | t" :actions="actions" />
         <Loader v-if="!themes" text="Loading themes from cache" />
         <div class="themes">
             <div v-for="theme in themes" class="theme">
@@ -8,17 +8,17 @@
                 <div class="name">{{ theme.config.name }}</div>
                 <div class="description">{{ theme.config.description }}</div>
                 <div class="button-container">
-                    <div v-if="activeTheme && theme.config.name !== activeTheme.config.name" class="button" @click="installTheme(theme.config.name)">Install</div>
+                    <div v-if="activeTheme && theme.config.name !== activeTheme.config.name" class="button" @click="installTheme(theme.config.name)">{{ 'install' | t }}</div>
                 </div>
-                <div v-if="activeTheme && theme.config.name === activeTheme.config.name" class="active">This theme is currently installed</div>
-                <div v-if="activeTheme && theme.config.name === activeTheme.config.name" class="upgrade" @click="upgradeTheme(theme.config.origin)">Would you like to check for updates?</div>
+                <div v-if="activeTheme && theme.config.name === activeTheme.config.name" class="active">{{ 'theme_installed' | t }}</div>
+                <div v-if="activeTheme && theme.config.name === activeTheme.config.name" class="upgrade" @click="upgradeTheme(theme.config.origin)">{{ 'theme_check' | t }}</div>
             </div>
         </div>
         <Modal v-if="showModal" :actions="modalActions">
             <form class="default">
-                <label for="theme-url">Theme URL</label>
-                <div class="description">The SAFE network URL of the theme's manifest, this URL will end in ".json"</div>
-                <input type="text" id="theme-url" placeholder="Theme URL" v-model.lazy="formData.url" />
+                <label for="theme-url">{{ 'theme_url' | t }}</label>
+                <div class="description">{{ 'theme_url_label' | t }}"</div>
+                <input type="text" id="theme-url" :placeholder="'theme_url' | t" v-model.lazy="formData.url" />
             </form>
         </Modal>
     </div>
@@ -44,11 +44,11 @@
                 activeTheme: false,
                 showModal: false,
                 actions: [
-                    { text: "Import theme", callback: this.showImportThemeModal }
+                    { text: this.$options.filters.t("theme_import"), callback: this.showImportThemeModal }
                 ],
                 modalActions: [
-                    { text: "Cancel", callback: this.showImportThemeModal },
-                    { text: "Import theme", callback: this.importTheme }
+                    { text: this.$options.filters.t("cancel"), callback: this.showImportThemeModal },
+                    { text: this.$options.filters.t("theme_import"), callback: this.importTheme }
                 ],
                 formData: {
                     url: ""

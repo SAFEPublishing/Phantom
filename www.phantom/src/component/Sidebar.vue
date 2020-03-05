@@ -8,18 +8,18 @@
             <Logo />
             <div class="links">
                 <div v-if="$root.$data.domain">
-                    <div class="title">Currently editing:</div>
+                    <div class="title">{{ 'sidebar_editing' | t }}</div>
                     <div class="info"><a :href="$root.$data.domain | safeURL" target="_blank">{{ $root.$data.domain | safeURL }}</a></div>
                 </div>
-                <div class="title">Manage</div>
-                <router-link class="dashboard-link" to="/app" @click.native="toggleMenu">Dashboard</router-link>
-                <router-link to="/app/domains" @click.native="toggleMenu">Domains</router-link>
-                <router-link to="/app/themes" @click.native="toggleMenu">Themes</router-link>
-                <router-link to="/app/theme" v-if="$root.$data.themeHasConfig" @click.native="toggleMenu">Theme Config</router-link>
-                <div class="title">Write</div>
-                <router-link to="/app/posts" @click.native="toggleMenu">Posts</router-link>
-                <router-link to="/app/pages" @click.native="toggleMenu">Pages</router-link>
-                <div class="logout" @click="logout">Logout</div>
+                <div class="title">{{ 'manage' | t }}</div>
+                <router-link class="dashboard-link" to="/app" @click.native="toggleMenu">{{ 'dashboard' | t }}</router-link>
+                <router-link to="/app/domains" @click.native="toggleMenu">{{ 'domains' | t }}</router-link>
+                <router-link to="/app/themes" @click.native="toggleMenu">{{ 'themes' | t }}</router-link>
+                <router-link to="/app/theme" v-if="$root.$data.themeHasConfig" @click.native="toggleMenu">{{ 'theme_config' | t }}</router-link>
+                <div class="title">{{ 'write' | t }}</div>
+                <router-link to="/app/posts" @click.native="toggleMenu">{{ 'posts' | t }}</router-link>
+                <router-link to="/app/pages" @click.native="toggleMenu">{{ 'pages' | t }}</router-link>
+                <div class="logout" @click="logout">{{ 'logout' | t }}</div>
             </div>
         </div>
     </div>

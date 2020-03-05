@@ -1,6 +1,6 @@
 <template>
     <div>
-        <PageTitleWithActions title="Theme Configuration" :actions="actions" />
+        <PageTitleWithActions :title="'theme_config' | t" :actions="actions" />
         <Loader v-if="!theme || !loaded" text="Loading theme from cache" />
         <div v-if="theme && loaded" class="config">
             <form class="default">
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="button" v-if="config.count === 'multi'" @click="addEmptyGroupEntry(config)">Add</div>
+                <div class="button" v-if="config.count === 'multi'" @click="addEmptyGroupEntry(config)">{{ 'add' | t}}</div>
                 <div class="fields" v-if="config.count === 'single'">
                     <div v-for="field in config.fields" class="field">
                         <div class="name">{{ field.name | idToReadableString }}</div>
@@ -58,7 +58,7 @@
                 currentConfig: false,
                 loaded: false,
                 actions: [
-                    { text: "Save", callback: this.save }
+                    { text: this.$options.filters.t("save"), callback: this.save }
                 ]
             }
         },

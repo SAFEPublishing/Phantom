@@ -85,6 +85,7 @@ function translate(value) {
 	return typeof locales.en_GB[value] !== "undefined" ? locales.en_GB[value] : "[N-T]: " + value;
 }
 Vue.filter('t', translate);
+document.title = translate("home_heading");
 
 Vue.filter('timeAgo', function(value) {
 	let minute = 60,
