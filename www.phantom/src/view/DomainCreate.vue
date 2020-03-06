@@ -1,6 +1,6 @@
 <template>
     <div>
-        <PageTitleWithActions title="Create domain" />
+        <PageTitleWithActions :title="'create_domain' | t" />
         <form class="default" @submit="createDomain">
             <div class="group">
                 <label for="public_name">{{ 'public_name' | t }}</label>
