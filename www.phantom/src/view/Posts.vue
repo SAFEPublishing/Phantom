@@ -1,5 +1,5 @@
 <template>
-    <DocumentList single="Post" plural="Posts" urlPrefix="/post" />
+    <DocumentList single="post" plural="posts" urlPrefix="/post" />
 </template>
 
 <script>

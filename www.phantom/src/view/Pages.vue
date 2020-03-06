@@ -1,5 +1,5 @@
 <template>
-    <DocumentList single="Page" plural="Pages" urlPrefix="" />
+    <DocumentList single="page" plural="pages" urlPrefix="" />
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-    <DocumentEdit single="Page" plural="Pages" urlPrefix="" />
+    <DocumentEdit single="page" plural="pages" urlPrefix="" />
 </template>
 
 <script>

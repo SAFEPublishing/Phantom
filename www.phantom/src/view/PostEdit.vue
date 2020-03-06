@@ -1,5 +1,5 @@
 <template>
-    <DocumentEdit single="Post" plural="Posts" urlPrefix="/post" />
+    <DocumentEdit single="post" plural="posts" urlPrefix="/post" />
 </template>
 
 <script>

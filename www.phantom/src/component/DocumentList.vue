@@ -1,44 +1,44 @@
 <template>
     <div>
-        <PageTitleWithActions :title="plural" :actions="actions" />
+        <PageTitleWithActions :title="plural | t" :actions="actions" />
         <Loader v-if="!documents" text="Loading documents from cache" />
         <div v-if="hasDrafts" class="urgent">
-            <div class="urgent-title">Unpublished drafts</div>
+            <div class="urgent-title">{{ 'unpublished_drafts' | t }}</div>
             <div>To release a new version of safe://{{ $root.$data.domain }} including all unpublished drafts click "Publish drafts" at the top right.</div>
         </div>
         <table v-if="documents">
             <thead>
             <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Updated</th>
-                <th>Created</th>
+                <th>{{ 'title' | t }}</th>
+                <th>{{ 'status' | t }}</th>
+                <th>{{ 'updated' | t }}</th>
+                <th>{{ 'created' | t }}</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
             <tr v-if="documents && !documents.length">
-                <td colspan="5">You currently have no {{ plural }}, please click "create {{ plural }}" to get started</td>
+                <td colspan="5">{{ 'no_' + plural | t}}</td>
             </tr>
             <tr v-for="document in documents">
                 <td>
-                    <div class="column">Title</div>
+                    <div class="column">{{ 'title' | t }}</div>
                     <a v-if="document.state === 'published'" :href="($root.$data.domain + '/#' + urlPrefix + '/' + document.file) | safeURL" target="_blank">{{ document.title }}</a>
                     <span v-if="document.state !== 'published'">{{ document.title }}</span>
                 </td>
                 <td>
-                    <div class="column">Status</div>
+                    <div class="column">{{ 'status' | t }}</div>
                     <div class="document-state" :class="document.state">{{ document.state }}</div>
                 </td>
                 <td>
-                    <div class="column">Updated</div>
+                    <div class="column">{{ 'updated' | t }}</div>
                     {{ document.modified | timeAgo }}
                 </td>
                 <td>
-                    <div class="column">Created</div>
+                    <div class="column">{{ 'created' | t }}</div>
                     {{ document.created | timeAgo }}
                 </td>
-                <td><router-link :to="'/app/' + single.toLowerCase() + '/' + document.file" class="button">Edit</router-link></td>
+                <td><router-link :to="'/app/' + single.toLowerCase() + '/' + document.file" class="button">{{ 'edit' | t }}</router-link></td>
             </tr>
             </tbody>
         </table>
@@ -99,12 +99,12 @@
                 api.getGenericDocuments(this.$root.$data.domain, this.plural.toLowerCase()).then(documents => {
                     for (let i = 0; i < documents.length; i++) {
                         this.hasDrafts = this.hasDrafts || documents[i].state === "draft";
-                        documents[i].title = formatter.getTitle((!documents[i].data || documents[i].data === "") ? formatter.getDefaultMarkdown(this.single.toLowerCase()) : canonical.getMarkdownFromHTML(documents[i].data));
+                        documents[i].title = formatter.getTitle((!documents[i].data || documents[i].data === "") ? formatter.getDefaultMarkdown(this.single.toLowerCase(), this.$options.filters.t) : canonical.getMarkdownFromHTML(documents[i].data));
                     }
 
                     if (this.hasDrafts) {
                         this.actions.push({
-                            text: 'Publish drafts',
+                            text: this.$options.filters.t('publish_drafts'),
                             callback: this.publishDrafts
                         });
                     }
@@ -114,7 +114,7 @@
             },
             resetActions: function() {
                 this.hasDrafts = false;
-                this.actions = [{ text: "Create " + this.single, callback: this.createDocument }];
+                this.actions = [{ text: this.$options.filters.t("create_" + this.single), callback: this.createDocument }];
             }
         },
         mounted() {

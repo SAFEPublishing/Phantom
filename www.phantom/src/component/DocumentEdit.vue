@@ -1,6 +1,6 @@
 <template>
     <div>
-        <PageTitleWithActions :title="'Edit ' + single" :actions="actions" />
+        <PageTitleWithActions :title="'edit' | t" :actions="actions" />
         <Loader v-if="!loaded" :text="'Loading document from cache'" />
         <div class="editor-container">
             <h1 class="title" contenteditable="true" ref="title">{{ titleContent }}</h1>
@@ -45,8 +45,8 @@
                 markdownContent: "",
                 showImageGallery: false,
                 actions: [
-                    { text: "Image Gallery", callback: this.toggleImageGallery },
-                    { text: "Save " + this.single.toLowerCase(), callback: this.updateDocument }
+                    { text: this.$options.filters.t("image_gallery"), callback: this.toggleImageGallery },
+                    { text: this.$options.filters.t("save_" + this.single.toLowerCase()), callback: this.updateDocument }
                 ]
             }
         },
@@ -85,7 +85,7 @@
                     this.document = document;
 
                     let newDocument = !document.data || document.data === "";
-                    this.rawContent = newDocument ? formatter.getDefaultMarkdown(this.single) : canonical.getMarkdownFromHTML(document.data);
+                    this.rawContent = newDocument ? formatter.getDefaultMarkdown(this.single, this.$options.filters.t) : canonical.getMarkdownFromHTML(document.data);
                     this.titleContent = formatter.getTitle(this.rawContent);
                     this.htmlContent = formatter.getParsedHTML(this.rawContent, false);
                     this.markdownContent = formatter.getEditableMarkdown(this.rawContent);

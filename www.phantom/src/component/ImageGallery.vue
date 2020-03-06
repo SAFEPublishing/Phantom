@@ -14,13 +14,13 @@
         </div>
         <div class="uploader">
             <form class="default" ref="form" @submit="uploadImage">
-                <h4>Image Gallery</h4>
-                <p>The input beneath each image contains Markdown you can copy and paste in to your post to display the image.</p>
-                <label for="image">Image</label>
+                <h4>{{ 'image_gallery' | t }}</h4>
+                <p>{{ 'image_gallery_help' | t }}</p>
+                <label for="image">{{ 'image' | t }}</label>
                 <input type="file" accept="image/*" id="image" ref="image" />
-                <label for="description">Description</label>
-                <input type="text" placeholder="A description for this image" id="description" ref="description" />
-                <input type="submit" value="Upload" />
+                <label for="description">{{ 'description' | t }}</label>
+                <input type="text" :placeholder="'description_label' | t" id="description" ref="description" />
+                <input type="submit" :value="'upload' | t" />
             </form>
         </div>
         <div class="close" @click="this.close">&times;</div>
