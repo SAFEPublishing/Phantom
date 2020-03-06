@@ -22,15 +22,36 @@ const data = {
 	domain: false,
 	themeHasConfig: false,
 	locale: "en_GB",
-	localeNames: localeNames
+	localeNames: localeNames,
+	localeTranslations: locales
 };
 
 // This is the only place we don't use the async safe libs, because without this data initial routing (with guards) is impossible
 // So we hack in this data... then we verify
 let tempAuth = localStorage.getItem("auth");
 let tempNRS = localStorage.getItem("current-nrs");
+let tempLocale = localStorage.getItem("locale");
 data.authenticated = tempAuth ? !!JSON.parse(tempAuth).data : false;
 data.domain = tempNRS ? JSON.parse(tempNRS).data : false;
+data.locale = tempLocale ? tempLocale : data.locale;
+
+/**
+ * This function handles translating and outputting of text
+ * If there is a locale code entry for the current text code it will output it, else it will default to English
+ */
+function translate(value, fallback) {
+	if (locales.hasOwnProperty(data.locale) && typeof locales[data.locale][value] !== "undefined") {
+		return locales[data.locale][value];
+	}
+
+	return typeof locales.en_GB[value] !== "undefined"
+		? locales.en_GB[value]
+		: (typeof(fallback) !== "undefined"
+			? fallback
+			: value);
+}
+Vue.filter('t', translate);
+document.title = translate("home_heading");
 
 router.beforeEach((to, from, next) => {
 	// Should we show
@@ -53,7 +74,7 @@ router.beforeResolve((to, from, next) => {
 				let urls = ["/theme/zen/theme.json", "/theme/light/theme.json", "/theme/dark/theme.json"];
 
 				for (let i = 0; i < urls.length; i++) {
-					await importer.import(urls[i]);
+					await importer.import(urls[i], data.localeTranslations, translate);
 				}
 			}
 
@@ -63,6 +84,24 @@ router.beforeResolve((to, from, next) => {
 						typeof theme.config.config !== "undefined"
 						&& Array.isArray(theme.config.config)
 						&& theme.config.config.length;
+
+					if (data.themeHasConfig && typeof theme.config.localeTranslations !== "undefined") {
+						for (let locale in theme.config.localeTranslations) {
+							if (theme.config.localeTranslations.hasOwnProperty(locale)) {
+								if (typeof locales[locale] === "undefined") {
+									locales[locale] = {};
+								}
+
+								for (let key in theme.config.localeTranslations[locale]) {
+									if (theme.config.localeTranslations[locale].hasOwnProperty(key)) {
+										if (typeof locales[locale][key] === "undefined") {
+											locales[locale][key] = theme.config.localeTranslations[locale][key];
+										}
+									}
+								}
+							}
+						}
+					}
 				});
 			}
 		});
@@ -78,20 +117,6 @@ Vue.filter('safeURL', function (value) {
 Vue.filter('idToReadableString', function (value) {
 	return value.replace(/[\-_]+/, " ");
 });
-
-/**
- * This function handles translating and outputting of text
- * If there is a locale code entry for the current text code it will output it, else it will default to English
- */
-function translate(value) {
-	if (locales.hasOwnProperty(data.locale) && typeof locales[data.locale][value] !== "undefined") {
-		return locales[data.locale][value];
-	}
-
-	return typeof locales.en_GB[value] !== "undefined" ? locales.en_GB[value] : "[N-T]: " + value;
-}
-Vue.filter('t', translate);
-document.title = translate("home_heading");
 
 Vue.filter('timeAgo', function(value) {
 	let minute = 60,

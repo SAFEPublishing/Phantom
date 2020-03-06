@@ -6,7 +6,7 @@
             <div v-for="theme in themes" class="theme">
                 <img :src="theme.config.banner" />
                 <div class="name">{{ theme.config.name }}</div>
-                <div class="description">{{ theme.config.description }}</div>
+                <div class="description">{{ getTranslatedDescription(theme.config.name, theme.config.description) }}</div>
                 <div class="button-container">
                     <div v-if="activeTheme && theme.config.name !== activeTheme.config.name" class="button" @click="installTheme(theme.config.name)">{{ 'install' | t }}</div>
                 </div>
@@ -56,12 +56,15 @@
             }
         },
         methods: {
+            getTranslatedDescription(name, string) {
+                return this.$options.filters.t("_" + name + "_" + string, string);
+            },
             installTheme: function(name) {
                 api.setTheme(this.$root.$data.domain, name).then(response => {
                     return api.getTheme(this.$root.$data.domain);
                 }).then(theme => {
                     // Update the theme
-                    return importer.import(theme.config.origin);
+                    return importer.import(theme.config.origin, this.$root.$data.localeTranslations, this.$options.filters.t);
                 }).then(_ => {
                     this.loadThemes(true);
                 });
@@ -85,7 +88,7 @@
                 });
             },
             upgradeTheme: function(origin) {
-                importer.import(origin).then(_ => {
+                importer.import(origin, this.$root.$data.localeTranslations, this.$options.filters.t).then(_ => {
                     this.loadThemes(true);
                 });
             },
@@ -95,7 +98,7 @@
             importTheme: function() {
                 let parent = this;
 
-                importer.import(this.formData.url).then(themes => {
+                importer.import(this.formData.url, this.$root.$data.localeTranslations, this.$options.filters.t).then(themes => {
                     parent.showModal = false;
                     parent.themes = themes;
                 }).catch(err => {

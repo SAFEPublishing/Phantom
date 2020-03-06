@@ -66,8 +66,10 @@ const Theme = function(config) {
      * This gives themes a concept of inheritance, merging applicable configuration fields to build up a final super-theme!
      *
      * @param theme Theme
+     * @param translations Object
+     * @param translate Function
      */
-    this.mergeConfig = function(theme) {
+    this.mergeConfig = async function(theme, translations, translate) {
         let a = this.config,
             b = theme.config;
 
@@ -76,17 +78,76 @@ const Theme = function(config) {
 
         // For everything else, prioritise the child theme
         a.name = typeof a.name === "string" ? a.name : b.name;
-        a.description = typeof a.description === "string" ? a.description : b.description;
         a.banner = typeof a.banner === "string" ? a.banner : b.banner;
         a.template = typeof a.template === "string" ? a.template : b.template;
+
+        // After this point, translations are available
+        a.locales = typeof a.locales === "undefined" ? {} : a.locales;
+        b.locales = typeof b.locales === "undefined" ? {} : b.locales;
+        await this.mergeLocales(b, translations);
+
         this.mergeConfigArrays(b, "scripts");
         this.mergeConfigArrays(b, "styles");
         this.mergeConfigArrays(b, "config");
+        a.description = typeof a.description === "string" ? a.description : b.description;
     };
 
     this.mergeConfigArrays = function(parentTheme, index) {
         parentTheme[index] = Array.isArray(parentTheme[index]) ? parentTheme[index] : [];
         this.config[index] = Array.isArray(this.config[index]) ? parentTheme[index].concat(this.config[index]) : parentTheme[index];
+    };
+
+    this.mergeLocales = async function(parentTheme, translations) {
+        if (typeof this.config.localeTranslations === "undefined") {
+            this.config.localeTranslations = {};
+
+            if (typeof this.config.locales !== "undefined") {
+                await this.importLocales(this.config.locales);
+            }
+        }
+
+        if (typeof parentTheme.config !== "undefined" && typeof parentTheme.config.locales !== "undefined") {
+            await this.importLocales(parentTheme.config.locales);
+        }
+
+        for (let locale in this.config.localeTranslations) {
+            if (this.config.localeTranslations.hasOwnProperty(locale)) {
+                if (typeof translations[locale] === "undefined") {
+                    translations[locale] = {};
+                }
+
+                for (let key in this.config.localeTranslations[locale]) {
+                    if (this.config.localeTranslations[locale].hasOwnProperty(key)) {
+                        if (typeof translations[locale][key] === "undefined") {
+                            translations[locale][key] = this.config.localeTranslations[locale][key];
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    this.importLocales = async function(locales) {
+        for (let key in locales) {
+            if (locales.hasOwnProperty(key)) {
+                if (typeof this.config.localeTranslations[key] === "undefined") {
+                    this.config.localeTranslations[key] = {};
+                }
+
+                let translations = await (await api.fetch(locales[key])).text();
+                let translationObject = JSON.parse(translations);
+
+                for (let translation in translationObject) {
+                    if (translationObject.hasOwnProperty(translation)) {
+                        this.config.localeTranslations[key]["_" + this.config.name + "_" + translation] = translationObject[translation];
+                    }
+                }
+            }
+        }
+    };
+
+    this.translate = function(key, translate) {
+        return translate("_" + this.config.name + "_" + key, key);
     };
 
     /**

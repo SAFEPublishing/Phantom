@@ -20,6 +20,7 @@
             setLocale: function(code) {
                 this.$root.$data.locale = code;
                 this.toggleLocales();
+                localStorage.setItem("locale", code);
             },
             toggleLocales: function() {
                 this.showLocales = !this.showLocales;

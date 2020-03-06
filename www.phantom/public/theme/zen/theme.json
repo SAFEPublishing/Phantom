@@ -1,6 +1,6 @@
 {
   "name": "Zen",
-  "description": "A clean, minimalist theme which puts the focus on the blog content",
+  "description": "theme_description",
   "banner": "/theme/zen/banner.png",
   "template": "/theme/zen/template.html",
   "scripts": [
@@ -11,38 +11,42 @@
   "styles": [
     "/theme/zen/style.css"
   ],
+  "locales": {
+      "en_GB": "/theme/zen/i18n/en_GB.json",
+      "es_ES": "/theme/zen/i18n/es_ES.json"
+  },
   "config": [
     {
       "name": "blog-header",
-      "description": "This will be displayed in the header of every page",
+      "description": "blog_header_description",
       "count": "single",
       "fields": [
         {
           "name": "name",
           "type": "text",
-          "description": "The name of your blog"
+          "description": "blog_header_name_description"
         },
         {
           "name": "description",
           "type": "text",
-          "description": "A short description for your blog"
+          "description": "blog_header_description_description"
         }
       ]
     },
     {
       "name": "menu-items",
-      "description": "Each URL you add will be displayed in the menu on every page",
+      "description": "menu_items_description",
       "count": "multi",
       "fields": [
         {
           "name": "URL",
           "type": "text",
-          "description": "A relative or absolute SAFE network URL"
+          "description": "menu_item_url_description"
         },
         {
           "name": "Text",
           "type": "text",
-          "description": "The text to display within the link"
+          "description": "menu_item_text_description"
         }
       ]
     }

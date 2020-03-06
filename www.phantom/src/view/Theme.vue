@@ -6,12 +6,12 @@
             <form class="default">
             <div v-for="config in theme.config.config" class="config-item">
                 <div class="name">{{ config.name | idToReadableString }}</div>
-                <div class="description">{{ config.description }}</div>
+                <div class="description">{{ getTranslatedText(theme.config.name, config.description) }}</div>
                 <div class="fields" v-if="config.count === 'multi'" v-for="(fieldGroup, index) in currentConfig[config.name]">
                     <div class="remove" @click="removeGroupEntry(currentConfig[config.name], index)">&times;</div>
                     <div v-for="field in config.fields" class="field">
                         <div class="name">{{ field.name | idToReadableString }}</div>
-                        <div class="description">{{ field.description }}</div>
+                        <div class="description">{{ getTranslatedText(theme.config.name, field.description) }}</div>
                         <input v-if="field.type !== 'file'" :type="field.type" v-model.lazy="fieldGroup[field.name]" />
                         <div v-if="field.type === 'file'">
                             <input :type="field.type" @change="processFileInput($event, fieldGroup)" />
@@ -25,7 +25,7 @@
                 <div class="fields" v-if="config.count === 'single'">
                     <div v-for="field in config.fields" class="field">
                         <div class="name">{{ field.name | idToReadableString }}</div>
-                        <div class="description">{{ field.description }}</div>
+                        <div class="description">{{ getTranslatedText(theme.config.name, field.description) }}</div>
                         <input v-if="field.type !== 'file'" :type="field.type" v-model.lazy="currentConfig[config.name][field.name]" />
                         <div v-if="field.type === 'file'">
                             <input :type="field.type" @change="processFileInput($event, currentConfig[config.name][field.name])" />
@@ -63,6 +63,9 @@
             }
         },
         methods: {
+            getTranslatedText(name, string) {
+                return this.$options.filters.t("_" + name + "_" + string, string);
+            },
             save: function() {
                 let parent = this;
 

@@ -1,0 +1,9 @@
+{
+  "theme_description": "Un tema limpio y minimalista que pone el foco en el contenido del blog",
+  "blog_header_description": "Esto se mostrará en el encabezado de cada página",
+  "blog_header_name_description": "El nombre de tu blog",
+  "blog_header_description_description": "Una breve descripción de tu blog",
+  "menu_items_description": "Cada URL que agregue se mostrará en el menú de cada página",
+  "menu_item_url_description": "Una URL de red SAFE relativa o absoluta",
+  "menu_item_text_description": "El texto a mostrar dentro de la URL"
+}
