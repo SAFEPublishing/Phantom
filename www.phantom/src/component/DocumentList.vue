@@ -4,7 +4,7 @@
         <Loader v-if="!documents" text="Loading documents from cache" />
         <div v-if="hasDrafts" class="urgent">
             <div class="urgent-title">{{ 'unpublished_drafts' | t }}</div>
-            <div>To release a new version of safe://{{ $root.$data.domain }} including all unpublished drafts click "Publish drafts" at the top right.</div>
+            <div>{{ 'unpublished_drafts_help' | t }}</div>
         </div>
         <table v-if="documents">
             <thead>

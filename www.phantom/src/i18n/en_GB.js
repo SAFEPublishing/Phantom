@@ -74,6 +74,7 @@ const en_GB = {
     save_page: "Save page",
     publish_drafts: "Publish drafts",
     unpublished_drafts: "Unpublished drafts",
+    unpublished_drafts_help: "To release a new version of safe://example including all unpublished drafts click \"Publish drafts\" at the top right.",
     image_gallery: "Image Gallery",
     image_gallery_help: "The input beneath each image contains Markdown you can copy and paste in to your post to display the image.",
     image: "Image",

@@ -74,6 +74,7 @@ const es_ES = {
     save_page: "Guardar página",
     publish_drafts: "Publicar borradores",
     unpublished_drafts: "Borradores inéditos",
+    unpublished_drafts_help: "Para implementar una nueva versión de safe: // ejemplo que incluye todos los borradores no publicados, haga clic en \"Publicar borradores\" en la esquina superior derecha.",
     image_gallery: "Galería de imágenes",
     image_gallery_help: "La entrada debajo de cada imagen contiene un Markdown que puedes copiar y pegar en tu entrada para mostrar la imagen.",
     image: "Imagen",
