@@ -6,12 +6,23 @@ import importer from '@/service/theme/importer';
 import en_GB from '@/i18n/en_GB';
 import es_ES from '@/i18n/es_ES';
 
+let locales = {
+	"en_GB": en_GB,
+	"es_ES": es_ES
+};
+
+let localeNames = {
+	"en_GB": "English (UK)",
+	"es_ES": "Español"
+};
+
 const data = {
 	initialized: false,
 	authenticated: false,
 	domain: false,
 	themeHasConfig: false,
-	locale: "en_GB"
+	locale: "en_GB",
+	localeNames: localeNames
 };
 
 // This is the only place we don't use the async safe libs, because without this data initial routing (with guards) is impossible
@@ -67,11 +78,6 @@ Vue.filter('safeURL', function (value) {
 Vue.filter('idToReadableString', function (value) {
 	return value.replace(/[\-_]+/, " ");
 });
-
-let locales = {
-	"en_GB": en_GB,
-	"es_ES": es_ES
-};
 
 /**
  * This function handles translating and outputting of text

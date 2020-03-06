@@ -8,6 +8,9 @@
             <router-link to="/" @click.native="hideMenuForMobile">{{ 'home' | t }}</router-link>
             <router-link to="/about" @click.native="hideMenuForMobile">{{ 'about' | t }}</router-link>
             <div class="login button" @click="login">{{ 'login' | t }}</div>
+            <div class="language-container">
+                <LanguageSelector />
+            </div>
         </div>
     </div>
 </template>
@@ -15,13 +18,15 @@
 <script>
     import Logo from '@/component/Logo';
     import Hamburger from '@/component/Hamburger';
+    import LanguageSelector from "@/component/LanguageSelector";
     import api from '@/service/safe/api';
 
     export default {
         name: 'home-menu',
         components: {
             Logo,
-            Hamburger
+            Hamburger,
+            LanguageSelector
         },
         methods: {
             login: function() {
@@ -96,6 +101,23 @@
         display: none;
     }
 
+    .language-container {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 20px;
+
+        /deep/ .language-current {
+            min-width: 150px;
+        }
+
+        /deep/ .language-list {
+            bottom: auto;
+            top: 100%;
+            border-top: none;
+            border-bottom: 2px solid #2a3b5d;
+        }
+    }
+
     @media (max-width: 767px) {
         .logo {
             margin: 0;
@@ -133,6 +155,11 @@
                 margin: 0;
                 text-align: center;
             }
+        }
+
+        .language-container {
+            width: 100%;
+            margin: 10px 0 0 0;
         }
     }
 </style>

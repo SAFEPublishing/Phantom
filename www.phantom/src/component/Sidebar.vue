@@ -21,6 +21,9 @@
                 <router-link to="/app/pages" @click.native="toggleMenu">{{ 'pages' | t }}</router-link>
                 <div class="logout" @click="logout">{{ 'logout' | t }}</div>
             </div>
+            <div class="language-container">
+                <LanguageSelector />
+            </div>
         </div>
     </div>
 </template>
@@ -28,13 +31,15 @@
 <script>
     import Logo from '@/component/Logo';
     import Hamburger from '@/component/Hamburger';
+    import LanguageSelector from "@/component/LanguageSelector";
     import api from '@/service/safe/api';
 
     export default {
         name: 'sidebar',
         components: {
             Logo,
-            Hamburger
+            Hamburger,
+            LanguageSelector
         },
         data() {
             return {
@@ -121,12 +126,20 @@
         display: none;
     }
 
+    .language-container {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        width: calc(100% - 40px);
+    }
+
     @media (max-width: 767px) {
         .sidebar {
             top: 55px;
             left: -100vw;
             width: 100vw;
             height: calc(100vh - 55px);
+            min-height: calc(100vh - 55px);
             z-index: 250;
             box-shadow: none;
             overflow: auto;
