@@ -43,6 +43,10 @@ const phantom = function() {
         return await api.fetch(nrs + "/" + (file.replace(/^\/+/, '')));
     };
 
+    this.getNRS = async function() {
+        return api.getCurrentDomain();
+    };
+
     /**
      * Loads a file by name from the NRS we are currently modifying
      *
