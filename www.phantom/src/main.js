@@ -3,9 +3,12 @@ import App from './App.vue'
 import router from './router'
 import api from '@/service/safe/api';
 import importer from '@/service/theme/importer';
+import phantomPluginTools from '@/service/plugin/phantom';
 import en_GB from '@/i18n/en_GB';
 import es_ES from '@/i18n/es_ES';
 import nl_NL from '@/i18n/nl_NL';
+
+window.phantom = phantomPluginTools;
 
 let locales = {
 	"en_GB": en_GB,

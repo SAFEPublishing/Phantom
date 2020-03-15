@@ -1,6 +1,7 @@
 import api from '@/service/safe/api';
 import canonical from '@/service/markdown/canonical';
 import formatter from '@/service/markdown/formatter';
+import phantomPluginTools from '@/service/plugin/phantom';
 
 const Theme = function(config) {
     this.config = config;
@@ -13,22 +14,42 @@ const Theme = function(config) {
         }).then(async function (template) {
             let scriptData = "",
                 styleData = "",
-                postData = await parent.getGenericBundle(domain, "posts", "/post"),
-                pageData = await parent.getGenericBundle(domain, "pages", "")
-                config = await api.getThemeConfig(domain, parent.config.name);
+                config = await api.getThemeConfig(domain, parent.config.name),
+                documentGroups = [{name: 'posts', prefix: '/post'}, { name: 'pages', prefix: ''}];
 
-            for (let i = 0; i < parent.config.scripts.length; i++) {
-                scriptData += await (await api.fetch(parent.config.scripts[i])).text();
+            for (let i = 0; i < documentGroups.length; i++) {
+                documentGroups[i].documents = await parent.getGenericBundle(domain, documentGroups[i].name, documentGroups[i].prefix)
             }
 
-            for (let i = 0; i < parent.config.styles.length; i++) {
-                styleData += await (await api.fetch(parent.config.styles[i])).text();
+            // Before we compile, fire off an event to let modules modify the data
+            let data = await phantomPluginTools._processEvent('preCompile', {
+                documentGroups: documentGroups,
+                scripts: [].concat(parent.config.scripts),
+                styles: [].concat(parent.config.styles),
+                config: config
+            });
+
+            for (let i = 0; i < data.scripts.length; i++) {
+                scriptData += await (await api.fetch(data.scripts[i])).text();
             }
 
-            return template
+            for (let i = 0; i < data.styles.length; i++) {
+                styleData += await (await api.fetch(data.styles[i])).text();
+            }
+
+            let documentData = '';
+
+            data.documentGroups.forEach(group => {
+                documentData += 'window.' + group.name + ' = ' + JSON.stringify(group.documents) + '; ';
+            });
+
+            let compiled = template
                 .replace(/<\/head>/g, '<style type="text/css">' + styleData + '</style></head>')
-                .replace(/<\/body>/g, '<script type="text/javascript">window.themeConfig = ' + JSON.stringify(config) + '; window.blogName = "' + domain + '"; window.posts = ' + JSON.stringify(postData) + '; window.pages = ' + JSON.stringify(pageData) + '</script></body>')
+                .replace(/<\/body>/g, '<script type="text/javascript">window.themeConfig = ' + JSON.stringify(data.config) + '; window.blogName = "' + domain + '"; ' + documentData + '</script></body>')
                 .replace(/<\/body>/g, '<script type="text/javascript">' + scriptData + '</script></body>');
+
+            // Now that we've compiled, fire off an event to let modules modify the compiled template before deployment
+            return (await phantomPluginTools._processEvent('postCompile', { document: compiled })).document;
         })
     };
 
