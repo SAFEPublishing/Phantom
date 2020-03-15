@@ -7,6 +7,7 @@ const phantom = function() {
      * @param event String
      * @param callback Function
      * @param priority Number
+     * @returns void
      */
     this.addObserver = function(event, callback, priority) {
         if (!this._allowedEvents.includes(event)) {
@@ -31,7 +32,7 @@ const phantom = function() {
     };
 
     /**
-     * Loads a file by name from the NRS we are currently modifying
+     * Loads a file by name from the NRS we are currently modifying, or a different NRS if provided
      *
      * @returns {Promise<String>}
      */
@@ -43,12 +44,16 @@ const phantom = function() {
         return await api.fetch(nrs + "/" + (file.replace(/^\/+/, '')));
     };
 
+    /**
+     *
+     * @returns {Promise<String>}
+     */
     this.getNRS = async function() {
         return api.getCurrentDomain();
     };
 
     /**
-     * Loads a file by name from the NRS we are currently modifying
+     * Updates a file by name from the NRS we are currently modifying, or a different NRS if provided
      *
      * @returns {Promise<void>}
      */
