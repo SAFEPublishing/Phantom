@@ -11,6 +11,8 @@ import Pages from './view/Pages.vue'
 import PageEdit from './view/PageEdit.vue'
 import Themes from './view/Themes.vue'
 import Theme from './view/Theme.vue'
+import DevLog from './view/Dev/Log.vue';
+import DocsWrapper from './view/Docs/Wrapper.vue';
 
 Vue.use(Router);
 
@@ -76,6 +78,22 @@ export default new Router({
             path: '/app/page/:file',
             component: PageEdit,
             meta: hasDomain,
+        },
+        {
+            path: '/app/log',
+            component: DevLog,
+            meta: loggedIn,
+        },
+        {
+            path: '/docs',
+            component: DocsWrapper,
+            meta: loggedOut,
+            children: [
+                {
+                    path: '',
+                    component: () => import('@/view/Docs/Home.vue')
+                }
+            ]
         }
     ],
     scrollBehavior (to, from, savedPosition) {

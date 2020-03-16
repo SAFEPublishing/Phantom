@@ -80,7 +80,12 @@ const en_GB = {
     image: "Image",
     description: "Description",
     description_label: "A description for this image",
-    upload: "Upload"
+    upload: "Upload",
+    event: "Event",
+    event_log: "Event log",
+    information: "Information",
+    no_events: "There have been no events",
+    delete: "Delete"
 };
 
 export default en_GB;

@@ -80,7 +80,12 @@ const es_ES = {
     image: "Imagen",
     description: "Descripción",
     description_label: "Una descripción de esta imagen",
-    upload: "Subir"
+    upload: "Subir",
+    event: "Evento",
+    event_log: "Registro de eventos",
+    information: "Información",
+    no_events: "No se han producido eventos",
+    delete: "Borrar"
 };
 
 export default es_ES;

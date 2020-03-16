@@ -152,8 +152,8 @@
 
             .upgrade {
                 padding-top: 5px;
-                color: #2d6cad;
-                font-size: 13px;
+                color: #54308a;
+                font-weight: bold;
                 cursor: pointer;
             }
         }
